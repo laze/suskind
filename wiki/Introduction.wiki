@@ -1,5 +1,7 @@
 #labels Phase-Design
-#General informations
 = What is Süskind Project? =
 
 Süskind is an MVC framework - currently - written in PHP5, with AJAX support.
+
+= How this framework build up? =
+The framework is a very flexible, easy-to-use program, what is extensible with modules. Not just modules, what are written for Süskind, but any other programs, like PHP Pear  is acceptable.
