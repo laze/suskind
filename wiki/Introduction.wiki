@@ -4,7 +4,7 @@ Just because it sounds well. When I red the book _"Perfume"_, what is written by
 = What is this project? =
 This project - in my vision - is a very flexible, modularized, easy scriptable framework, written in PHP5, with fully object oriented design. I would like to do applications as easy as Apple Script language -- So you can do an application just telling words and sentences. It would be a MVC system, and I would like to support developers with a lot of automated things. It also uses AJAX, and js libraries. It's also extensible with js libraries, and GUI handlers - like Ext.js -, and PHP libraries, like pear...
 == Key Features ==
-  * AppleScript-like interface for application and / or module development.
+  * User interface, like Apple Script for application and / or module development.
   * Different API's for work with Süskind.
   * Shared and separated thread-like memory handling. _(Shared memory will be used by framework for common things, and every application will use a separated area for own things.)_
   * Easy installation and easy - semi-automatic - updates.
