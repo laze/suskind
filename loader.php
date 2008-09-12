@@ -12,7 +12,9 @@
  * 
  * @see http://laze.hu/projects/suskind/
  */
+
 class loader {
+
 	/**
 	 * @classDescription The loader class define constants, variables, pathes 
 	 * and defines registered PHP systems calls, to do functions automatically.
@@ -20,7 +22,7 @@ class loader {
 	 * @return void
 	 */
 	public function __construct() {
-			//- php.ini sets.
+		$this->setEnvironment();
 		# ini_set( 'session.auto_start', 1 );
 		ini_set( 'register_globals', 0 );
 			//- character encoding sets
