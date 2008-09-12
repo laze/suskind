@@ -1,151 +1,10 @@
 <?xml version="1.0" encoding="WINDOWS-1252"?>
 <TSX edition="Java Edition" product="Tom Sawyer Visualization" version="6.0.1">
-    <graphManager id="3">
-        <resources>
-            <shapes>
-                <rectangleShape id="0"/>
-            </shapes>
-            <fonts>
-                <font id="1">
-                    <name value="SansSerif"/>
-                    <bold value="false"/>
-                    <italic value="false"/>
-                    <fontHeight value="10"/>
-                </font>
-                <font id="2">
-                    <name value="SansSerif"/>
-                    <bold value="false"/>
-                    <italic value="false"/>
-                    <fontHeight value="8"/>
-                </font>
-            </fonts>
-        </resources>
+    <graphManager id="0">
         <instances>
             <graphs>
-                <graph id="4">
+                <graph id="1">
                     <name/>
-                    <margins>
-                        <proportional bottom="0.0" left="0.0" right="0.0" top="0.0"/>
-                        <constant bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-                    </margins>
-                    <url/>
-                    <graphics type="basicGraph">
-                        <backgroundColor value="255 255 255"/>
-                        <imageUsed/>
-                        <imageTiled value="false"/>
-                        <imageStyle value="WORLD_OFFSET"/>
-                        <imageMinTileStep value="25"/>
-                        <imageX value="0.0"/>
-                        <imageY value="0.0"/>
-                        <drawNodesBeforeEdges value="true"/>
-                    </graphics>
-                </graph>
-                <graph id="5">
-                    <name/>
-                    <margins>
-                        <proportional bottom="0.0" left="0.0" right="0.0" top="0.0"/>
-                        <constant bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-                    </margins>
-                    <url/>
-                    <graphics type="basicGraph">
-                        <backgroundColor value="255 255 255"/>
-                        <imageUsed/>
-                        <imageTiled value="false"/>
-                        <imageStyle value="WORLD_OFFSET"/>
-                        <imageMinTileStep value="25"/>
-                        <imageX value="0.0"/>
-                        <imageY value="0.0"/>
-                        <drawNodesBeforeEdges value="true"/>
-                    </graphics>
-                </graph>
-                <graph id="6">
-                    <name/>
-                    <nodes>
-                        <node id="7">
-                            <name/>
-                            <center x="-108.0" y="313.5"/>
-                            <size height="16.0" width="16.0"/>
-                            <originalSize height="16.0" width="16.0"/>
-                            <shape resource="0"/>
-                            <nodeLabels>
-                                <nodeLabel id="8">
-                                    <name value="Request arrived"/>
-                                    <size height="24.0" width="111.0"/>
-                                    <proportionalOffset x="0.0" y="1.0"/>
-                                    <constantOffset x="0.0" y="9.5"/>
-                                    <url/>
-                                    <visible value="true"/>
-                                    <resizability value="RESIZABILITY_TIGHT_FIT"/>
-                                    <graphics type="ETGenericNodeLabelUI">
-                                        <fillColor value="255 255 255"/>
-                                        <borderColor value="0 0 0"/>
-                                        <transparent value="true"/>
-                                        <drawBorder value="false"/>
-                                        <textFont resource="2"/>
-                                        <textColor value="0 0 0"/>
-                                        <justification value="CENTER"/>
-                                        <PEID value="DCE.66D504BB-0A80-3119-40B9-86AEE1D361C9"/>
-                                    </graphics>
-                                </nodeLabel>
-                            </nodeLabels>
-                            <url/>
-                            <visible value="true"/>
-                            <resizability value="RESIZABILITY_NO_FIT"/>
-                            <graphics type="ETGenericNodeUI">
-                                <fillColor value="204 204 204"/>
-                                <borderColor value="0 0 0"/>
-                                <transparent value="false"/>
-                                <drawBorder value="true"/>
-                                <textFont resource="1"/>
-                                <textColor value="0 0 0"/>
-                                <justification value="CENTER"/>
-                                <childGraphMark value="true"/>
-                                <PEID value="DCE.18E69EEA-76BB-8063-1C32-D870AD324A64"/>
-                            </graphics>
-                        </node>
-                        <node id="9">
-                            <name/>
-                            <center x="-88.0" y="219.0"/>
-                            <size height="16.0" width="16.0"/>
-                            <originalSize height="16.0" width="16.0"/>
-                            <shape resource="0"/>
-                            <url/>
-                            <visible value="true"/>
-                            <resizability value="RESIZABILITY_NO_FIT"/>
-                            <graphics type="ETGenericNodeUI">
-                                <fillColor value="204 204 204"/>
-                                <borderColor value="0 0 0"/>
-                                <transparent value="false"/>
-                                <drawBorder value="true"/>
-                                <textFont resource="1"/>
-                                <textColor value="0 0 0"/>
-                                <justification value="CENTER"/>
-                                <childGraphMark value="true"/>
-                                <PEID value="DCE.AFE18692-39B8-DFEA-0811-6E7CE6CB6546"/>
-                            </graphics>
-                        </node>
-                        <node id="10">
-                            <name/>
-                            <center x="-96.0" y="81.0"/>
-                            <size height="27.0" width="27.0"/>
-                            <originalSize height="27.0" width="27.0"/>
-                            <shape resource="0"/>
-                            <url/>
-                            <visible value="true"/>
-                            <resizability value="RESIZABILITY_NO_FIT"/>
-                            <graphics type="ETGenericNodeUI">
-                                <fillColor value="204 204 204"/>
-                                <borderColor value="0 0 0"/>
-                                <transparent value="false"/>
-                                <drawBorder value="true"/>
-                                <textFont resource="1"/>
-                                <textColor value="0 0 0"/>
-                                <justification value="CENTER"/>
-                                <childGraphMark value="true"/>
-                                <PEID value="DCE.EA261211-25AA-E4B5-E915-20DFEF36C450"/>
-                            </graphics>
-                        </node>
-                    </nodes>
                     <margins>
                         <proportional bottom="0.0" left="0.0" right="0.0" top="0.0"/>
                         <constant bottom="20.0" left="20.0" right="20.0" top="20.0"/>
@@ -163,7 +22,7 @@
                     </graphics>
                 </graph>
             </graphs>
-            <rootGraph value="6"/>
+            <rootGraph value="1"/>
         </instances>
     </graphManager>
     <serviceInput type="jlayout">
@@ -249,7 +108,7 @@
                 <optionDefault name="routing:all:graphManager:fixedSize" value="true"/>
             </optionDefaults>
         </defaults>
-        <option context="none" name="all:all:none:graphManager" value="3"/>
+        <option context="none" name="all:all:none:graphManager" value="0"/>
     </serviceInput>
     <preferences>
         <preference name="maximumZoomLevel" value="50.0"/>
