@@ -1,16 +1,14 @@
 <?php
 
 /**
- * header.php
- * 
- * A general header for süskind programs.
- * 
+ * Header include the Arelm.loader and related parts if neccesary.
+ *
  * @author laze <laze@laze.hu>
- * @copyright laze, 2008.
- * 
- * @see http://laze.hu/projects/suskind/
- */
+  **/
 
-if( !defined( sys_loaded ) ) require_once( 'loader.php' );	
+//- Calling loader what's defining pathes and include neccesarry files.
+require_once( 'main/suskind.loader.class.php' );
+
+$wafLoader = new loader();
 
 ?>
