@@ -1,19 +1,16 @@
 <?php
-
 /**
  * index.php
- * 
- * Here start's the "süskind project" if a request accepted.
- * 
+ *
  * @author laze <laze@laze.hu>
- * @copyright laze, 2008.
- * 
- * @see http://laze.hu/projects/suskind/
+ * @copyright laze.hu, 2009.
  */
+session_start();
 
+//require_once( 'main/WAF.Debug.class.php' );
 require_once( 'header.php' );
 
-$suskind = fountain::getInstance();
-$suskind->execute();
+$wafController = new controller();
+$wafController->execute();
 
 ?>
