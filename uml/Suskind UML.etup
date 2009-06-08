@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XMI xmlns:UML="omg.org/UML/1.4" xmi.version="2.0">
+   <XMI.header>
+      <XMI.metamodel xmi.name="UML" xmi.version="1.4"/>
+		<XMI.documentation>
+			<XMI.exporter>
+				Embarcadero's Describe
+			</XMI.exporter>
+			<XMI.exporterVersion>
+				6.0
+			</XMI.exporterVersion>
+		</XMI.documentation>
+   </XMI.header>
+
+   <XMI.content>
+   <UML:Profile xmi.id="DCE.9F69D05C-AC6C-FBF6-72E2-116234B9234B" name="Unnamed" isCloned="true" href="./Suskind UML.etup#//*[@xmi.id=&apos;DCE.9F69D05C-AC6C-FBF6-72E2-116234B9234B&apos;]" isDirty="false"><UML:Element.ownedElement>
+<UML:Stereotype xmi.id="DCE.7745C4EA-52F7-A4C9-CD0A-D2838D90F32C" name="interface" owner="__uri_./Suskind UML.etup#//*[@xmi.id=&apos;DCE.9F69D05C-AC6C-FBF6-72E2-116234B9234B&apos;]"/>
+<UML:Stereotype xmi.id="DCE.FD40AAFD-C2B2-784E-6566-9248F6671925" name="interface" owner="__uri_./Suskind UML.etup#//*[@xmi.id=&apos;DCE.9F69D05C-AC6C-FBF6-72E2-116234B9234B&apos;]"/>
+<UML:Stereotype xmi.id="DCE.348F3D6E-0786-68E5-A365-28E6A3B2B021" name="interface" owner="__uri_./Suskind UML.etup#//*[@xmi.id=&apos;DCE.9F69D05C-AC6C-FBF6-72E2-116234B9234B&apos;]"/>
+<UML:Stereotype xmi.id="DCE.FE7AD938-FB61-9726-88CC-37B5CB00A2BF" name="interface" owner="__uri_./Suskind UML.etup#//*[@xmi.id=&apos;DCE.9F69D05C-AC6C-FBF6-72E2-116234B9234B&apos;]"/>
+<UML:Stereotype xmi.id="DCE.776B5FD2-3C03-27EE-25EF-B855AD85E782" name="interface" owner="__uri_./Suskind UML.etup#//*[@xmi.id=&apos;DCE.9F69D05C-AC6C-FBF6-72E2-116234B9234B&apos;]"/>
+<UML:Stereotype xmi.id="DCE.A78C48C1-6DBC-EE73-365D-238A9521424B" name="interface" owner="__uri_./Suskind UML.etup#//*[@xmi.id=&apos;DCE.9F69D05C-AC6C-FBF6-72E2-116234B9234B&apos;]"/>
+<UML:Stereotype xmi.id="DCE.30B921B9-CBF1-65A7-7967-9F5DDDC80D25" name="interface" owner="__uri_./Suskind UML.etup#//*[@xmi.id=&apos;DCE.9F69D05C-AC6C-FBF6-72E2-116234B9234B&apos;]"/>
+<UML:Stereotype xmi.id="DCE.C1C719C9-795D-9607-A80F-A5E06CD1C959" name="interface" owner="__uri_./Suskind UML.etup#//*[@xmi.id=&apos;DCE.9F69D05C-AC6C-FBF6-72E2-116234B9234B&apos;]"/>
+<UML:Stereotype xmi.id="DCE.D4F252BC-7F93-F0DC-5EEC-1B7B187AE883" name="interface" owner="__uri_./Suskind UML.etup#//*[@xmi.id=&apos;DCE.9F69D05C-AC6C-FBF6-72E2-116234B9234B&apos;]"/>
+<UML:Stereotype xmi.id="DCE.104FD54B-67ED-9180-F65A-AF966DE17C02" name="interface" owner="__uri_./Suskind UML.etup#//*[@xmi.id=&apos;DCE.9F69D05C-AC6C-FBF6-72E2-116234B9234B&apos;]"/></UML:Element.ownedElement></UML:Profile></XMI.content>
+</XMI>
