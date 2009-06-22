@@ -1,0 +1,9 @@
+#summary Installation instructions.
+
+= Introduction =
+
+= Details =
+Süskind engine is very easy to set up. It doesn't require any file to run, or special settings.
+You only have to create symlinks:
+- Apps/your_app_name/Public > path_to_wwwroot/your_app_name
+- Apps/your_app_name/Lib > path_to_suskind_root
