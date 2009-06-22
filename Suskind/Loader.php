@@ -16,6 +16,8 @@ final class Suskind_Loader {
      */
     protected static $instance;
 
+	protected $registry;
+
 	/**
 	 * Constructor
 	 *
@@ -24,7 +26,9 @@ final class Suskind_Loader {
 	 * @return void
 	 */
 	protected function __construct() {
+			//- Register __autoload methods
 		spl_autoload_register(array(__CLASS__, 'autoload'));
+		self::buildRegistry();
 	}
 
 	/**
@@ -38,12 +42,35 @@ final class Suskind_Loader {
 	}
 
 	/**
+	 * Reset the singleton instance
+	 *
+	 * @return void
+	 */
+	public static function resetInstance() {
+		self::$instance = null;
+	}
+
+	private function buildRegistry() {
+		$this->registry = new Suskind_Registry();
+	}
+
+	/**
+	 *
+	 * @return Suskind_Registry
+	 */
+	public function getRegistry() {
+		return $this->registry;
+	}
+	
+	/**
 	 * Gets name of class and include file from possible pathes.
 	 *
 	 * @param $className string Name of the class to include.
 	 * @return void
 	 */
 	public static function autoload( $className ) {
+		var_dump($className);
+		require_once (str_replace('_', '/', $className).'.php');
 		/*
 			//- Set filename.
 		$fileNameClass = 'WAF.'.ucfirst( $className ).'.class.php';
