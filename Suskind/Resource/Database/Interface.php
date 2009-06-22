@@ -15,7 +15,12 @@
  * @since       0.1
  * @version
  */
-interface Database_Resource extends Suskind_Resource_Interface {
+interface Suskind_Resource_Database_Interface extends Suskind_Resource_Interface {
+	/**
+	 * The name of the database.
+	 *
+	 * @var string
+	 */
     public $database;
 }
 ?>

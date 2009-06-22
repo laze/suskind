@@ -31,8 +31,7 @@ interface Suskind_Resource_Interface {
 	private $dsn;
 
 	/**
-	 * It's a readonly property, handled by the __get overload function. Returns
-	 * true, if the resource is connected, false if not.
+	 * It's a readonly property, handled by the __get overload function. Returns true, if the resource is connected, false if not.
 	 *
 	 * @var boolean
 	 */
