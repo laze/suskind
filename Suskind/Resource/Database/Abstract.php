@@ -15,12 +15,12 @@
  * @since       0.1
  * @version
  */
-interface Suskind_Resource_Database_Interface extends Suskind_Resource_Interface {
+abstract class Suskind_Resource_Database_Abstract extends Suskind_Resource_Abstract {
 	/**
 	 * The name of the database.
 	 *
 	 * @var string
 	 */
-    public $database;
+    protected $database;
 }
 ?>

@@ -15,60 +15,60 @@
  * @since       0.1
  * @version
  */
-interface Suskind_Resource_Interface {
+abstract class Suskind_Resource_Abstrat {
 	/**
 	 * PHP' inside resource pointer.
 	 *
 	 * @var object
 	 */
-	private $connector;
+	protected $connector;
 
 	/**
 	 * The DSN specifies the path to given resource.
 	 *
 	 * @var string
 	 */
-	private $dsn;
+	protected $dsn;
 
 	/**
 	 * It's a readonly property, handled by the __get overload function. Returns true, if the resource is connected, false if not.
 	 *
 	 * @var boolean
 	 */
-	private $connected;
+	protected $connected;
 
 	/**
 	 * @var string The driver's name.
 	 */
-	private $driver;
+	protected $driver;
 
 	/**
 	 * Host name.
 	 *
 	 * @var string
 	 */
-	private $host;
+	protected $host;
 
 	/**
 	 * Port number.
 	 *
 	 * @var integer
 	 */
-	private $port;
+	protected $port;
 	
 	/**
 	 * The name of the user.
 	 *
 	 * @var string
 	 */
-	private $user;
+	protected $user;
 
 	/**
 	 * The password of the user.
 	 *
 	 * @var string
 	 */
-	private $password;
+	protected $password;
 
 	/**
 	 * Oveload function to get properties.
@@ -99,9 +99,8 @@ interface Suskind_Resource_Interface {
 			if($this->password) $user = $this->user.':'.$this->password;
 			else $user = $this->user;
 		} else $user = '';
-		if($this->host) {
-			$host = ($user) ? '@'.$this->host : $this->host;
-		} else throw new Resoource_Exception(ERROR_SUSKIND_RESOURCE_NO_HOST); //- There is no host to connect, throw an error.
+		if($this->host) $host = ($user) ? '@'.$this->host : $this->host;
+		else throw new Resoource_Exception(ERROR_SUSKIND_RESOURCE_NO_HOST); //- There is no host to connect, throw an error.
 		$this->dsn = preg_replace(array(
 			'driver',
 			'user',

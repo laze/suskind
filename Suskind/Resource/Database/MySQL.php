@@ -9,7 +9,7 @@
  *
  * @author bercsey
  */
-class Suskind_Resource_Database_MySQL extends Suskind_Resource_Database_Interface {
+class Suskind_Resource_Database_MySQL implements Suskind_Resource_Database_Interface {
     //put your code here
 }
 ?>
