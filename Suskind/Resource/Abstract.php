@@ -79,15 +79,19 @@ abstract class Suskind_Resource_Abstrat {
 	}
 
 	public function setDriver(string $driver) {
+		$this->driver = Suskind_Loader::
 	}
 
 	public function setHost(string $host) {
+		$this->host = $host;
 	}
 
 	public function setPort(int $port) {
+		$this->port = $port;
 	}
 
 	public function setUser(string $user) {
+		$this->user = $user;
 	}
 
 	/**

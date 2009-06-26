@@ -58,8 +58,12 @@ final class Suskind_Loader {
 	 *
 	 * @return Suskind_Registry
 	 */
-	public function getRegistry() {
+	public static function getRegistry() {
 		return $this->registry;
+	}
+
+	public static function checkResourceDriver() {
+		;
 	}
 	
 	/**
@@ -69,8 +73,7 @@ final class Suskind_Loader {
 	 * @return void
 	 */
 	public static function autoload( $className ) {
-		var_dump($className);
-		require_once (str_replace('_', '/', str_replace('Suskind', '', $className)).'.php');
+		require_once (str_replace('_', '/', str_replace('Suskind_', '', $className)).'.php');
 		/*
 			//- Set filename.
 		$fileNameClass = 'WAF.'.ucfirst( $className ).'.class.php';
