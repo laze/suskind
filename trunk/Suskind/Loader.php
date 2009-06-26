@@ -70,7 +70,7 @@ final class Suskind_Loader {
 	 */
 	public static function autoload( $className ) {
 		var_dump($className);
-		require_once (str_replace('_', '/', $className).'.php');
+		require_once (str_replace('_', '/', str_replace('Suskind', '', $className)).'.php');
 		/*
 			//- Set filename.
 		$fileNameClass = 'WAF.'.ucfirst( $className ).'.class.php';
