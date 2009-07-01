@@ -9,11 +9,15 @@
  *
  * @author Balazs Ercsey <laze@laze.hu>
  */
-final class Suskind_Loader {
+final class Suskind_System {
     /**
      * @var Suskind_Loader Singleton instance
      */
-    private static $instance;
+    protected static $instance;
+
+	protected $registry;
+
+	const SUSKIND_SYSTEM_RUN = true;
 
 	/**
 	 * Constructor
@@ -22,9 +26,10 @@ final class Suskind_Loader {
 	 *
 	 * @return void
 	 */
-	private function __construct() {
+	protected function __construct() {
 			//- Register __autoload methods
 		spl_autoload_register(array(__CLASS__, 'autoload'));
+		self::buildRegistry();
 	}
 
 	/**
@@ -46,6 +51,22 @@ final class Suskind_Loader {
 		self::$instance = null;
 	}
 
+	private function buildRegistry() {
+		$this->registry = new Suskind_Registry();
+	}
+
+	/**
+	 *
+	 * @return Suskind_Registry
+	 */
+	public static function getRegistry() {
+		return $this->registry;
+	}
+
+	public static function checkResourceDriver() {
+		;
+	}
+	
 	/**
 	 * Gets name of class and include file from possible pathes.
 	 *
@@ -53,9 +74,6 @@ final class Suskind_Loader {
 	 * @return void
 	 */
 	public static function autoload( $className ) {
-		echo(getcwd());
-
-		var_dump( file_exists(str_replace('_', '/', str_replace('Suskind_', '', $className)).'.php'));
 		require_once (str_replace('_', '/', str_replace('Suskind_', '', $className)).'.php');
 		/*
 			//- Set filename.
