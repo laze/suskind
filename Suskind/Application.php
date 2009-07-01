@@ -25,13 +25,14 @@ final class Suskind_Application {
 	private $fountain;
 
 	public function __construct() {
-		if (SUSKIND_SYSTEM_RUN !== true) {
-			require_once 'Fountain.php';
-			$this->fountain = new Suskind_Fountain();
+			//- Set application and system paths.
+		$_ENV['PATH_APPLICATION'] = realpath('../');
+		$_ENV['PATH_SYSTEM'] = realpath('../Lib/../');
 
-		}
+			//- Gets the Fountain, the most important class of the SF.
+		require_once $_ENV['PATH_SYSTEM'].'/Suskind/Fountain.php';
 
-		var_dump(SUSKIND_SYSTEM_RUN);
+		$this->fountain = new Suskind_Fountain();
 	}
 
 	public function run() {

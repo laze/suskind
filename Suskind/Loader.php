@@ -1,5 +1,4 @@
 <?php
-
 /**
  * License
  */
@@ -53,10 +52,7 @@ final class Suskind_Loader {
 	 * @return void
 	 */
 	public static function autoload( $className ) {
-		echo(getcwd());
-
-		var_dump( file_exists(str_replace('_', '/', str_replace('Suskind_', '', $className)).'.php'));
-		require_once (str_replace('_', '/', str_replace('Suskind_', '', $className)).'.php');
+		require_once $_ENV['PATH_SYSTEM'].'/'.str_replace('_', '/', $className).'.php';
 		/*
 			//- Set filename.
 		$fileNameClass = 'WAF.'.ucfirst( $className ).'.class.php';
