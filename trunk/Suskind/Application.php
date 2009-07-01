@@ -10,31 +10,28 @@
  * @author Balazs Ercsey <laze@laze.hu>
  */
 final class Suskind_Application {
-
-	/**
-	 * The Süskind's loader, what defines autoload methods, etc...
-	 *
-	 * @var Suskind_Loader
-	 */
-	protected $loader;
-	
 	/**
 	 * Application environment
 	 *
 	 * @var array
 	 */
-	protected $environment;
-
+	private $environment;
+	
 	/**
-	 * The applicvation's registry where it stores every necessary informations, parsed config files.
-	 *
-	 * @var array
+	 * The Süskind Fountain. This is the most important thing in the whole system.
+	 * 
+	 * @var Suskind_Fountain 
 	 */
-	protected $registry;
+	private $fountain;
 
 	public function __construct() {
-		require_once('Loader.php');
-		$this->loader = Suskind_Loader::getInstance();
+		if (SUSKIND_SYSTEM_RUN !== true) {
+			require_once 'Fountain.php';
+			$this->fountain = new Suskind_Fountain();
+
+		}
+
+		var_dump(SUSKIND_SYSTEM_RUN);
 	}
 
 	public function run() {

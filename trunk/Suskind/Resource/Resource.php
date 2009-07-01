@@ -5,7 +5,7 @@
  */
 
 /**
- * Suskind_Resource_Interface interface
+ * Suskind_Resource_Resource class
  *
  * @package     Suskind
  * @package     Resources
@@ -15,7 +15,7 @@
  * @since       0.1
  * @version
  */
-abstract class Suskind_Resource_Abstrat {
+class Suskind_Resource_Resource implements Suskind_Resource_Interface {
 	/**
 	 * PHP' inside resource pointer.
 	 *
@@ -79,7 +79,7 @@ abstract class Suskind_Resource_Abstrat {
 	}
 
 	public function setDriver(string $driver) {
-		$this->driver = Suskind_Loader::
+		$this->driver = Suskind_Loader::checkResourceDriver($driver);
 	}
 
 	public function setHost(string $host) {

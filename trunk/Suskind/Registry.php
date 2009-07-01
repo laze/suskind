@@ -11,5 +11,8 @@
  */
 class Suskind_Registry {
     //put your code here
+	public function  __construct() {
+		echo('Hi, this is registry');
+	}
 }
 ?>
