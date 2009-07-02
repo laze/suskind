@@ -6,7 +6,7 @@
  */
 
 
-require_once(realpath('../Lib') . '/Application.php');
+require_once realpath('../Library').'/Application.php';
 
 $application = new Suskind_Application();
 $application->run();
