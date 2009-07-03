@@ -22,4 +22,5 @@ interface Suskind_Render_Interface {
 
 	public function show();
 }
+
 ?>
