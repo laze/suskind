@@ -20,10 +20,6 @@ class Suskind_Registry {
 
 	public function  __construct() {
 		$this->load();
-
-		echo('<pre>');
-		var_dump($this->registry);
-		echo('</pre>');
 	}
 
 	/**
@@ -36,9 +32,9 @@ class Suskind_Registry {
 	 */
 	public function load() {
 			//- Gets the application's global configuration.
-		if (file_exists($_ENV['PATH_APPLICATION'].'/Configuration/application.ini')) $this->registry = array_merge_recursive($this->registry, parse_ini_file($_ENV['PATH_APPLICATION'].'/Configuration/application.ini', true));
+		if (file_exists($_ENV['PATH_APPLICATION'].'/Configuration/application.ini')) $this->registry = array_merge_recursive($this->registry, parse_ini_file($_ENV['PATH_APPLICATION'].'/Configuration/application.ini'));
 			//- Gets the application's host-related configuration.
-		if (file_exists($_ENV['PATH_APPLICATION'].'/Configuration/'.$_SERVER['SERVER_NAME'].'/application.ini')) $this->registry = array_merge_recursive($this->registry, parse_ini_file($_ENV['PATH_APPLICATION'].'/Configuration/'.$_SERVER['SERVER_NAME'].'/application.ini', true));
+		if (file_exists($_ENV['PATH_APPLICATION'].'/Configuration/'.$_SERVER['SERVER_NAME'].'/application.ini')) $this->registry = array_merge_recursive($this->registry, parse_ini_file($_ENV['PATH_APPLICATION'].'/Configuration/'.$_SERVER['SERVER_NAME'].'/application.ini'));
 	}
 
 	/**
@@ -51,7 +47,7 @@ class Suskind_Registry {
 	 */
 	public function loadFile(string $filename) {
 		if (file_exists($filename)) $this->registry = array_merge_recursive(parse_ini_file($filename, true), $this->registry);
-		else throw new Suskind_Exception();
+		else throw new Suskind_Exception(1001,array($filename));
 	}
 }
 ?>
