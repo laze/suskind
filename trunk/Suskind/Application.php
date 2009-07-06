@@ -33,9 +33,11 @@ final class Suskind_Application {
 		require_once $_ENV['PATH_SYSTEM'].'/Suskind/Fountain.php';
 
 		$this->fountain = new Suskind_Fountain();
+
 	}
 
 	public function run() {
+		
 	}
 }
 

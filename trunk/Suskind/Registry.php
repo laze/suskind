@@ -32,9 +32,9 @@ class Suskind_Registry {
 	 */
 	public function load() {
 			//- Gets the application's global configuration.
-		if (file_exists($_ENV['PATH_APPLICATION'].'/Configuration/application.ini')) $this->registry = array_merge_recursive($this->registry, parse_ini_file($_ENV['PATH_APPLICATION'].'/Configuration/application.ini'));
+			if (file_exists($_ENV['PATH_APPLICATION'].'/Configuration/application.ini')) $this->addRegistry(parse_ini_file($_ENV['PATH_APPLICATION'].'/Configuration/application.ini', true));
 			//- Gets the application's host-related configuration.
-		if (file_exists($_ENV['PATH_APPLICATION'].'/Configuration/'.$_SERVER['SERVER_NAME'].'/application.ini')) $this->registry = array_merge_recursive($this->registry, parse_ini_file($_ENV['PATH_APPLICATION'].'/Configuration/'.$_SERVER['SERVER_NAME'].'/application.ini'));
+			if (file_exists($_ENV['PATH_APPLICATION'].'/Configuration/'.$_SERVER['SERVER_NAME'].'/application.ini')) $this->addRegistry(parse_ini_file($_ENV['PATH_APPLICATION'].'/Configuration/'.$_SERVER['SERVER_NAME'].'/application.ini', true));
 	}
 
 	/**
@@ -46,8 +46,21 @@ class Suskind_Registry {
 	 * @return void
 	 */
 	public function loadFile(string $filename) {
-		if (file_exists($filename)) $this->registry = array_merge_recursive(parse_ini_file($filename, true), $this->registry);
+		if (file_exists($filename)) $this->addRegistry(parse_ini_file($filename, true));
 		else throw new Suskind_Exception(1001,array($filename));
+	}
+
+	private function addRegistry(array $configuration) {
+		foreach ($configuration as $key => $value) {
+			var_dump($value);
+			if(strpos($key, '.') !== false) {
+				list($parent, $folder) = explode('.', $key);
+				$this->registry[$parent][$folder] = $value;
+			} else $this->registry[$key] = $value;
+		}
+		echo('<pre>');
+		var_dump($this->registry);
+		echo('</pre>');
 	}
 }
 ?>
