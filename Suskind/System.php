@@ -27,7 +27,8 @@ final class Suskind_System {
 	 * @return void
 	 */
 	protected function __construct() {
-		self::buildRegistry();
+		$this->buildRegistry();
+		$this->setEnvironment();
 	}
 
 	/**
@@ -50,19 +51,11 @@ final class Suskind_System {
 	}
 
 	private function buildRegistry() {
-		$this->registry = new Suskind_Registry();
+		if(!is_a($this->registry, 'Suskind_Registry')) $this->registry = new Suskind_Registry();
 	}
 
-	/**
-	 *
-	 * @return Suskind_Registry
-	 */
-	public static function getRegistry() {
-		return $this->registry;
-	}
-
-	public static function checkResourceDriver() {
-		;
+	private function setEnvironment() {
+		if($this->registry->checkGroup('application.debug') === true) foreach ($this->registry->getGroup('system') as $varname => $value) ini_set($varname, $value);
 	}
 }
 
