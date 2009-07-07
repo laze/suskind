@@ -88,11 +88,12 @@ class Suskind_Registry {
 	 * @return void
 	 */
 	private function addRegistry(array $configuration) {
-		foreach ($configuration as $key => $value) {
-			if(strpos($key, '.') !== false) {
-				list($parent, $folder) = explode('.', $key);
-				$this->registry[$parent][$folder] = $value;
-			} else $this->registry[$key] = $value;
+		foreach ($configuration as $branch => $items) {
+			if(is_array($items)) {
+				foreach ($items as $key => $value) {
+					$this->registry[$branch.'.'.$key] = $value;
+				}
+			}
 		}
 		echo( '<pre>' );
 		var_dump($this->registry);
