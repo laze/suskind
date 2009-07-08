@@ -26,31 +26,13 @@ class Suskind_Registry {
 	}
 
 
-	public function getGroup($group) {
-		if (strpos($group, '.')) {
-			list ($parent, $key) = explode('.', $group, 2);
-			if (array_key_exists($parent, $this->registry)) {
-				if (array_key_exists($key, $this->registry[$parent])) return $this->registry[$parent][$key];
-				else return false;
-			} else return false;
-		} else {
-			if (array_key_exists($group, $this->registry)) return $this->registry[$group];
-			else return false;
-		}
+	public function getSettings($key) {
+		if ($this->checkKey($key)) return $this->registry[$key];
+		else return;
 	}
 
-	public function checkGroup($group) {
-		var_dump(array_key_exists($group, $this->registry));
-		if (strpos($group, '.')) {
-			list ($parent, $key) = explode('.', $group, 2);
-			if (array_key_exists($parent, $this->registry)) {
-				if (array_key_exists($key, $this->registry[$parent])) return true;
-				else return false;
-			} else return false;
-		} else {
-			if (array_key_exists($group, $this->registry)) return true;
-			else return false;
-		}
+	public function checkKey($key) {
+		return array_key_exists($key, $this->registry);
 	}
 
 	/**
@@ -88,16 +70,10 @@ class Suskind_Registry {
 	 * @return void
 	 */
 	private function addRegistry(array $configuration) {
-		foreach ($configuration as $branch => $items) {
-			if(is_array($items)) {
-				foreach ($items as $key => $value) {
-					$this->registry[$branch.'.'.$key] = $value;
-				}
-			}
+		foreach ($configuration as $path => $settings) {
+			$path = 'Suskind_'.str_replace(' ', '_', ucwords(str_replace('.', ' ', $path)));
+			$this->registry[$path] = $settings;
 		}
-		echo( '<pre>' );
-		var_dump($this->registry);
-		echo( '</pre>' );
 	}
 }
 ?>
