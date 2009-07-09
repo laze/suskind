@@ -10,6 +10,10 @@
  * @author Balazs Ercsey <laze@laze.hu>
  */
 class Suskind_Registry {
+    /**
+     * @var Suskind_Registry Singleton instance
+     */
+    private static $instance;
 	
 	/**
 	 * The registry values
@@ -18,11 +22,22 @@ class Suskind_Registry {
 	 */
 	private $registry = array();
 
-	public function  __construct() {
+	private function  __construct() {
 		$this->load();
 	}
 
 	public function __get($property) {
+	}
+
+
+	/**
+	 * Retrieve singleton instance
+	 *
+	 * @return Suskind_Registry
+	 */
+	public static function getInstance() {
+		if (null === self::$instance) self::$instance = new self();
+		return self::$instance;
 	}
 
 
