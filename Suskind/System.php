@@ -18,6 +18,7 @@ final class Suskind_System {
 	private $registry;
 
 	const SUSKIND_SYSTEM_RUN = true;
+	const SUSKIND_REGISTRY = 'Suskind_Registry';
 
 	/**
 	 * Constructor
@@ -51,7 +52,7 @@ final class Suskind_System {
 	}
 
 	private function buildRegistry() {
-		if(!is_a($this->registry, 'Suskind_Registry')) $this->registry = new Suskind_Registry();
+		if(!is_a($this->registry, SUSKIND_REGISTRY)) $this->registry = Suskind_Registry::getInstance();
 	}
 
 	private function setEnvironment() {

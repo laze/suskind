@@ -37,7 +37,7 @@ final class Suskind_Application {
 	}
 
 	public function run() {
-		
+		$this->fountain->getRoute();
 	}
 }
 
