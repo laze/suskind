@@ -42,13 +42,13 @@ class Suskind_Registry {
 
 
 	public static function getSettings($key) {
-		if (array_key_exists($key, self::$instance->registry)) return self::$instance->registry[$key];
-		elseif (array_key_exists('Suskind_Application_'.ucfirst($key), self::$instance->registry)) return self::$instance->registry['Suskind_Application_'.ucfirst($key)];
+		if (array_key_exists($key, self::getInstance()->registry)) return self::getInstance()->registry[$key];
+		elseif (array_key_exists('Suskind_Application_'.ucfirst($key), self::getInstance()->registry)) return self::getInstance()->registry['Suskind_Application_'.ucfirst($key)];
 		else return;
 	}
 
 	public static function checkKey($key) {
-		return array_key_exists($key, self::$instance->registry) || array_key_exists('Suskind_Application_'.ucfirst($key), self::$instance->registry);
+		return array_key_exists($key, self::getInstance()->registry) || array_key_exists('Suskind_Application_'.ucfirst($key), self::getInstance()->registry);
 	}
 
 	/**
@@ -59,7 +59,7 @@ class Suskind_Registry {
 	 *
 	 * @return void
 	 */
-	public function load() {
+	private function load() {
 		//- Gets the application's global configuration.
 		if (file_exists($_ENV['PATH_APPLICATION'].'/Configuration/application.ini')) $this->addRegistry(parse_ini_file($_ENV['PATH_APPLICATION'].'/Configuration/application.ini', true));
 		//- Gets the application's host-related configuration.
@@ -74,8 +74,8 @@ class Suskind_Registry {
 	 * @param string $filename The path of the file to load.
 	 * @return void
 	 */
-	public function loadFile(string $filename) {
-		if (file_exists($filename)) $this->addRegistry(parse_ini_file($filename, true));
+	public static function loadFile(string $filename) {
+		if (file_exists($filename)) self::getInstance()->addRegistry(parse_ini_file($filename, true));
 		else throw new Suskind_Exception(1001,array($filename));
 	}
 
