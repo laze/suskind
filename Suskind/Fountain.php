@@ -16,7 +16,13 @@ final class Suskind_Fountain {
 	 */
 	private $loader;
 
-	private $system;
+	/**
+     * The Süskind system hadler object. It controls the registry, server
+     * settings, etc.
+     * 
+     * @var Suskind_System 
+     */
+    private $system;
 
 	public function __construct() {
 			//- Include the Suskind_Loader class to define automatic loader methods.
