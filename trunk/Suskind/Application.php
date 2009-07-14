@@ -13,7 +13,7 @@ final class Suskind_Application {
 	/**
 	 * Application environment
 	 *
-	 * @var array
+ 	 * @var array
 	 */
 	private $environment;
 	
@@ -24,11 +24,11 @@ final class Suskind_Application {
 	 */
 	private $fountain;
 
-    	/**
-         * @todo: Check wether is included via include_path or via regular path.
-         */
-        public function __construct() {
-			//- Set application and system paths.
+    /**
+     * @todo: Check wether is included via include_path or via regular path.
+     */
+    public function __construct() {
+            //- Set application and system paths.
 		$_ENV['PATH_APPLICATION'] = realpath('../');
 		$_ENV['PATH_SYSTEM'] = realpath('../Library/../');
 
@@ -46,7 +46,11 @@ final class Suskind_Application {
 	}
 
 	public function run() {
-		$this->fountain->getRoute();
+        try {
+    		$this->fountain->getRoute();
+        } catch(Suskind_Exception $exception) {
+            $errorRender = new Suskind_Render_Html('error.htpl');
+        }
 	}
 }
 
