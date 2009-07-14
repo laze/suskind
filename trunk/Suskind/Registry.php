@@ -41,13 +41,14 @@ class Suskind_Registry {
 	}
 
 
-	public function getSettings($key) {
-		if ($this->checkKey($key)) return $this->registry[$key];
+	public static function getSettings($key) {
+		if (array_key_exists($key, self::$instance->registry)) return self::$instance->registry[$key];
+		elseif (array_key_exists('Suskind_Application_'.ucfirst($key), self::$instance->registry)) return self::$instance->registry['Suskind_Application_'.ucfirst($key)];
 		else return;
 	}
 
-	public function checkKey($key) {
-		return array_key_exists($key, $this->registry);
+	public static function checkKey($key) {
+		return array_key_exists($key, self::$instance->registry) || array_key_exists('Suskind_Application_'.ucfirst($key), self::$instance->registry);
 	}
 
 	/**

@@ -16,6 +16,12 @@ class Suskind_Router {
     private static $instance;
 
 	/**
+	 * The parsed request URI. It contains
+	 * @var array
+	 */
+	private $requestURI;
+
+	/**
 	 * Retrieve singleton instance
 	 *
 	 * @return Suskind_Router
@@ -26,15 +32,10 @@ class Suskind_Router {
 	}
 
 	public function parseRoute() {
-		var_dump($_SERVER['REQUEST_URI']);
-		$this->requestURI = split( '[\?\/]', $_SERVER['REQUEST_URI']);
-		var_dump($this->requestURI);
-		/*
-		$this->requestURI->clean();
-		$this->requestURI->compare( new result( explode( '/', dirname( $_SERVER['PHP_SELF'] ) ) ), RESULT_COMPARE_REMOVE );
-		return;
-		 *
-		 */
+		$this->requestURI = array_diff(split( '[\?\/]', $_SERVER['REQUEST_URI']), split( '[\?\/]', $_SERVER['SCRIPT_NAME']));
+		
+		if(Suskind_Registry::checkKey('routes') === true) $akarmi = Suskind_Registry::getSettings('routes');
+		var_dump($akarmi);
 	}
 }
 

@@ -14,11 +14,20 @@ final class Suskind_System {
      * @var Suskind_Loader Singleton instance
      */
     private static $instance;
-
+	/**
+	 * The registry, what stores every settings of the application and
+	 * runtime settings for the server. (php.ini)
+	 *
+	 * @var Suskind_Registry
+	 */
 	private $registry;
 
-	const SUSKIND_SYSTEM_RUN = true;
-	const SUSKIND_REGISTRY = 'Suskind_Registry';
+	/**
+	 * This object will able to recognize URLs.
+	 *
+	 * @var Suskind_Router
+	 */
+	public $router;
 
 	/**
 	 * Constructor
@@ -28,7 +37,9 @@ final class Suskind_System {
 	 * @return void
 	 */
 	protected function __construct() {
-		$this->buildRegistry();
+		$this->registry = Suskind_Registry::getInstance();
+		$this->router = Suskind_Router::getInstance();
+
 		$this->setEnvironment();
 	}
 
@@ -49,10 +60,6 @@ final class Suskind_System {
 	 */
 	public static function resetInstance() {
 		self::$instance = null;
-	}
-
-	private function buildRegistry() {
-		if(!is_a($this->registry, SUSKIND_REGISTRY)) $this->registry = Suskind_Registry::getInstance();
 	}
 
 	private function setEnvironment() {
