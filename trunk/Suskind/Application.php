@@ -39,17 +39,16 @@ final class Suskind_Application {
             $this->fountain = new Suskind_Fountain();
         } catch (Suskind_Exception $exception) {
 
-        } catch (Exception $exception) {
-
         }
 
 	}
 
 	public function run() {
         try {
-    		$this->fountain->getRoute();
+    		$this->fountain->initApplication();
+			$this->fountain->renderApplication();
         } catch(Suskind_Exception $exception) {
-            $errorRender = new Suskind_Render_Html('error.htpl');
+            Suskind_Render_Html::showError($exception);
         }
 	}
 }

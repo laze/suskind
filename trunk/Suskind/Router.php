@@ -19,7 +19,17 @@ class Suskind_Router {
 	 * The parsed request URI. It contains
 	 * @var array
 	 */
-	private $requestURI;
+	private $request;
+
+	/**
+	 * The configured routes. Routes can be short a query or can be used for any
+	 * else reserved request in the URI, e.g.: dashboard, debug, etc...
+	 *
+	 * @var array
+	 */
+	private $routes = array(
+		'info' => 'Suskind_System/getPHPinfo'
+	);
 
 	/**
 	 * Retrieve singleton instance
@@ -31,11 +41,15 @@ class Suskind_Router {
 		return self::$instance;
 	}
 
+	private function __construct() {
+		if(Suskind_Registry::checkKey('routes') === true) $this->routes = array_merge(Suskind_Registry::getSettings('routes'), $this->routes);
+	}
+
 	public function parseRoute() {
-		$this->requestURI = array_diff(split( '[\?\/]', $_SERVER['REQUEST_URI']), split( '[\?\/]', $_SERVER['SCRIPT_NAME']));
-		
-		if(Suskind_Registry::checkKey('routes') === true) $akarmi = Suskind_Registry::getSettings('routes');
-		var_dump($akarmi);
+		$this->request = array_diff(split( '[\?\/]', $_SERVER['REQUEST_URI']), split( '[\?\/]', $_SERVER['SCRIPT_NAME']));
+			//- Check in routes to replace request if neccesary.
+		$routersMatch = array_intersect(array_values($this->request), array_keys($this->routes));
+		if (sizeof($routersMatch) > 0) $this->request = split( '[\?\/]', $this->routes[$routersMatch[0]]);
 	}
 }
 

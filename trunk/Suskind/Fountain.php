@@ -24,6 +24,14 @@ final class Suskind_Fountain {
      */
     private $system;
 
+	/**
+	 * This property implementation can be any class what extends
+	 * Suskind_Render_Render, like HTML render or JSON render.
+	 *
+	 * @var Suskind_Render_Render
+	 */
+	public $render;
+
 	public function __construct() {
 			//- Include the Suskind_Loader class to define automatic loader methods.
 		require_once $_ENV['PATH_SYSTEM'].'/Suskind/Loader.php';
@@ -33,6 +41,24 @@ final class Suskind_Fountain {
 
 	public function getRoute() {
 		$this->system->router->parseRoute();
+	}
+
+	public function initApplication() {
+		$this->render = $this->setRender();
+
+		$this->system->router->parseRoute();
+
+	}
+
+	public function renderApplication() {
+		if (!Suskind_System::isAjax()) $this->render->setTemplate();
+			//- At least... :)
+		$this->render->show();
+	}
+
+	private function setRender() {
+		if (Suskind_System::isAjax()) return new Suskind_Render_Json();
+		else return new Suskind_Render_Html();
 	}
 }
 
