@@ -5,7 +5,10 @@
  */
 
 /**
- * Suskind_Resource_Interface interface
+ * Suskind_Resource_Render class
+ *
+ * This class is the basic of the other renderer classes: this contains
+ * the variable assign handlers and variable modification functions.
  *
  * @package     Suskind
  * @package     Render
@@ -16,7 +19,32 @@
  * @version
  */
 class Suskind_Render_Render implements Suskind_Render_Interface {
-    
+	/**
+	 * This array contains named variables for rendering. It can managed by
+	 * assign and remove functions.
+	 * 
+	 * @var array 
+	 */
+	private $assigns;
+
+	public function assign($variableName, $variableValue, $variableModification = null) {
+		$this->assigns[$variableName] = array(
+			'value' => $variableValue,
+			'modification' => $variableModification,
+			'compiled' => call_user_func($variableModification, $variableValue)
+		);
+	}
+
+	public function remove($variableName) {
+		unset ($this->assigns[$variableName]);
+	}
+
+	public function show() {
+	}
+
+	public static function uppercaseFirst(string $value) {
+		if (is_string($value)) return ucfirst($value);
+	}
 }
 
 ?>

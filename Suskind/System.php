@@ -65,6 +65,10 @@ final class Suskind_System {
 	private function setEnvironment() {
 		if($this->registry->checkKey(__CLASS__) === true) foreach ($this->registry->getSettings(__CLASS__) as $varname => $value) ini_set($varname, $value);
 	}
+
+	public static function isAjax() {
+		return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest');
+	}
 }
 
 ?>

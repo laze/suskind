@@ -16,11 +16,13 @@
  * @version
  */
 interface Suskind_Render_Interface {
-	public function assign();
+	public function assign($variableName, $variableValue, $variableModification = null);
 
-	public function remove();
+	public function remove($variableName);
 
 	public function show();
+
+	public static function uppercaseFirst(string $value);
 }
 
 ?>
