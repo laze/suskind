@@ -24,6 +24,20 @@ final class Suskind_Application {
 	 */
 	private $fountain;
 
+	/**
+	 * The actually loaded model.
+	 *
+	 * @var Suskind_Model
+	 */
+	public $model;
+
+	/**
+	 * The called view.
+	 *
+	 * @var Suskind_View
+	 */
+	public $view;
+
     /**
      * @todo: Check wether is included via include_path or via regular path.
      */
@@ -36,7 +50,9 @@ final class Suskind_Application {
 		require_once $_ENV['PATH_SYSTEM'].'/Suskind/Fountain.php';
 
         try {
-            $this->fountain = new Suskind_Fountain();
+			$this->fountain = new Suskind_Fountain();
+			$this->fountain->initApplication($this);
+			var_dump($this->model);
         } catch (Suskind_Exception $exception) {
 
         }
@@ -45,10 +61,9 @@ final class Suskind_Application {
 
 	public function run() {
         try {
-    		$this->fountain->initApplication();
 			$this->fountain->renderApplication();
         } catch(Suskind_Exception $exception) {
-            Suskind_Render_Html::showError($exception);
+			Suskind_Render_Html::showError($exception);
         }
 	}
 }
