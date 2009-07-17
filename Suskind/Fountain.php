@@ -43,12 +43,16 @@ final class Suskind_Fountain {
 		$this->system->router->parseRoute();
 	}
 
-	public function initApplication($application) {
+	public function initApplication(Suskind_Application $application) {
 		$this->render = $this->setRender();
 //		$this->resources = $this->setResources();
 
-		$this->system->router->parseRoute();
-		$application->model = 'dsdsf';
+		if ($this->system->router->parseRoute()) {
+			$application->model = $this->system->router->getModel();
+			$application->view = $this->system->router->getView();
+		} else {
+			call_user_func($this->system->router->getModel());
+		}
 	}
 
 	public function renderApplication() {
