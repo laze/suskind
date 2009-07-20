@@ -48,23 +48,23 @@ final class Suskind_Application {
 
 			//- Gets the Fountain, the most important class of the SF.
 		require_once $_ENV['PATH_SYSTEM'].'/Suskind/Fountain.php';
+		$this->fountain = new Suskind_Fountain();
+	}
 
-        try {
-			$this->fountain = new Suskind_Fountain();
-			$this->fountain->initApplication($this);
-			var_dump($this->model);
-        } catch (Suskind_Exception $exception) {
-
-        }
-
+	public function init() {
+		return $this->fountain->initApplication($this);
 	}
 
 	public function run() {
+		echo('dfsdef');
+		/*
         try {
 			$this->fountain->renderApplication();
         } catch(Suskind_Exception $exception) {
 			Suskind_Render_Html::showError($exception);
         }
+		 * 
+		 */
 	}
 }
 
