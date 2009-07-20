@@ -19,7 +19,15 @@ class Suskind_Router {
 	 * The parsed request URI. It contains
 	 * @var array
 	 */
-	private $request;
+	private $originalRequestURI;
+	
+	private $referrerRequestURI;
+	
+	private $forwardRequestURI;
+
+	private $model;
+	private $view;
+
 
 	/**
 	 * The configured routes. Routes can be short a query or can be used for any
@@ -28,7 +36,7 @@ class Suskind_Router {
 	 * @var array
 	 */
 	private $routes = array(
-		'info' => 'Suskind_System::getPHPinfo()'
+		'info' => 'Suskind_System/getPHPinfo'
 	);
 
 	/**
@@ -50,34 +58,61 @@ class Suskind_Router {
 	 * return with true, if an application's model called, false if any system
 	 * related.
 	 *
-	 * @return boolean
+	 * @return void
 	 */
 	public function parseRoute() {
-		$this->request = array_diff(split( '[\?\/]', $_SERVER['REQUEST_URI']), split( '[\?\/]', $_SERVER['SCRIPT_NAME']));
+		$this->referrerRequestURI = (array_key_exists('HTTP_REFERER', $_REQUEST) && isset ($_REQUEST['HTTP_REFERER'])) ? array_values(array_diff(split( '[\?\/]', $_SERVER['HTTP_REFERER']), split( '[\?\/]', $_SERVER['SCRIPT_NAME']))) : null;
+		$this->originalRequestURI = array_values(array_diff(split( '[\?\/]', $_SERVER['REQUEST_URI']), split( '[\?\/]', $_SERVER['SCRIPT_NAME'])));
 			//- Check in routes to replace request if neccesary.
-		$routersMatch = array_intersect(array_values($this->request), array_keys($this->routes));
-		if (sizeof($routersMatch) > 0) $this->request = split( '[\?\/]', $this->routes[$routersMatch[0]]);
-		if (class_exists($this->request[0])) return (is_subclass_of($this->request[0], 'Suskind_Model'));
-		else {
+		$routersMatch = array_values(array_intersect(array_values($this->originalRequestURI), array_keys($this->routes)));
+		if (sizeof($routersMatch) > 0) $this->originalRequestURI = split( '[\?\/]', $this->routes[$routersMatch[0]]);
 			/**
-			 * @todo Throw an "invalid module called" exception in the new valid
-			 * SF Excepttion system.
+			 * Sets the model and the view, if they avaliable. The parser set
+			 * these variables to null, if no value given. Later, if view is
+			 * null, then has to get the model's default view.
+			 *
+			 * If there are neither valid model nor valid view, then throw an
+			 * exception.
 			 */
-			throw new Suskind_Exception();
-		}
+		if (class_exists($this->originalRequestURI[0])) {
+			if (is_subclass_of($this->originalRequestURI[0], 'Suskind_Model')) {
+				$this->model = $this->originalRequestURI[0];
+				$this->view = (is_subclass_of($this->originalRequestURI[1], 'Suskind_View')) ? $this->originalRequestURI[1] : null;
+			} else {
+				$this->model = null;
+			}
+		} else throw new Suskind_Exception_Router_NotValidModel($this->originalRequestURI[0]);
+		var_dump($this->originalRequestURI);
 	}
 
 	/**
-	 * Checks the
-	 *
-	 * @return Suskind_Model
+	 * Returns with the current request URI.
+	 * 
+	 * @return array
 	 */
-	public function getModel() {
-		return $this->request[0];
+	public function getRoute() {
+		var_dump( $this->originalRequestURI);
+		return $this->originalRequestURI;
 	}
 
+	/**
+	 * Returns with the previously parsed model.
+	 *
+	 * @return Suskind_Model
+	 * @see parseRoute
+	 */
+	public function getModel() {
+		return $this->model;
+	}
+
+	/**
+	 * Returns with the previously parsed view.
+	 *
+	 * @return Suskind_View
+	 * @see parseRoute
+	 */
 	public function getView() {
-//		if (method_exists($object, $method_name))
+		return $this->view;
 	}
 }
 

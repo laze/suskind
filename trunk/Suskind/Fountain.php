@@ -37,28 +37,30 @@ final class Suskind_Fountain {
 		require_once $_ENV['PATH_SYSTEM'].'/Suskind/Loader.php';
 		$this->loader = Suskind_Loader::getInstance();
 		$this->system = Suskind_System::getInstance();
-	}
-
-	public function getRoute() {
+			/**
+			 * Parses the route, to decide, run the application or not.
+			 */
 		$this->system->router->parseRoute();
+		if (!is_null($this->system->router->getModel())) $this->Application();
+		else $this->executeSystemRequest();
 	}
 
-	public function initApplication(Suskind_Application $application) {
-		$this->render = $this->setRender();
-//		$this->resources = $this->setResources();
+	public function Application(Suskind_Application $application) {
+		$application->model = $this->system->router->getModel();
+		$application->view = (is_null($this->system->router->getView())) ? $application->model->getDefaultView() : $this->system->router->getView();
 
-		if ($this->system->router->parseRoute()) {
-			$application->model = $this->system->router->getModel();
-			$application->view = $this->system->router->getView();
-		} else {
-			call_user_func($this->system->router->getModel());
-		}
+		$this->render = $this->setRender();
 	}
 
 	public function renderApplication() {
 		if (!Suskind_System::isAjax()) $this->render->setTemplate();
 			//- At least... :)
 		$this->render->show();
+	}
+
+	private function executeSystemRequest() {
+		$request = $this->system->router->getRoute();
+		call_user_method($request[1], $request[0]);
 	}
 
 	private function setRender() {
