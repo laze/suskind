@@ -74,15 +74,16 @@ class Suskind_Router {
 			 * If there are neither valid model nor valid view, then throw an
 			 * exception.
 			 */
-		if (class_exists($this->originalRequestURI[0])) {
-			if (is_subclass_of($this->originalRequestURI[0], 'Suskind_Model')) {
-				$this->model = $this->originalRequestURI[0];
-				$this->view = (is_subclass_of($this->originalRequestURI[1], 'Suskind_View')) ? $this->originalRequestURI[1] : null;
-			} else {
-				$this->model = null;
-			}
-		} else throw new Suskind_Exception_Router_NotValidModel($this->originalRequestURI[0]);
-		var_dump($this->originalRequestURI);
+        if (sizeof($this->originalRequestURI) > 1) {
+			if (class_exists($this->originalRequestURI[0])) {
+				if (is_subclass_of($this->originalRequestURI[0], 'Suskind_Model')) {
+					$this->model = $this->originalRequestURI[0];
+					$this->view = (is_subclass_of($this->originalRequestURI[1], 'Suskind_View')) ? $this->originalRequestURI[1] : null;
+				} else {
+					$this->model = null;
+				}
+			} else throw new Suskind_Exception_Router_NotValidModel($this->originalRequestURI[0]);
+        } else Suskind_Fountain::renderApplicationDefaultView();
 	}
 
 	/**

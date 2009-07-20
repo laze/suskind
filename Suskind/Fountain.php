@@ -41,11 +41,11 @@ final class Suskind_Fountain {
 			 * Parses the route, to decide, run the application or not.
 			 */
 		$this->system->router->parseRoute();
-		if (!is_null($this->system->router->getModel())) $this->Application();
+		if (!is_null($this->system->router->getModel())) $this->setApplication();
 		else $this->executeSystemRequest();
 	}
 
-	public function Application(Suskind_Application $application) {
+	public function initApplication(Suskind_Application $application) {
 		$application->model = $this->system->router->getModel();
 		$application->view = (is_null($this->system->router->getView())) ? $application->model->getDefaultView() : $this->system->router->getView();
 
@@ -58,9 +58,13 @@ final class Suskind_Fountain {
 		$this->render->show();
 	}
 
+	public static function renderApplicationDefaultView() {
+		echo('akármi');
+	}
+
 	private function executeSystemRequest() {
 		$request = $this->system->router->getRoute();
-		call_user_method($request[1], $request[0]);
+		if (sizeof($request)) call_user_method($request[1], $request[0]);
 	}
 
 	private function setRender() {
