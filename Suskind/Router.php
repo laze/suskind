@@ -92,7 +92,7 @@ class Suskind_Router {
 	 * @return array
 	 */
 	public function getRoute() {
-		var_dump( $this->originalRequestURI);
+//		var_dump( $this->originalRequestURI);
 		return $this->originalRequestURI;
 	}
 

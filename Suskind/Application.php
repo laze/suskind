@@ -42,13 +42,15 @@ final class Suskind_Application {
      * @todo: Check wether is included via include_path or via regular path.
      */
     public function __construct() {
-            //- Set application and system paths.
+			//- Set application and system paths.
 		$_ENV['PATH_APPLICATION'] = realpath('../');
 		$_ENV['PATH_SYSTEM'] = realpath('../Library/../');
 
 			//- Gets the Fountain, the most important class of the SF.
 		require_once $_ENV['PATH_SYSTEM'].'/Suskind/Fountain.php';
 		$this->fountain = new Suskind_Fountain();
+		session_start();
+		echo('<a href="#">Klikk hír!</a>');
 	}
 
 	public function init() {
@@ -56,7 +58,7 @@ final class Suskind_Application {
 	}
 
 	public function run() {
-		echo('dfsdef');
+		//echo('dfsdef');
 		/*
         try {
 			$this->fountain->renderApplication();
