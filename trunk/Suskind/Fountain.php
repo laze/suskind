@@ -33,23 +33,30 @@ final class Suskind_Fountain {
 	public $render;
 
 	public function __construct() {
-			//- Include the Suskind_Loader class to define automatic loader methods.
-		require_once $_ENV['PATH_SYSTEM'].'/Suskind/Loader.php';
-		$this->loader = Suskind_Loader::getInstance();
-		$this->system = Suskind_System::getInstance();
-			/**
-			 * Parses the route, to decide, run the application or not.
-			 */
-		$this->system->router->parseRoute();
-		if (!is_null($this->system->router->getModel())) $this->setApplication();
-		else $this->executeSystemRequest();
+		try {
+				//- Include the Suskind_Loader class to define automatic loader methods.
+			require_once $_ENV['PATH_SYSTEM'].'/Suskind/Loader.php';
+			$this->loader = Suskind_Loader::getInstance();
+			$this->system = Suskind_System::getInstance();
+				/**
+				 * Parses the route, to decide, run the application or not.
+				 */
+			$this->system->router->parseRoute();
+			if (!is_null($this->system->router->getModel())) $this->setApplication();
+			else $this->executeSystemRequest();
+		} catch (Suskind_Exception $exception) {
+			echo($exception->getMessage());
+		}
 	}
 
 	public function initApplication(Suskind_Application $application) {
+		/*
 		$application->model = $this->system->router->getModel();
 		$application->view = (is_null($this->system->router->getView())) ? $application->model->getDefaultView() : $this->system->router->getView();
 
 		$this->render = $this->setRender();
+		 *
+		 */
 	}
 
 	public function renderApplication() {
@@ -59,7 +66,6 @@ final class Suskind_Fountain {
 	}
 
 	public static function renderApplicationDefaultView() {
-		echo('akármi');
 	}
 
 	private function executeSystemRequest() {
