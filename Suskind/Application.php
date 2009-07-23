@@ -49,7 +49,6 @@ final class Suskind_Application {
 			//- Gets the Fountain, the most important class of the SF.
 		require_once $_ENV['PATH_SYSTEM'].'/Suskind/Fountain.php';
 		$this->fountain = new Suskind_Fountain();
-		session_start();
 		echo('<a href="#">Klikk hír!</a>');
 	}
 

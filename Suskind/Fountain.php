@@ -41,9 +41,12 @@ final class Suskind_Fountain {
 				/**
 				 * Parses the route, to decide, run the application or not.
 				 */
+				 /*
 			$this->system->router->parseRoute();
 			if (!is_null($this->system->router->getModel())) $this->setApplication();
 			else $this->executeSystemRequest();
+				  * 
+				  */
 		} catch (Suskind_Exception $exception) {
 			echo($exception->getMessage());
 		}
