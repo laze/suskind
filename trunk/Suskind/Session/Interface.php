@@ -16,17 +16,17 @@
  */
 interface Suskind_Session_Interface {
 
-	public static function open();
+	public static function open($save_path, $session_name);
 
 	public static function close();
 
-	public static function read();
+	public static function read($id);
 
-	public static function write();
+	public static function write($id, $sess_data);
 
-	public static function destroy();
+	public static function destroy($id);
 
-	public static function garbageCollector();
+	public static function garbageCollector($maxlifetime);
 }
 
 ?>
