@@ -68,9 +68,14 @@ final class Suskind_System {
 
 	private function setEnvironment() {
 		if($this->registry->checkKey(__CLASS__) === true) foreach ($this->registry->getSettings(__CLASS__) as $varname => $value) ini_set($varname, $value);
-		ini_set('session.auto_start', true);
+
 		session_set_save_handler(array('Suskind_Session_Session', 'open'), array('Suskind_Session_Session', 'close'), array('Suskind_Session_Session', 'read'), array('Suskind_Session_Session', 'write'), array('Suskind_Session_Session', 'destroy'), array('Suskind_Session_Session', 'garbageCollector'));
-		session_start();
+		session_name($this->registry->)
+session_start();
+
+		$_SESSION['visit'] ++;
+
+		var_dump($_SESSION);
 	}
 
 	public static function isAjax() {

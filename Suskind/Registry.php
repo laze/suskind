@@ -27,6 +27,11 @@ class Suskind_Registry {
 	}
 
 	public function __get($property) {
+		switch($property) {
+			case 'appName':
+			case 'applicationName':
+
+		}
 	}
 
 
