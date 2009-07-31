@@ -52,9 +52,14 @@ final class Suskind_Loader {
 	 * @return void
 	 */
 	public static function autoload($className) {
-		if (file_exists($_ENV['PATH_SYSTEM'].'/'.str_replace('_', '/', $className).'.php')) include_once $_ENV['PATH_SYSTEM'].'/'.str_replace('_', '/', $className).'.php';
-		elseif (file_exists($_ENV['PATH_APPLICATION'].'/'.str_replace('_', '/', str_replace('Application','', $className)).'.php')) include_once $_ENV['PATH_SYSTEM'].'/'.str_replace('_', '/', $className).'.php';
-		else throw new Suskind_Exception('Class not exists: '.$className);
+		try {
+			if (strpos($className, 'Application') == (int) 0)
+				if (file_exists($_ENV['PATH_APPLICATION'].'/'.str_replace('_', '/', str_replace('Application','', $className)).'.php')) include_once $_ENV['PATH_SYSTEM'].'/'.str_replace('_', '/', $className).'.php';
+			else
+				if (file_exists($_ENV['PATH_SYSTEM'].'/'.str_replace('_', '/', $className).'.php')) include_once $_ENV['PATH_SYSTEM'].'/'.str_replace('_', '/', $className).'.php';
+		} catch(Exception $exception) {
+			throw new Suskind_Exception('Class not exists: '.$className);
+		}
 	}
 }
 
