@@ -16,11 +16,11 @@
  */
 interface Suskind_Session_Interface {
 
-	public static function open($save_path, $session_name);
+	public static function open($sessionPath, $sessionName);
 
 	public static function close();
 
-	public static function read($id);
+	public static function read($sessionId);
 
 	public static function write($id, $sess_data);
 

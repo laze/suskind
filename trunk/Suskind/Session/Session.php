@@ -11,19 +11,23 @@
 class Suskind_Session_Session implements Suskind_Session_Interface {
 	private static $path;
 	private static $session = array();
+	private static $store;
 
-	public static function open($path, $session_name) {
-		self::$path = $path;
+	public static function open($sessionPath, $sessionName) {
+		if (class_exists('Application_Plugin_Session_Store')) self::$store = new Application_Plugin_Session_Store();
+		else self::$store = new Suskind_Session_Store();
 
+		self::$path = $sessionPath;
 		return (true);
 	}
 
 	public static function close() {
+		self::$store->destroy();
 		return (true);
 	}
 
-	public static function read($id) {
-		return (string) @file_get_contents(self::$path.'/sess_'.$id);
+	public static function read($sessionId) {
+		return (string) @file_get_contents(self::$path.'/sess_'.$sessionId);
 	}
 
 	public static function write($id, $sess_data) {
