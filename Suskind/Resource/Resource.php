@@ -39,37 +39,11 @@ class Suskind_Resource_Resource implements Suskind_Resource_Interface {
 	protected $connected;
 
 	/**
-	 * @var string The driver's name.
-	 */
-	protected $driver;
-
-	/**
 	 * Host name.
 	 *
 	 * @var string
 	 */
 	protected $host;
-
-	/**
-	 * Port number.
-	 *
-	 * @var integer
-	 */
-	protected $port;
-	
-	/**
-	 * The name of the user.
-	 *
-	 * @var string
-	 */
-	protected $user;
-
-	/**
-	 * The password of the user.
-	 *
-	 * @var string
-	 */
-	protected $password;
 
 	/**
 	 * Oveload function to get properties.
@@ -79,42 +53,8 @@ class Suskind_Resource_Resource implements Suskind_Resource_Interface {
 	public function __get(string $name) {
 	}
 
-	public function setDriver(string $driver) {
-		$this->driver = Suskind_Loader::checkResourceDriver($driver);
-	}
-
 	public function setHost(string $host) {
 		$this->host = $host;
-	}
-
-	public function setPort(int $port) {
-		$this->port = $port;
-	}
-
-	public function setUser(string $user) {
-		$this->user = $user;
-	}
-
-	/**
-	 * Set the private DSN property from the previously set informations.
-	 */
-	final private function createDSN() {
-		$driver = ($this->driver) ? $this->driver.'://' : '';
-		if($this->user) {
-			if($this->password) $user = $this->user.':'.$this->password;
-			else $user = $this->user;
-		} else $user = '';
-		if($this->host) $host = ($user) ? '@'.$this->host : $this->host;
-		else throw new Resoource_Exception(ERROR_SUSKIND_RESOURCE_NO_HOST); //- There is no host to connect, throw an error.
-		$this->dsn = preg_replace(array(
-			'driver',
-			'user',
-			'host'
-		), array(
-			$driver,
-			$user,
-			$host
-		), 'driveruserhost');
 	}
 
 	/**

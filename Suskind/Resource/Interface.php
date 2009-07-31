@@ -24,18 +24,7 @@ interface Suskind_Resource_Interface {
 	 */
 	public function __get(string $name);
 
-	public function setDriver(string $driver);
-
 	public function setHost(string $host);
-
-	public function setPort(int $port);
-
-	public function setUser(string $user);
-
-	/**
-	 * Set the private DSN property from the previously set informations.
-	 */
-	final private function createDSN();
 
 	/**
 	 * Connect to the

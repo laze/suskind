@@ -4,7 +4,7 @@
  */
 
 /**
- * Suskind_Resource_Cookie class
+ * Suskind_Resource_File class
  *
  * @package     Suskind
  * @package     Resources
@@ -14,6 +14,13 @@
  * @since       0.1
  * @version
  */
-class Suskind_Resource_Cookie extends Suskind_Resource_Resource {
+class Suskind_Resource_File extends Suskind_Resource_Resource {
+
+	/**
+	 * The name od the file.
+	 * 
+	 * @var string
+	 */
+	private $name;
 }
 ?>
