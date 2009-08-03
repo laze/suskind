@@ -1,16 +1,24 @@
 #summary Installation instructions for Süskind Framework.
-#labels Phase-Implementation,Phase-Deploy
+#labels Phase-Implementation,Phase-Deploy,Featured
 
 = Introduction =
+The Süskind Framework is designed to be easy to install, and easy to use and work with it. Naturally, because it's a web server program, you need [http://www.apache.org/ Apache] server and [http://php.net PHP] to do anything with it. You can choose any of the handled database engines to use database for SF. (See: Databases)
+Also if you install any other modules, then you have to check it's requirements, in that case, may be you should install other things.
+
+= Installation =
+First of all, get the source code form SVN.
 {{{
  # Non-members may check out a read-only working copy anonymously over HTTP.
 svn checkout http://suskind.googlecode.com/svn/trunk/ suskind-read-only
 }}}
-The Süskind Framework is designed to be easy to install, and easy to use and work with it. Naturally, because it's a web server program, you need Apache server and PHP to do anything with it. You can choose any of the handled database engines to use database for SF. Also if you install any other modules, then you have to check it's requirements, in that case, may be you should install other things.
-SF is - as the web servers generally - is platform independent, but mostly used on Linux, so we just telling instructions on Linux. (If anybody use it on Windows 2000/XP/Vista/7 or whatever, then feel free to comment it to this article or send a letter to us, to upgrade this article.)
-
-= Details =
-Süskind engine is very easy to set up. It doesn't require any file to run, or special settings.
-You only have to create symlinks:
- * Apps/your_app_name/Public > path_to_wwwroot/your_app_name
- * Apps/your_app_name/Lib > path_to_suskind_root
+After it's downloaded, you just have to create two symlinks, therefore you just need a terminal.
+{{{
+ # Symlink Application to WWW
+ ~$ ln -s /var/www/test ./suskind-read-only/Apps/Test/Public
+ # Symlink Library to Süskind
+ ~$ ln -s ./suskind-read-only/Apps/Test/Library ./suskind-read-only/Suskind
+}}}
+Please take attention with your symlink creations, they works only if the structure is the same as it's written. You can check your results, if you open a browser, and go to:
+{{{
+http://localhost/test/
+}}}
