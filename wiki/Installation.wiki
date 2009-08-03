@@ -1,4 +1,5 @@
 #summary Installation instructions for Süskind Framework.
+#labels Phase-Implementation,Phase-Deploy
 
 = Introduction =
 The Süskind Framework is designed to be easy to install, and easy to use and work with it. Naturally, because it's a web server program, you need Apache server and PHP to do anything with it. You can choose any of the handled database engines to use database for SF. Also if you install any other modules, then you have to check it's requirements, in that case, may be you should install other things.
