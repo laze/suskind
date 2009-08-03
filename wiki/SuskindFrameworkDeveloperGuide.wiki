@@ -1,0 +1,5 @@
+#summary The whole documentation of the Süskind Framework.
+
+= Introduction to Süskind Framework =
+== Overview ==
+== Installation ==
