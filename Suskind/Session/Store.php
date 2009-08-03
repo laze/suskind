@@ -14,11 +14,27 @@
  * @since       0.1
  * @version
  */
-class Suskind_Session_Store extends Suskind_Resource_File {
-	public function __construct($host, $name) {
-		$this->host = $host;
-		$this->name = $name;
+class Suskind_Session_Store implements Suskind_Resource_Session {
+
+	public function __get(string $name) {
 	}
+
+	public function setEnvironment() {
+		var_dump(get_object_vars(Suskind_Session_Session));
+	}
+
+	public function setHost(string $host) {
+		;
+	}
+
+	public function connect() {
+		;
+	}
+
+	public function disconnect() {
+		;
+	}
+	
 	public function destroy() {
 		return (true);
 	}
