@@ -2,6 +2,10 @@
 #labels Phase-Implementation,Phase-Deploy
 
 = Introduction =
+{{{
+ # Non-members may check out a read-only working copy anonymously over HTTP.
+svn checkout http://suskind.googlecode.com/svn/trunk/ suskind-read-only
+}}}
 The Süskind Framework is designed to be easy to install, and easy to use and work with it. Naturally, because it's a web server program, you need Apache server and PHP to do anything with it. You can choose any of the handled database engines to use database for SF. Also if you install any other modules, then you have to check it's requirements, in that case, may be you should install other things.
 SF is - as the web servers generally - is platform independent, but mostly used on Linux, so we just telling instructions on Linux. (If anybody use it on Windows 2000/XP/Vista/7 or whatever, then feel free to comment it to this article or send a letter to us, to upgrade this article.)
 
