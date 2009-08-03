@@ -18,6 +18,8 @@ class Suskind_Session_Session implements Suskind_Session_Interface {
 		else self::$store = new Suskind_Session_Store();
 
 		self::$path = $sessionPath;
+
+		self::$store->setEnvironment();
 		return (true);
 	}
 
@@ -27,7 +29,7 @@ class Suskind_Session_Session implements Suskind_Session_Interface {
 	}
 
 	public static function read($sessionId) {
-		return (string) @file_get_contents(self::$path.'/sess_'.$sessionId);
+		return (string) self::$store->read($sessionId);
 	}
 
 	public static function write($id, $sess_data) {
