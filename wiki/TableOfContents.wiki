@@ -2,3 +2,6 @@
   * [Manual Manual]
     * [Overview Overview]
     * [Installation Installation]
+    * [Reference Reference]
+    * [Features Features]
+      * [SessionHandling Session Handling]
