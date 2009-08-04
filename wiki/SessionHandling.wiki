@@ -3,5 +3,5 @@
 A good web page handles sessions by default, but it depends on the usage environment, that what we have to store in or where we have to store the session. Naturally, SF take over the session handling from PHP's built in session handler, and give a very powerful possibility to store your own session wherever you want.
 === Details ===
 ==== Framework ====
-As it is defined in [http://php.net/manual/en/function.session-set-save-handler.php PHP documentation] SF achieve these methods in `Suskind_Session_Session` class.
+As it is defined in [http://php.net/manual/en/function.session-set-save-handler.php PHP documentation], SF achieve these methods in `Suskind_Session_Session` class.
 ==== Plugin ====
