@@ -1,4 +1,12 @@
-#summary Süskind Framework's developer manual
+#sidebar TableOfContents
+  * [Articles HOWTO articles]
+    * [ArticlesXSS Web security]
+    * [ArticlesDom DOM manipulation]
+    * [ArticlesStyle CSS and style]
+    * [ArticlesTips Tips and tricks]
+  * [DOMReference DOM reference]
+  * [HTMLElements HTML reference]
+  * [CSSReference CSS reference]
 <wiki:toc max_depth="2" />
 = Overview =
 This is the developer manual of Süskind Framework. In this document yo can get every informations about SF, to be able to use it for your work.
