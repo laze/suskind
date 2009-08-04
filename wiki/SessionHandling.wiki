@@ -4,4 +4,10 @@ A good web page handles sessions by default, but it depends on the usage environ
 === Details ===
 ==== Framework ====
 As it is defined in [http://php.net/manual/en/function.session-set-save-handler.php PHP documentation], SF achieve these methods in `Suskind_Session_Session` class.
+{{{
+Suskind_Session_Session {
+
+    boolean open(string sessionPath, string sessionName)
+}
+}}}
 ==== Plugin ====
