@@ -16,5 +16,5 @@ Suskind_Session_Session {
     boolean garbageCollector(int maxLifetime)
 }
 }}}
-This class - as it shown - has a `store` property, what is an object to store session data, and via `read` and `write` methods calls the session the `store` object's methods.
+The `Ses
 ==== Plugin ====
