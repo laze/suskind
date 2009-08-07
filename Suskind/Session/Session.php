@@ -18,8 +18,7 @@ class Suskind_Session_Session implements Suskind_Session_Interface {
 		else self::$store = new Suskind_Session_Store();
 
 		self::$path = $sessionPath;
-
-		self::$store->setEnvironment();
+		self::$store->setEnvironment(func_get_args());
 		return (true);
 	}
 

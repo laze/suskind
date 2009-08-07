@@ -15,7 +15,7 @@
  * @since       0.1
  * @version
  */
-abstract class Suskind_Resource_Database_Resource extends Suskind_Resource_Resource {
+abstract class Suskind_Resource_Database_Resource extends Suskind_Resource_Remote {
 	/**
 	 * The name of the database.
 	 *

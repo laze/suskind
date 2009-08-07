@@ -16,7 +16,7 @@
  * @version
  */
 interface Suskind_Resource_Session extends Suskind_Resource_Interface {
-	public function setEnvironment();
+	public function setEnvironment(array $parameters);
 
 	public function destroy();
 }

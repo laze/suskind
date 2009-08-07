@@ -15,23 +15,33 @@
  * @version
  */
 class Suskind_Session_Store implements Suskind_Resource_Session {
+	/**
+	 * Path to the session file.
+	 * @var string 
+	 */
+	private $path;
 
 	public function __get(string $name) {
 	}
 
-	public function setEnvironment() {
-		var_dump(get_object_vars(Suskind_Session_Session));
+	public function setEnvironment(array $parameters) {
+		$this->setPath($parameters[0]);
+		$this->name = $parameters[1];
 	}
 
-	public function setHost(string $host) {
+	public function setPath($path) {
+		$this->path = $path;
+	}
+
+	public function setName($name) {
 		;
 	}
 
-	public function connect() {
+	public function open() {
 		;
 	}
 
-	public function disconnect() {
+	public function close() {
 		;
 	}
 	
