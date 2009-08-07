@@ -17,50 +17,28 @@
  */
 class Suskind_Resource_Resource implements Suskind_Resource_Interface {
 	/**
-	 * PHP' inside resource pointer.
+	 * The path of the local resource.
 	 *
-	 * @var object
+	 * @var string 
 	 */
-	protected $connector;
-
-	/**
-	 * The DSN specifies the path to given resource.
-	 *
-	 * @var string
-	 */
-	protected $dsn;
-
-	/**
-	 * It's a readonly property, handled by the __get overload function.
-	 * Returns true, if the resource is connected, false if not.
-	 *
-	 * @var boolean
-	 */
-	protected $connected;
-
-	/**
-	 * Host name.
-	 *
-	 * @var string
-	 */
-	protected $host;
-
+	protected $path;
 	/**
 	 * Oveload function to get properties.
 	 *
 	 * @param string $name
 	 */
 	public function __get(string $name) {
+		return $this->$name;
 	}
 
-	public function setHost(string $host) {
-		$this->host = $host;
+	public function setPath(string $path) {
+		$this->path = $path;
 	}
 
 	/**
 	 * Connect to the
 	 */
-	public function connect() {
+	public function open() {
 	}
 
 	/**
@@ -68,7 +46,7 @@ class Suskind_Resource_Resource implements Suskind_Resource_Interface {
 	 *
 	 * @return void
 	 */
-	public function disconnect() {
+	public function close() {
 	}
 }
 

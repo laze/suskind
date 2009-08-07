@@ -24,19 +24,19 @@ interface Suskind_Resource_Interface {
 	 */
 	public function __get(string $name);
 
-	public function setHost(string $host);
+	public function setPath($path);
 
 	/**
 	 * Connect to the
 	 */
-	public function connect();
+	public function open();
 	
 	/**
 	 * Disconnect from the resource.
 	 *
 	 * @return void
 	 */
-	public function disconnect();
+	public function close();
 }
 
 ?>
