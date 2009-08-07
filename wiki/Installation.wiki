@@ -10,6 +10,9 @@ svn checkout http://suskind.googlecode.com/svn/trunk/ suskind-read-only
 }}}
 After it's downloaded, you don't have to do anything with it.
 === Create an application ===
+----
+  This information is only for testing, later we would like to ad an application creator wizard.
+----
 To create an application, you just have to create two symlinks, therefore you just need a terminal.
 {{{
  # Symlink Application to WWW
