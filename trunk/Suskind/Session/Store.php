@@ -37,6 +37,22 @@ class Suskind_Session_Store implements Suskind_Resource_Session {
 		;
 	}
 
+	public function setId($id) {
+		;
+	}
+
+	public function getId() {
+		;
+	}
+
+	public function read() {
+	
+	}
+
+	public function write($data) {
+		
+	}
+
 	public function open() {
 		;
 	}
