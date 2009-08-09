@@ -37,6 +37,21 @@ interface Suskind_Resource_Interface {
 	 * @return void
 	 */
 	public function close();
+
+	/**
+	 * Read data, what is stored in resource.
+	 *
+	 * @return mixed
+	 */
+	public function read();
+
+	/**
+	 * Write to the resource.
+	 *
+	 * @param mixed
+	 * @return boolean
+	 */
+	public function write($data);
 }
 
 ?>
