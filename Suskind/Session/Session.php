@@ -28,17 +28,20 @@ class Suskind_Session_Session implements Suskind_Session_Interface {
 	}
 
 	public static function read($sessionId) {
-		return (string) self::$store->read($sessionId);
+		if(self::$store->getId() !== $sessionId) self::$store->setId($sessionId);
+		return (string) self::$store->read();
 	}
 
-	public static function write($id, $sess_data) {
-		if ($fp = @fopen(self::$path.'/sess_'.$id, "w")) {
-			$return = fwrite($fp, $sess_data);
-			fclose($fp);
-			return $return;
-		} else {
-			return(false);
-		}
+	public static function write($sessionId, $sessionData) {
+		if(self::$store->getId() !== $sessionId) self::$store->setId($sessionId);
+		return self::$store->write($sessionData);
+//		if ($fp = @fopen(self::$path.'/sess_'.$sessionId, "w")) {
+//			$return = fwrite($fp, $sessionData);
+//			fclose($fp);
+//			return $return;
+//		} else {
+//			return(false);
+//		}
 	}
 
 	public static function destroy($id) {
