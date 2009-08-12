@@ -22,9 +22,9 @@ interface Suskind_Session_Interface {
 
 	public static function read($sessionId);
 
-	public static function write($id, $sess_data);
+	public static function write($sessionId, $sessionData);
 
-	public static function destroy($id);
+	public static function destroy($sessionId);
 
 	public static function garbageCollector($maxlifetime);
 }

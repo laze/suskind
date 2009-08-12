@@ -4,7 +4,7 @@
  */
 
 /**
- * Suskind_Session_Store class
+ * Suskind_Resource_Session_Store class
  *
  * @package     Suskind
  * @package     Session
@@ -14,7 +14,7 @@
  * @since       0.1
  * @version
  */
-class Suskind_Session_Store implements Suskind_Resource_Session {
+class Suskind_Resource_Session_Store implements Suskind_Resource_Session_Interface {
 	/**
 	 * Path to the session file.
 	 * @var string 
@@ -37,20 +37,16 @@ class Suskind_Session_Store implements Suskind_Resource_Session {
 		;
 	}
 
-	public function setId($id) {
-		;
-	}
-
-	public function getId() {
-		;
-	}
-
 	public function read() {
-	
+		return (string) @file_get_contents($this->path.'/sess_'.Suskind_System::SESSION_ID);
 	}
 
-	public function write($data) {
-		
+	public function write($sessionData) {
+		if ($fp = @fopen($this->path.'/sess_'.Suskind_System::SESSION_ID, "w")) {
+			$return = fwrite($fp, $sessionData);
+			fclose($fp);
+			return $return;
+		} else return(false);
 	}
 
 	public function open() {
