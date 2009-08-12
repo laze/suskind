@@ -33,7 +33,10 @@ class Suskind_Session_Session implements Suskind_Session_Interface {
 	}
 
 	public static function write($sessionId, $sessionData) {
-		if ($sessionId == Suskind_System::SESSION_ID) return self::$store->write($_SESSION);
+		echo('<pre>write');
+		var_dump(session_encode(), unserialize(session_encode()),serialize(array('visit'=>1)));
+		if ($sessionId == Suskind_System::SESSION_ID) return self::$store->write();
+		echo('</pre>');
 	}
 
 	public static function destroy($id) {

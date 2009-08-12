@@ -10,7 +10,7 @@
  * @author Balazs Ercsey <laze@laze.hu>
  */
 final class Suskind_System {
-	const SESSION_ID = 'SUSKINDSESS';
+	const SESSION_ID = 'SUSKINDSESSID';
     /**
      * @var Suskind_Loader Singleton instance
      */
