@@ -42,6 +42,8 @@ class Suskind_Resource_Session_Store implements Suskind_Resource_Session_Interfa
 	}
 
 	public function write($sessionData) {
+
+		var_dump($sessionData);
 		if ($fp = @fopen($this->path.'/sess_'.Suskind_System::SESSION_ID, "w")) {
 			$return = fwrite($fp, $sessionData);
 			fclose($fp);
