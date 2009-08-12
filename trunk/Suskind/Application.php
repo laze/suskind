@@ -43,11 +43,11 @@ final class Suskind_Application {
      */
     public function __construct() {
 			//- Set application and system paths.
-		$_ENV['PATH_APPLICATION'] = realpath('../');
-		$_ENV['PATH_SYSTEM'] = realpath('../Library/../');
+		$_ENV['PATH_APPLICATION'] = realpath('..'.DIRECTORY_SEPARATOR);
+		$_ENV['PATH_SYSTEM'] = realpath('..'.DIRECTORY_SEPARATOR.'Library'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR);
 
 			//- Gets the Fountain, the most important class of the SF.
-		require_once $_ENV['PATH_SYSTEM'].'/Suskind/Fountain.php';
+		require_once $_ENV['PATH_SYSTEM'].DIRECTORY_SEPARATOR.'Suskind'.DIRECTORY_SEPARATOR.'Fountain.php';
 		$this->fountain = new Suskind_Fountain();
 		echo('<a href="#">Klikk hír!</a>');
 	}

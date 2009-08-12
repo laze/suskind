@@ -10,6 +10,7 @@
  * @author Balazs Ercsey <laze@laze.hu>
  */
 final class Suskind_System {
+	const SESSION_ID = 'SUSKINDSESS';
     /**
      * @var Suskind_Loader Singleton instance
      */
@@ -70,6 +71,7 @@ final class Suskind_System {
 		if($this->registry->checkKey(__CLASS__) === true) foreach ($this->registry->getSettings(__CLASS__) as $varname => $value) ini_set($varname, $value);
 
 		session_set_save_handler(array('Suskind_Session_Session', 'open'), array('Suskind_Session_Session', 'close'), array('Suskind_Session_Session', 'read'), array('Suskind_Session_Session', 'write'), array('Suskind_Session_Session', 'destroy'), array('Suskind_Session_Session', 'garbageCollector'));
+		session_id(Suskind_System::SESSION_ID);
 		session_start();
 
 		$_SESSION['visit'] ++;

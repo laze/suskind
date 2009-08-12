@@ -5,7 +5,7 @@
  */
 
 /**
- * Suskind_Resource_Session class
+ * Suskind_Resource_Session interface
  *
  * @package     Suskind
  * @package     Resources
@@ -15,13 +15,9 @@
  * @since       0.1
  * @version
  */
-interface Suskind_Resource_Session extends Suskind_Resource_Interface {
+interface Suskind_Resource_Session_Interface extends Suskind_Resource_Interface {
 	public function setEnvironment(array $parameters);
 
 	public function destroy();
-
-	public function setId($id);
-
-	public function getId();
 }
 ?>
