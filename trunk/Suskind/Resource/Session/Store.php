@@ -30,7 +30,7 @@ class Suskind_Resource_Session_Store implements Suskind_Resource_Session_Interfa
 	}
 
 	public function setPath($path) {
-		$this->path = $path;
+        $this->path = (strlen($path) > 0) ? $path : $_ENV['PATH_SYSTEM'].DIRECTORY_SEPARATOR.'Suskind'.DIRECTORY_SEPARATOR.'Log';
 	}
 
 	public function setName($name) {
@@ -42,13 +42,11 @@ class Suskind_Resource_Session_Store implements Suskind_Resource_Session_Interfa
 	}
 
 	public function write($sessionData) {
-
-		var_dump($sessionData);
-		if ($fp = @fopen($this->path.'/sess_'.Suskind_System::SESSION_ID, "w")) {
-			$return = fwrite($fp, $sessionData);
+ 		if ($fp = @fopen($this->path.'/sess_'.Suskind_System::SESSION_ID, 'w')) {
+			$return = fwrite($fp, $sessionData['encodedData']);
 			fclose($fp);
 			return $return;
-		} else return(false);
+		} else throw new Suskind_Exception_File_PermissionDenied($this->path.'/sess_'.Suskind_System::SESSION_ID);
 	}
 
 	public function open() {

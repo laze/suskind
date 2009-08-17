@@ -69,12 +69,14 @@ final class Suskind_System {
 
 	private function setEnvironment() {
 		if($this->registry->checkKey(__CLASS__) === true) foreach ($this->registry->getSettings(__CLASS__) as $varname => $value) ini_set($varname, $value);
-
+        /**
+         * Session settings
+         */
 		session_set_save_handler(array('Suskind_Session_Session', 'open'), array('Suskind_Session_Session', 'close'), array('Suskind_Session_Session', 'read'), array('Suskind_Session_Session', 'write'), array('Suskind_Session_Session', 'destroy'), array('Suskind_Session_Session', 'garbageCollector'));
 		session_id(Suskind_System::SESSION_ID);
 		session_start();
 
-		$_SESSION['visit'] ++;
+		$_SESSION['akarni'] ++;
 
 		var_dump($_SESSION);
 	}
@@ -85,6 +87,14 @@ final class Suskind_System {
 
 	public static function getPHPinfo() {
 		phpinfo();
+	}
+
+	public function getModel() {
+
+	}
+
+	public function getView() {
+		
 	}
 }
 

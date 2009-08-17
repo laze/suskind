@@ -61,8 +61,9 @@ class Suskind_Router {
 	 * @return void
 	 */
 	public function parseRoute() {
-		$this->referrerRequestURI = (array_key_exists('HTTP_REFERER', $_REQUEST) && isset ($_REQUEST['HTTP_REFERER'])) ? array_values(array_diff(split( '[\?\/]', $_SERVER['HTTP_REFERER']), split( '[\?\/]', $_SERVER['SCRIPT_NAME']))) : null;
-		$this->originalRequestURI = array_values(array_diff(split( '[\?\/]', $_SERVER['REQUEST_URI']), split( '[\?\/]', $_SERVER['SCRIPT_NAME'])));
+		$this->referrerRequestURI = (isset ($_SERVER['HTTP_REFERER'])) ? array_values(array_diff(split( '[\?\/]', $_SERVER['HTTP_REFERER']), split( '[\?\/]', $_SERVER['SCRIPT_NAME']))) : null;
+		$this->originalRequestURI = array_values(array_diff(explode( '[\?\/]', $_SERVER['REQUEST_URI']), explode( '[\?\/]', $_SERVER['SCRIPT_NAME'])));
+		$this->forwardRequestURI = (isset ($_REQUEST['url'])) ? array_values(array_diff(split( '[\?\/]', $_REQUEST['url']), split( '[\?\/]', $_SERVER['SCRIPT_NAME']))) : null;
 			//- Check in routes to replace request if neccesary.
 		$routersMatch = array_values(array_intersect(array_values($this->originalRequestURI), array_keys($this->routes)));
 		if (sizeof($routersMatch) > 0) $this->originalRequestURI = split( '[\?\/]', $this->routes[$routersMatch[0]]);
@@ -92,7 +93,6 @@ class Suskind_Router {
 	 * @return array
 	 */
 	public function getRoute() {
-//		var_dump( $this->originalRequestURI);
 		return $this->originalRequestURI;
 	}
 
