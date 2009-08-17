@@ -9,8 +9,6 @@
  * @author Balazs Ercsey <laze@laze.hu>
  */
 class Suskind_Session_Session implements Suskind_Session_Interface {
-	private static $path;
-	private static $session = array();
 	private static $store = null;
 
 	public static function open($sessionPath, $sessionName) {
@@ -18,7 +16,6 @@ class Suskind_Session_Session implements Suskind_Session_Interface {
 			if (class_exists('Application_Plugin_Session_Store')) self::$store = new Application_Plugin_Session_Store();
 			else self::$store = new Suskind_Resource_Session_Store();
 		}
-		self::$path = $sessionPath;
 		self::$store->setEnvironment(func_get_args());
 		return (true);
 	}
@@ -33,10 +30,26 @@ class Suskind_Session_Session implements Suskind_Session_Interface {
 	}
 
 	public static function write($sessionId, $sessionData) {
-		echo('<pre>write');
-		var_dump(session_encode(), unserialize(session_encode()),serialize(array('visit'=>1)));
-		if ($sessionId == Suskind_System::SESSION_ID) return self::$store->write();
-		echo('</pre>');
+		/*
+		$variables = explode(';',session_encode());
+		foreach ($variables as $variable) {
+			$var = explode('|', $variable);
+			if (sizeof($var) > 1) {
+				$names[] = $var[0];
+				if (substr($var[1],0,2) == 's:') $data[] = str_replace('"', '', strstr($var[1], '"'));
+				else $data[] = substr($var[1], 2);
+			}
+		}
+		if ($sessionId == Suskind_System::SESSION_ID) return self::$store->write(array_combine($names, $data));
+		 * 
+		 */
+        if ($sessionId == Suskind_System::SESSION_ID) return self::$store->write(array(
+			'clientIP'		=> $_SERVER['REMOTE_ADDR'],
+			'clientStamp'	=> time(),
+			'clientAuth'	=> self::isAuthenticated(),
+			'clientTrust'	=> false,
+			'encodedData'	=> $sessionData
+        ));
 	}
 
 	public static function destroy($id) {
@@ -56,5 +69,19 @@ class Suskind_Session_Session implements Suskind_Session_Interface {
 		}
 		return true;
 	}
+
+	private static function isAuthenticated() {
+		return false;
+	}
+	
+	private static function needAuthentication() {
+		return false;
+	}
+
+	private static function checkAuthenticated() {
+		if (!self::isAuthenticated() && self::needAuthentication()) echo('be köllessen lépni!');
+		else return true;
+	}
 }
+
 ?>

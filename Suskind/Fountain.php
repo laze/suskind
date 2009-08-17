@@ -53,19 +53,22 @@ final class Suskind_Fountain {
 	}
 
 	public function initApplication(Suskind_Application $application) {
-		/*
-		$application->model = $this->system->router->getModel();
-		$application->view = (is_null($this->system->router->getView())) ? $application->model->getDefaultView() : $this->system->router->getView();
+		$application->setModel($this->system->getModel());
+		$application->setView($this->system->getView());
 
 		$this->render = $this->setRender();
-		 *
-		 */
+
+		return (is_null($this->system->getView())) ? $this->renderPlatformDefaultView() : $application->compileView();
 	}
 
 	public function renderApplication() {
 		if (!Suskind_System::isAjax()) $this->render->setTemplate();
 			//- At least... :)
 		$this->render->show();
+	}
+
+	public function renderPlatformDefaultView() {
+		
 	}
 
 	public static function renderApplicationDefaultView() {

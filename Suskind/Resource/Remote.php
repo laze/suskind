@@ -5,7 +5,7 @@
  */
 
 /**
- * Suskind_Resource_Resource class
+ * Suskind_Resource_Remote class
  *
  * @package     Suskind
  * @package     Resources
@@ -44,14 +44,6 @@ class Suskind_Resource_Remote extends Suskind_Resource_Resource {
 	 * @var string
 	 */
 	protected $host;
-
-	/**
-	 * Oveload function to get properties.
-	 *
-	 * @param string $name
-	 */
-	public function __get(string $name) {
-	}
 
 	public function setHost(string $host) {
 		$this->host = $host;

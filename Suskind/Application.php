@@ -56,16 +56,16 @@ final class Suskind_Application {
 		return $this->fountain->initApplication($this);
 	}
 
-	public function run() {
-		//echo('dfsdef');
-		/*
-        try {
-			$this->fountain->renderApplication();
-        } catch(Suskind_Exception $exception) {
-			Suskind_Render_Html::showError($exception);
-        }
-		 * 
-		 */
+	public function setModel() {
+		
+	}
+	
+	public function setView() {
+		;
+	}
+	
+	public function compileView() {
+		;
 	}
 }
 
