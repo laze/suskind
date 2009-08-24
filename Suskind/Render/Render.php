@@ -25,13 +25,13 @@ class Suskind_Render_Render implements Suskind_Render_Interface {
 	 * 
 	 * @var array 
 	 */
-	private $assigns;
+	protected $assigns;
 
 	public function assign($variableName, $variableValue, $variableModification = null) {
 		$this->assigns[$variableName] = array(
 			'value' => $variableValue,
 			'modification' => $variableModification,
-			'compiled' => call_user_func($variableModification, $variableValue)
+			'compiled' => (!is_null($variableModification)) ? call_user_func($variableModification, $variableValue) : null
 		);
 	}
 

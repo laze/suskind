@@ -5,7 +5,7 @@
  */
 
 /**
- * Suskind_View_Interface interface
+ * Suskind_View_Static_Interface interface
  *
  * @package     Suskind
  * @package     View
