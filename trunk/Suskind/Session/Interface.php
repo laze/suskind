@@ -15,6 +15,7 @@
  * @version
  */
 interface Suskind_Session_Interface {
+	public static function start();
 
 	public static function open($sessionPath, $sessionName);
 

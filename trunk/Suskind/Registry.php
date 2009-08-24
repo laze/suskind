@@ -45,11 +45,19 @@ class Suskind_Registry {
 		return self::$instance;
 	}
 
-
 	public static function getSettings($key) {
 		if (array_key_exists($key, self::getInstance()->registry)) return self::getInstance()->registry[$key];
 		elseif (array_key_exists('Suskind_Application_'.ucfirst($key), self::getInstance()->registry)) return self::getInstance()->registry['Suskind_Application_'.ucfirst($key)];
 		else return;
+	}
+
+	public static function getApplicationSettings() {
+		$applicationSettings = array();
+
+		foreach (self::getInstance()->registry as $key => $settings) {
+			if (substr($key, 0, 19) == 'Suskind_Application') $applicationSettings[$key] = $settings;
+		}
+		return $applicationSettings;
 	}
 
 	public static function checkKey($key) {

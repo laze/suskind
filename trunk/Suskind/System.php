@@ -39,11 +39,7 @@ final class Suskind_System {
 	 * @return void
 	 */
 	protected function __construct() {
-		$this->registry = Suskind_Registry::getInstance();
-		$this->setEnvironment();
-		
-		$this->router = Suskind_Router::getInstance();
-		$this->router->parseRoute();
+;
 
 //		Suskind_Session_Session::start();
 	}
@@ -68,17 +64,7 @@ final class Suskind_System {
 	}
 
 	private function setEnvironment() {
-		if($this->registry->checkKey(__CLASS__) === true) foreach ($this->registry->getSettings(__CLASS__) as $varname => $value) ini_set($varname, $value);
-        /**
-         * Session settings
-         */
-		session_set_save_handler(array('Suskind_Session_Session', 'open'), array('Suskind_Session_Session', 'close'), array('Suskind_Session_Session', 'read'), array('Suskind_Session_Session', 'write'), array('Suskind_Session_Session', 'destroy'), array('Suskind_Session_Session', 'garbageCollector'));
-		session_id(Suskind_System::SESSION_ID);
-		session_start();
 
-		$_SESSION['akarni'] ++;
-
-		var_dump($_SESSION);
 	}
 
 	public static function isAjax() {
@@ -90,11 +76,16 @@ final class Suskind_System {
 	}
 
 	public function getModel() {
+		var_dump($this->router->getModel());
 
 	}
 
 	public function getView() {
-		
+		return false;
+	}
+
+	public function getRegistry() {
+		return $this->registry->getApplicationSettings();
 	}
 }
 

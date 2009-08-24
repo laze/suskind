@@ -11,6 +11,12 @@
 class Suskind_Session_Session implements Suskind_Session_Interface {
 	private static $store = null;
 
+	public static function start() {
+		session_set_save_handler(array('Suskind_Session_Session', 'open'), array('Suskind_Session_Session', 'close'), array('Suskind_Session_Session', 'read'), array('Suskind_Session_Session', 'write'), array('Suskind_Session_Session', 'destroy'), array('Suskind_Session_Session', 'garbageCollector'));
+		session_id(Suskind_Fountain::SESSION_ID);
+		session_start();
+	}
+
 	public static function open($sessionPath, $sessionName) {
 		if (is_null(self::$store)) {
 			if (class_exists('Application_Plugin_Session_Store')) self::$store = new Application_Plugin_Session_Store();
