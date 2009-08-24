@@ -9,9 +9,10 @@
 require_once realpath('../Library').'/Application.php';
 
 $application = new Suskind_Application();
-$application->init()
-			->show();
+$application->run();
 
+$_SESSION['visit']++;
+var_dump($_SESSION);
 
 //// Define path to application directory
 //defined('APPLICATION_PATH')
