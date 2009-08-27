@@ -44,29 +44,52 @@ final class Suskind_Fountain {
 		try {
 				//- Include the Suskind_Loader class to define automatic loader methods.
 			require_once $_ENV['PATH_SYSTEM'].DIRECTORY_SEPARATOR.'Suskind'.DIRECTORY_SEPARATOR.'Loader.php';
+			echo('1');
 			$this->loader = Suskind_Loader::getInstance();
+			echo('2');
 			$this->registry = Suskind_Registry::getInstance();
+			echo('3');
 			if ($this->registry->checkKey('Suskind_System') === true) foreach ($this->registry->getSettings('Suskind_System') as $variable => $value) ini_set($variable, $value);
+			echo '4';
 				//- Starting session...
 			Suskind_Session_Session::start();
+			echo('5');
 				//- Get routes...
+			echo('are you here?');
 			$this->router = Suskind_Router::getInstance();
 		} catch (Suskind_Exception $exception) {
 			$exception->show();
 		}
+		return;
+	}
+
+	public function  __callStatic($method, $arguments) {
+		switch ($method) {
+			case 'isAJAX':
+				return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest');
+				break;
+			case 'getDefaultRender':
+				return (self::isAjax()) ? new Suskind_Render_Json() : new Suskind_Render_Html();
+				break;
+			case 'getPHPInfo':
+				phpinfo();
+				break;
+		}
 	}
 
 	public function initApplication(Suskind_Application $application) {
-		$application->setModel($this->router->getModel());
-		if ($this->router->getView() !== false) {
-			$application->setView($this->router->getView());
-			return $application->compileView();
-		} else {
-			if ($application->getDefaultView() !== false) {
-				$application->getDefaultView();
+		echo("init app.");
+		if ($this->router->getModel() !== false) {
+			$application->setModel($this->router->getModel());
+			if ($this->router->getView() !== false) {
+				$application->setView($this->router->getView());
 				return $application->compileView();
-			} else return new Suskind_View_Static_Default();
+			}
 		}
+		if ($application->getDefaultView() !== false) {
+			$application->getDefaultView();
+			return $application->compileView();
+		} else return new Suskind_View_Static_Default();
 	}
 
 	public function renderApplication() {
@@ -80,13 +103,8 @@ final class Suskind_Fountain {
 		if (sizeof($request)) call_user_method($request[1], $request[0]);
 	}
 
-	private function setRender() {
-		if (Suskind_System::isAjax()) return new Suskind_Render_Json();
-		else return new Suskind_Render_Html();
-	}
-
-	public function getRegistry() {
-		return $this->system->getRegistry();
+	public function getApplicationSettings() {
+		return Suskind_Registry::getApplicationSettings();
 	}
 }
 

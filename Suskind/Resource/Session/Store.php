@@ -38,15 +38,15 @@ class Suskind_Resource_Session_Store implements Suskind_Resource_Session_Interfa
 	}
 
 	public function read() {
-		return (string) @file_get_contents($this->path.'/sess_'.Suskind_System::SESSION_ID);
+		return (string) @file_get_contents($this->path.'/sess_'.Suskind_Fountain::SESSION_ID);
 	}
 
 	public function write($sessionData) {
- 		if ($fp = @fopen($this->path.'/sess_'.Suskind_System::SESSION_ID, 'w')) {
+ 		if ($fp = @fopen($this->path.'/sess_'.Suskind_Fountain::SESSION_ID, 'w')) {
 			$return = fwrite($fp, $sessionData['encodedData']);
 			fclose($fp);
 			return $return;
-		} else throw new Suskind_Exception_File_PermissionDenied($this->path.'/sess_'.Suskind_System::SESSION_ID);
+		} else throw new Suskind_Exception_File_PermissionDenied($this->path.'/sess_'.Suskind_Fountain::SESSION_ID);
 	}
 
 	public function open() {

@@ -14,7 +14,7 @@ class Suskind_Session_Session implements Suskind_Session_Interface {
 	public static function start() {
 		session_set_save_handler(array('Suskind_Session_Session', 'open'), array('Suskind_Session_Session', 'close'), array('Suskind_Session_Session', 'read'), array('Suskind_Session_Session', 'write'), array('Suskind_Session_Session', 'destroy'), array('Suskind_Session_Session', 'garbageCollector'));
 		session_id(Suskind_Fountain::SESSION_ID);
-		session_start();
+		if (session_start() === false) throw new Suskind_Exception_Session_Start();
 	}
 
 	public static function open($sessionPath, $sessionName) {
@@ -32,7 +32,7 @@ class Suskind_Session_Session implements Suskind_Session_Interface {
 	}
 
 	public static function read($sessionId) {
-		if ($sessionId == Suskind_System::SESSION_ID) return (string) self::$store->read();
+		if ($sessionId == Suskind_Fountain::SESSION_ID) return (string) self::$store->read();
 	}
 
 	public static function write($sessionId, $sessionData) {
@@ -49,7 +49,7 @@ class Suskind_Session_Session implements Suskind_Session_Interface {
 		if ($sessionId == Suskind_System::SESSION_ID) return self::$store->write(array_combine($names, $data));
 		 * 
 		 */
-        if ($sessionId == Suskind_System::SESSION_ID) return self::$store->write(array(
+        if ($sessionId == Suskind_Fountain::SESSION_ID) return self::$store->write(array(
 			'clientIP'		=> $_SERVER['REMOTE_ADDR'],
 			'clientStamp'	=> time(),
 			'clientAuth'	=> self::isAuthenticated(),
