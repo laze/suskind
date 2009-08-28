@@ -42,7 +42,6 @@ final class Suskind_Application {
      * @todo: Check wether is included via include_path or via regular path.
      */
     public function __construct() {
-		echo "sallala";
 //		ob_start();
 			//- Set application and system paths.
 		$_ENV['PATH_APPLICATION'] = realpath('..'.DIRECTORY_SEPARATOR);
@@ -52,7 +51,10 @@ final class Suskind_Application {
 			//- Gets the Fountain, the most important class of the SF.
 		require_once $_ENV['PATH_SYSTEM'].DIRECTORY_SEPARATOR.'Suskind'.DIRECTORY_SEPARATOR.'Fountain.php';
 		$this->fountain = new Suskind_Fountain();
-		var_dump($this->fountain->initApplication($this));
+	}
+
+	public function init() {
+		return $this->fountain->initApplication($this);
 	}
 
 	public function setModel(Suskind_Model $model) {

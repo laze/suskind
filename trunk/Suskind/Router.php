@@ -36,7 +36,7 @@ class Suskind_Router {
 	 * @var array
 	 */
 	private $routes = array(
-		'info' => 'Suskind_System/getPHPinfo'
+		'info' => 'Suskind_Fountain/getPHPInfo'
 	);
 
 	/**
@@ -77,20 +77,23 @@ class Suskind_Router {
 			 * If there are neither valid model nor valid view, then throw an
 			 * exception.
 			 */
-        if (sizeof($this->originalRequestURI) > 1) {
-			if (class_exists($this->originalRequestURI[0])) {
-				if (is_subclass_of($this->originalRequestURI[0], 'Suskind_Model')) {
-					$this->model = $this->originalRequestURI[0];
-					$this->view = (is_subclass_of($this->originalRequestURI[1], 'Suskind_View')) ? $this->originalRequestURI[1] : null;
-				} else {
-					$this->model = null;
-				}
-			} else throw new Suskind_Exception_Router_NotValidModel($this->originalRequestURI[0]);
+		if (sizeof($this->originalRequestURI) < 1) return false;
+		try {
+			if ($this->originalRequestURI[0] == 'Suskind_Fountain') call_user_func($this->originalRequestURI);
+			if ($this->originalRequestURI[0] == 'sf') {
+				$fileRequest = str_replace('sf', $_ENV['PATH_SYSTEM'].DIRECTORY_SEPARATOR.'Suskind'.DIRECTORY_SEPARATOR.'Assets', implode(DIRECTORY_SEPARATOR, $this->originalRequestURI));
+				header('Content-type: '.mime_content_type($fileRequest));
+				readfile($fileRequest);
+			}
+			$this->model = (is_subclass_of($this->originalRequestURI[0], 'Suskind_Model')) ? $this->originalRequestURI[0] : null;
+			$this->view = (is_subclass_of($this->originalRequestURI[1], 'Suskind_View')) ? $this->originalRequestURI[1] : null;
+			return true;
+		} catch (Exception $excpetion) {
+			/**
+			 * @todo: Create a valid exception for this.
+			 */
+			throw new Suskind_Exception_Router_NotValidModel($this->originalRequestURI[0]);
 		}
-		echo('<pre>');
-		var_dump($this);
-		echo('</pre>');
-		die();
 	}
 
 	/**
