@@ -44,18 +44,12 @@ final class Suskind_Fountain {
 		try {
 				//- Include the Suskind_Loader class to define automatic loader methods.
 			require_once $_ENV['PATH_SYSTEM'].DIRECTORY_SEPARATOR.'Suskind'.DIRECTORY_SEPARATOR.'Loader.php';
-			echo('1');
 			$this->loader = Suskind_Loader::getInstance();
-			echo('2');
 			$this->registry = Suskind_Registry::getInstance();
-			echo('3');
 			if ($this->registry->checkKey('Suskind_System') === true) foreach ($this->registry->getSettings('Suskind_System') as $variable => $value) ini_set($variable, $value);
-			echo '4';
 				//- Starting session...
 			Suskind_Session_Session::start();
-			echo('5');
 				//- Get routes...
-			echo('are you here?');
 			$this->router = Suskind_Router::getInstance();
 		} catch (Suskind_Exception $exception) {
 			$exception->show();
@@ -63,6 +57,13 @@ final class Suskind_Fountain {
 		return;
 	}
 
+	/**
+	 * Execute static calls.s
+	 *
+	 * @param string $method
+	 * @param mixed $arguments
+	 * @return mixed
+	 */
 	public function  __callStatic($method, $arguments) {
 		switch ($method) {
 			case 'isAJAX':
@@ -77,8 +78,13 @@ final class Suskind_Fountain {
 		}
 	}
 
+	/**
+	 * Initializes an application.
+	 * 
+	 * @param Suskind_Application $application The applocation itself to initialize.
+	 * @return Suskind_View_Static_Default
+	 */
 	public function initApplication(Suskind_Application $application) {
-		echo("init app.");
 		if ($this->router->getModel() !== false) {
 			$application->setModel($this->router->getModel());
 			if ($this->router->getView() !== false) {
