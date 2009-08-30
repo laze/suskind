@@ -51,6 +51,7 @@ final class Suskind_Application {
 			//- Gets the Fountain, the most important class of the SF.
 		require_once $_ENV['PATH_SYSTEM'].DIRECTORY_SEPARATOR.'Suskind'.DIRECTORY_SEPARATOR.'Fountain.php';
 		$this->fountain = new Suskind_Fountain();
+		$this->environment = Suskind_Registry::getApplicationSettings();
 	}
 
 	public function init() {
@@ -69,16 +70,25 @@ final class Suskind_Application {
 		return $this->view;
 	}
 
+	/**
+	 * This method try to return with the default view of the application. First,
+	 * try to get it from the registry, and if it not defined there, try to get
+	 * from the filesystem.
+	 * If not found any, returns with boolean false.
+	 * 
+	 * @return void Return boolean false if application view not set.
+	 */
 	public function getDefaultView() {
-		return false;
+		try {
+			if (array_key_exists('Suskind_Application_Views', $this->environment) && $this->environment['Suskind_Application_Views']['Default']) $this->view = $this->environment['Suskind_Application_Views']['Default'];
+			else $this->view = new Application_View_Default();
+		} catch (Exception $exception) {
+			return false;
+		}
 	}
 	
 	public function compileView() {
-		;
-	}
-
-	public function run() {
-
+		return $this->view;
 	}
 }
 

@@ -30,7 +30,7 @@ class Suskind_Registry {
 		switch($property) {
 			case 'appName':
 			case 'applicationName':
-
+				return $this->registry['Suskind_Application']['name'];
 		}
 	}
 
@@ -45,12 +45,23 @@ class Suskind_Registry {
 		return self::$instance;
 	}
 
+	/**
+	 * Get settings from registry.
+	 *
+	 * @param string $key
+	 * @return mixed Returns with value, what is aassigned to given key, or false, if key not exists.
+	 */
 	public static function getSettings($key) {
 		if (array_key_exists($key, self::getInstance()->registry)) return self::getInstance()->registry[$key];
 		elseif (array_key_exists('Suskind_Application_'.ucfirst($key), self::getInstance()->registry)) return self::getInstance()->registry['Suskind_Application_'.ucfirst($key)];
 		else return;
 	}
 
+	/**
+	 * Returns with application settings.
+	 *
+	 * @return array
+	 */
 	public static function getApplicationSettings() {
 		$applicationSettings = array();
 
@@ -60,6 +71,12 @@ class Suskind_Registry {
 		return $applicationSettings;
 	}
 
+	/**
+	 * Check, whether key exists or not.
+	 * 
+	 * @param string $key
+	 * @return boolean
+	 */
 	public static function checkKey($key) {
 		return array_key_exists($key, self::getInstance()->registry) || array_key_exists('Suskind_Application_'.ucfirst($key), self::getInstance()->registry);
 	}
