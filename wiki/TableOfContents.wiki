@@ -3,5 +3,7 @@
     * [Overview Overview]
     * [Installation Installation]
     * [Reference Reference]
+      * [Application Application]
+      * [Fountain Fountain]
     * [Features Features]
       * [SessionHandling Session Handling]
