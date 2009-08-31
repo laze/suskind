@@ -16,5 +16,5 @@ Suskind_Session_Session {
     boolean garbageCollector(int maxLifetime)
 }
 }}}
-The privately accessible `store` property is a copy of `Suskind_Session_Store` class, the session handler use this object to read / write the session data. To be able to store the data in database or to create logs, the session handler doesn't encode the session data if you use advanced session store class.
+The privately accessible `store` property is a copy of `Suskind_Session_Store` class, the session handler use this object to read / write the session data. To be able to store the data in database or to create logs, the session handler gives not just the encoded session data, but the PHP's `$_SESSION` array and some other variables too.
 ==== Plugin ====
