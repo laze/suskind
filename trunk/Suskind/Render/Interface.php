@@ -20,7 +20,7 @@ interface Suskind_Render_Interface {
 
 	public function remove($variableName);
 
-	public function show();
+	public function compile();
 
 	public static function uppercaseFirst(string $value);
 }

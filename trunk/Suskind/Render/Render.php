@@ -39,7 +39,7 @@ class Suskind_Render_Render implements Suskind_Render_Interface {
 		unset ($this->assigns[$variableName]);
 	}
 
-	public function show() {
+	public function compile() {
 	}
 
 	public static function uppercaseFirst(string $value) {

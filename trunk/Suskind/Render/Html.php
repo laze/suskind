@@ -39,8 +39,8 @@ class Suskind_Render_Html extends Suskind_Render_Render {
 		} else return $this->template;
 	}
 
-	public function show() {
-		echo $this->substituteTemplate();
+	public function compile() {
+		return $this->substituteTemplate();
 	}
 
 	public function showError(Suskind_Exception $exception) {
