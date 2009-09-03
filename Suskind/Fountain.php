@@ -50,7 +50,7 @@ final class Suskind_Fountain {
 	}
 
 	/**
-	 * Execute static calls.s
+	 * Execute static calls.
 	 *
 	 * @param string $method
 	 * @param mixed $arguments
@@ -68,6 +68,30 @@ final class Suskind_Fountain {
 				phpinfo();
 				break;
 		}
+	}
+
+	/**
+	 * @todo DELETE!!!
+	 * @return <type>
+	 */
+	public static function isAJAX() {
+		return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest');
+	}
+
+	/**
+	 * @todo DELETE!!!
+	 * @return <type>
+	 */
+	public static function getDefaultRender() {
+		return (self::isAjax()) ? new Suskind_Render_Json() : new Suskind_Render_Html();
+	}
+
+	/**
+	 * @todo DELETE!!!
+	 * @return <type>
+	 */
+	public static function getPHPInfo() {
+		phpinfo();
 	}
 
 	/**
@@ -89,7 +113,7 @@ final class Suskind_Fountain {
 	}
 
 	private function executeSystemRequest() {
-		$request = $this->system->router->getRoute();
+		$request = $this->router->getRoute();
 		if (sizeof($request)) call_user_method($request[1], $request[0]);
 	}
 

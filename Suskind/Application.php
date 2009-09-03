@@ -42,7 +42,7 @@ final class Suskind_Application {
      * @todo: Check wether is included via include_path or via regular path.
      */
     public function __construct() {
-//		ob_start();
+		ob_start();
 			//- Set application and system paths.
 		$_ENV['PATH_APPLICATION'] = realpath('..'.DIRECTORY_SEPARATOR);
 		$_ENV['PATH_SYSTEM'] = realpath('..'.DIRECTORY_SEPARATOR.'Library'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR);
@@ -82,8 +82,8 @@ final class Suskind_Application {
 		try {
 			if (array_key_exists('Suskind_Application_Views', $this->environment) && $this->environment['Suskind_Application_Views']['Default']) $this->view = $this->environment['Suskind_Application_Views']['Default'];
 			else $this->view = new Application_View_Default();
-		} catch (Exception $exception) {
-			return false;
+		} catch (Suskind_Exception $exception) {
+			$exception->show();
 		}
 	}
 	
