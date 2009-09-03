@@ -44,15 +44,12 @@ class Suskind_Render_Html extends Suskind_Render_Render {
 	}
 
 	public function showError(Suskind_Exception $exception) {
-		/**
-		 * @todo Same method as show() to render template
-		 */
 		$this->setTemplate($_ENV['PATH_SYSTEM'].DIRECTORY_SEPARATOR.'Suskind'.DIRECTORY_SEPARATOR.'Assets'.DIRECTORY_SEPARATOR.'Templates'.DIRECTORY_SEPARATOR.'Exception.html');
 		$this->assign('message', $exception->getMessage());
 		$this->assign('code', $exception->getCode());
 		$this->assign('file', $exception->getFile());
 		$this->assign('line', $exception->getLine());
-		$this->show();
+		echo $this->substituteTemplate();
 	}
 }
 

@@ -24,7 +24,7 @@ class Suskind_View_Static_Default implements Suskind_View_Static_Interface {
 	}
 
 	public function show() {
-		$this->render->show();
+		echo $this->render->compile();
 	}
 }
 
