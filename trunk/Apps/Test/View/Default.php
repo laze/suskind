@@ -18,6 +18,10 @@ class Application_View_Default extends Suskind_View_View {
 		$this->class = __CLASS__;
 		parent::__construct();
 	}
+
+	public function show() {
+		echo $this->compile();
+	}
 }
 
 ?>
