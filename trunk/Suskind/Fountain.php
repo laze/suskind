@@ -50,45 +50,9 @@ final class Suskind_Fountain {
 	}
 
 	/**
-	 * Execute static calls.
-	 *
-	 * @param string $method
-	 * @param mixed $arguments
-	 * @return mixed
-	 */
-	public function  __callStatic($method, $arguments) {
-		switch ($method) {
-			case 'isAJAX':
-				return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest');
-				break;
-			case 'getDefaultRender':
-				return (self::isAjax()) ? new Suskind_Render_Json() : new Suskind_Render_Html();
-				break;
-			case 'getPHPInfo':
-				phpinfo();
-				break;
-		}
-	}
-
-	/**
-	 * @todo DELETE!!!
-	 * @return <type>
-	 */
-	public static function isAJAX() {
-		return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest');
-	}
-
-	/**
-	 * @todo DELETE!!!
-	 * @return <type>
-	 */
-	public static function getDefaultRender() {
-		return (self::isAjax()) ? new Suskind_Render_Json() : new Suskind_Render_Html();
-	}
-
-	/**
-	 * @todo DELETE!!!
-	 * @return <type>
+	 * Show PHP info
+	 * 
+	 * @return void
 	 */
 	public static function getPHPInfo() {
 		phpinfo();

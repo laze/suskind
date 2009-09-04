@@ -16,20 +16,15 @@
  * @version
  */
 class Suskind_Render_Html extends Suskind_Render_Render {
-	/**
-	 * Path to template to 
-	 * @var string 
-	 */
-	private $template;
 	const delimiter_start = '<:';
 	const delimiter_end = ':>';
 
-	public function setTemplate($filename) {
-		if (!file_exists($filename)) throw new Suskind_Render_Exception('Template not exists! ('.$filename.')',1111);
-		else $this->template = file_get_contents($filename);
+	public function __construct() {
+		$renders = Suskind_Registry::getSettings('render');
+		if (is_array($renders) && array_key_exists('html', $renders)) $this->render = new $renders['html'];
 	}
 
-	private function substituteTemplate() {
+	public function compile() {
 		if (is_array($this->assigns)) {
 			foreach ($this->assigns as $variable => $value) {
 				$patterns[] = '\''.self::delimiter_start.$variable.self::delimiter_end.'\'';
@@ -39,17 +34,13 @@ class Suskind_Render_Html extends Suskind_Render_Render {
 		} else return $this->template;
 	}
 
-	public function compile() {
-		return $this->substituteTemplate();
-	}
-
 	public function showError(Suskind_Exception $exception) {
 		$this->setTemplate($_ENV['PATH_SYSTEM'].DIRECTORY_SEPARATOR.'Suskind'.DIRECTORY_SEPARATOR.'Assets'.DIRECTORY_SEPARATOR.'Templates'.DIRECTORY_SEPARATOR.'Exception.html');
 		$this->assign('message', $exception->getMessage());
 		$this->assign('code', $exception->getCode());
 		$this->assign('file', $exception->getFile());
 		$this->assign('line', $exception->getLine());
-		echo $this->substituteTemplate();
+		echo $this->compile();
 	}
 }
 

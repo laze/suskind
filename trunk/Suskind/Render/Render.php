@@ -27,6 +27,12 @@ class Suskind_Render_Render implements Suskind_Render_Interface {
 	 */
 	protected $assigns;
 
+	/**
+	 * 
+	 * @var string
+	 */
+	protected $template;
+
 	public function assign($variableName, $variableValue, $variableModification = null) {
 		$this->assigns[$variableName] = array(
 			'value' => $variableValue,
@@ -37,6 +43,11 @@ class Suskind_Render_Render implements Suskind_Render_Interface {
 
 	public function remove($variableName) {
 		unset ($this->assigns[$variableName]);
+	}
+
+	public function setTemplate($fileName) {
+		if (!file_exists($fileName)) throw new Suskind_Render_Exception('Template not exists! ('.$fileName.')',1111);
+		else $this->template = file_get_contents($fileName);
 	}
 
 	public function compile() {

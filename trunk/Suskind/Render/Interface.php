@@ -22,7 +22,7 @@ interface Suskind_Render_Interface {
 
 	public function compile();
 
-	public static function uppercaseFirst(string $value);
+	public function setTemplate($fileName);
 }
 
 ?>
