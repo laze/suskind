@@ -52,11 +52,20 @@ final class Suskind_Loader {
 	 * @return void
 	 */
 	public static function autoload($className) {
+		if (class_exists('Suskind_Registry')) {
+			$registry = Suskind_Registry::getInstance();
+			$paths = $registry->getSettings('include');
+		}
 		try {
 			if (strpos($className, 'Application') === (int) 0) {
 				if (file_exists($_ENV['PATH_APPLICATION'].str_replace('_', DIRECTORY_SEPARATOR, str_replace('Application','', $className)).'.php')) include_once $_ENV['PATH_APPLICATION'].str_replace('_', DIRECTORY_SEPARATOR, str_replace('Application','', $className)).'.php';
 			} else {
 				if (file_exists($_ENV['PATH_SYSTEM'].DIRECTORY_SEPARATOR.str_replace('_', DIRECTORY_SEPARATOR, $className).'.php')) include_once $_ENV['PATH_SYSTEM'].DIRECTORY_SEPARATOR.str_replace('_', DIRECTORY_SEPARATOR, $className).'.php';
+				else {
+					$paths = Suskind_Registry::getSettings('include');
+
+					if (array_key_exists($className, $paths) && file_exists($_ENV['PATH_SYSTEM'].DIRECTORY_SEPARATOR.$paths[$className])) include_once $_ENV['PATH_SYSTEM'].DIRECTORY_SEPARATOR.$paths[$className];
+				}
 			}
 		} catch(Exception $exception) {
 			throw new Suskind_Exception('Class not exists: '.$className);
