@@ -15,6 +15,7 @@ class Suskind_View_View {
 
 	public function __construct() {
 		$this->render = Suskind_Render_Factory::createRender();
+		var_dump(get_class($this->render));
 		if ($this->class !== null) $this->render->setTemplate(str_replace('Application', $_ENV['PATH_APPLICATION'].DIRECTORY_SEPARATOR.'Assets'.DIRECTORY_SEPARATOR.'Templates', str_replace('_', DIRECTORY_SEPARATOR, $this->class)).'.html');
 	}
 
