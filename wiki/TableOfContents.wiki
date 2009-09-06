@@ -2,6 +2,7 @@
   * [Manual Manual]
     * [Overview Overview]
     * [Installation Installation]
+      * [InstallationPlugins Installation of plugins]
     * [Reference Reference]
       * [Application Application]
       * [Fountain Fountain]
