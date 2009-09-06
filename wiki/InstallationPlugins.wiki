@@ -1,0 +1,19 @@
+#summary How to install a plugin for SF?
+=== Introduction ===
+A plugin for SF is an extension, an outside written library or whatever what developer needs to use under SF. Naturally SF couldn't run any plugin as is, but very easy to create an interface for that.
+=== Plugin Installation ===
+To install a plugin is easy. You should copy files, and edit configuration, and write an interface, and it works!
+==== Files ====
+First, you should copy the necessary files to the right place, what is:
+{{{
+suskind-read-only/Plugins/Library_Name
+}}}
+If you use e.g.: PHP Pear, you shouldn't copy every libraries here, if their paths are defined in {{{include_path}}}
+==== Configuration ====
+One configuration file is belong to one application, therefor, if you want to use a plugin for more applications, then yous shold add these lines in every configuration file.
+The configuration file, named {{{Application.ini}}} is in your application's {{{Configuration}}} folder. At this file, you should find or create - if you don't find that - a section, what contains include paths.
+{{{
+[application.include]
+; Class_Name = "path/to/class.file"
+Library_Name = "Suskind/Plugins/Library_Name/class.library.php"
+}}}
