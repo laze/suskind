@@ -9,7 +9,15 @@
  * @author Balazs Ercsey <laze@laze.hu>
  */
 final class Suskind_Fountain {
+	/**
+	 * @var string SESSION_ID The default session id for session handler.
+	 */
 	const SESSION_ID = 'SUSKINDSESSID';
+
+    /**
+     * @var Suskind_Loader Singleton instance
+     */
+    private static $instance;
 	/**
 	 * The Süskind's loader, what defines autoload methods, etc...
 	 *
@@ -32,8 +40,23 @@ final class Suskind_Fountain {
 	 */
 	private $router;
 
-	public function __construct() {
+	/**
+	 * Retrieve singleton instance
+	 *
+	 * @return Suskind_Fountain
+	 */
+	public static function getInstance() {
+		if (null === self::$instance) self::$instance = new self();
+		return self::$instance;
+	}
+
+	private function __construct() {
 		try {
+				//- Set application and system paths.
+			$_ENV['PATH_APPLICATION'] = realpath('..'.DIRECTORY_SEPARATOR);
+			$_ENV['PATH_SYSTEM'] = realpath('..'.DIRECTORY_SEPARATOR.'Library'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR);
+			$_ENV['URL'] = $_SERVER['SERVER_NAME'];
+
 				//- Include the Suskind_Loader class to define automatic loader methods.
 			require_once $_ENV['PATH_SYSTEM'].DIRECTORY_SEPARATOR.'Suskind'.DIRECTORY_SEPARATOR.'Loader.php';
 			$this->loader = Suskind_Loader::getInstance();
@@ -46,7 +69,6 @@ final class Suskind_Fountain {
 		} catch (Suskind_Exception $exception) {
 			$exception->show();
 		}
-		return;
 	}
 
 	/**
@@ -61,19 +83,13 @@ final class Suskind_Fountain {
 	/**
 	 * Initializes an application.
 	 * 
-	 * @param Suskind_Application $application The applocation itself to initialize.
-	 * @return Suskind_View_Static_Default
+	 * @return Suskind_Application
 	 */
-	public function initApplication(Suskind_Application $application) {
-		if ($this->router->getModel() !== false) {
-			$application->setModel($this->router->getModel());
-			if ($this->router->getView() !== false) {
-				$application->setView($this->router->getView());
-				return $application->compileView();
-			}
-		}
-		if ($application->getDefaultView() !== false) return $application->compileView();
-		else return new Suskind_View_Static_Default();
+	public function init() {
+		return new Suskind_Application(array(
+			'control'	=> ($this->router->getControl() !== false) ? $this->router->getControl() : null,
+			'event'		=> ($this->router->getEvent() !== false) ? $this->router->getEvent() : null
+		));
 	}
 
 	private function executeSystemRequest() {
