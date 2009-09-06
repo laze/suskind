@@ -1,0 +1,20 @@
+#summary Advanced session handling in SF.
+=== Introduction ===
+A good web page handles sessions by default, but it depends on the usage environment, that what we have to store in or where we have to store the session. Naturally, SF take over the session handling from PHP's built in session handler, and give a very powerful possibility to store your own session wherever you want.
+=== Details ===
+==== Framework ====
+As it is defined in [http://php.net/manual/en/function.session-set-save-handler.php PHP documentation], SF achieve these methods in `Suskind_Session_Session` class.
+{{{
+Suskind_Session_Session {
+    private store
+
+    boolean open(string sessionPath, string sessionName)
+    boolean close()
+    mixed read(string sessionId)
+    boolean write(string sessionId, mixed sessionData)
+    boolean destroy(string sessionId)
+    boolean garbageCollector(int maxLifetime)
+}
+}}}
+The privately accessible `store` property is a copy of `Suskind_Session_Store` class, the session handler use this object to read / write the session data. To be able to store the data in database or to create logs, the session handler gives not just the encoded session data, but the PHP's `$_SESSION` array and some other variables too.
+==== Plugin ====
