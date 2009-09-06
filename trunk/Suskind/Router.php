@@ -25,8 +25,9 @@ class Suskind_Router {
 	
 	private $forwardRequestURI;
 
-	private $model;
-	private $view;
+	private $control;
+
+	private $event;
 
 
 	/**
@@ -63,9 +64,9 @@ class Suskind_Router {
 	 */
 	public function parseRoute() {
 		list($url) = explode('?', $_SERVER['REQUEST_URI']);
-		$this->referrerRequestURI = (isset ($_SERVER['HTTP_REFERER'])) ? array_values(array_diff(split( '/', $_SERVER['HTTP_REFERER']), split( '/', $_SERVER['SCRIPT_NAME']))) : null;
+		$this->referrerRequestURI = (isset ($_SERVER['HTTP_REFERER'])) ? array_values(array_diff(explode( '/', $_SERVER['HTTP_REFERER']), explode( '/', $_SERVER['SCRIPT_NAME']))) : null;
 		$this->originalRequestURI = array_values(array_diff(explode( '/', $url), explode( '/', $_SERVER['SCRIPT_NAME'])));
-		$this->forwardRequestURI = (isset ($_REQUEST['next'])) ? array_values(array_diff(split( '/', $_REQUEST['next']), split( '/', $_SERVER['SCRIPT_NAME']))) : null;
+		$this->forwardRequestURI = (isset ($_REQUEST['next'])) ? array_values(array_diff(explode( '/', $_REQUEST['next']), explode( '/', $_SERVER['SCRIPT_NAME']))) : null;
 			//- Check in routes to replace request if neccesary.
 		$routersMatch = array_values(array_intersect(array_values($this->originalRequestURI), array_keys($this->routes)));
 		if (sizeof($routersMatch) > 0) $this->originalRequestURI = explode( '/', $this->routes[$routersMatch[0]]);
@@ -80,13 +81,11 @@ class Suskind_Router {
 		if (sizeof($this->originalRequestURI) < 1) return false;
 		try {
 			if ($this->originalRequestURI[0] == 'Suskind_Fountain') call_user_func($this->originalRequestURI);
-			if ($this->originalRequestURI[0] == 'sf') {
-				$fileRequest = str_replace('sf', $_ENV['PATH_SYSTEM'].DIRECTORY_SEPARATOR.'Suskind'.DIRECTORY_SEPARATOR.'Assets', implode(DIRECTORY_SEPARATOR, $this->originalRequestURI));
-				header('Content-type: '.mime_content_type($fileRequest));
-				readfile($fileRequest);
-			}
-			$this->model = (is_subclass_of($this->originalRequestURI[0], 'Suskind_Model')) ? $this->originalRequestURI[0] : null;
-			$this->view = (is_subclass_of($this->originalRequestURI[1], 'Suskind_View')) ? $this->originalRequestURI[1] : null;
+			if ($this->originalRequestURI[0] == 'sf') $this->getFile($this->originalRequestURI);
+			$this->control = (class_exists('Application_Control_'.ucfirst($this->originalRequestURI[0]), true)) ? 'Application_Control_'.ucfirst($this->originalRequestURI[0]) : null;
+			if (isset ($this->originalRequestURI[1])) $this->event = (!is_null($this->control)) ? $this->control->registerEvent($this->originalRequestURI[1]) : null;
+			else $this->event = null;
+
 			return true;
 		} catch (Exception $excpetion) {
 			/**
@@ -106,23 +105,30 @@ class Suskind_Router {
 	}
 
 	/**
-	 * Returns with the previously parsed model.
+	 * Returns with the previously parsed control object.
 	 *
-	 * @return Suskind_Model
+	 * @return Suskind_Control
 	 * @see parseRoute
 	 */
-	public function getModel() {
-		return (!is_null($this->model)) ? new $this->model : false;
+	public function getControl() {
+		return (!is_null($this->control)) ? new $this->control : false;
+	}
+
+	public function getEvent() {
+		return (!is_null($this->event)) ? $this->event : false;
 	}
 
 	/**
-	 * Returns with the previously parsed view.
+	 * Get a file from an array, what contains path. The array's items will glue
+	 * with directory separator to read file.
 	 *
-	 * @return Suskind_View
-	 * @see parseRoute
+	 * @param array $request The request, what is received, so this content the path to the file.
 	 */
-	public function getView() {
-		return $this->view;
+	public function getFile(array $path) {
+		$fileRequest = str_replace('sf', $_ENV['PATH_SYSTEM'].DIRECTORY_SEPARATOR.'Suskind'.DIRECTORY_SEPARATOR.'Assets', implode(DIRECTORY_SEPARATOR, $path));
+			//- Sending file
+		header('Content-type: '.mime_content_type($fileRequest));
+		readfile($fileRequest);
 	}
 }
 
