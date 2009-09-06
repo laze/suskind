@@ -9,26 +9,54 @@
  *
  * @author Balazs Ercsey <laze@laze.hu>
  */
-class Model_Guestbook extends Suskind_Model {
+class Application_Model_Guestbook extends Suskind_Model {
     protected $comment;
     protected $created;
     protected $email;
 
-    public function __set(string $name, $value);
-    public function __get(string $name);
+    public function __set(string $name, $value) {
 
-    public function setComment(string $text);
-    public function getComment();
+	}
 
-    public function setEmail(string $email);
-    public function getEmail();
+    public function __get(string $name) {
 
-    public function setCreated(date $ts);
-    public function getCreated();
+	}
 
-    public function save();
-    public function find($id);
-    public function fetchAll();
+    public function setComment(string $text) {
+
+	}
+
+    public function getComment() {
+
+	}
+
+    public function setEmail(string $email) {
+
+	}
+
+    public function getEmail() {
+
+	}
+
+    public function setCreated(date $ts) {
+
+	}
+
+    public function getCreated() {
+
+	}
+
+    public function save() {
+
+	}
+
+    public function find($id) {
+
+	}
+
+    public function fetchAll() {
+		
+	}
 }
 
 ?>

@@ -15,8 +15,7 @@ class Application_View_Default extends Suskind_View_View {
 	 * Construction of template.
 	 */
 	public function __construct() {
-		$this->class = __CLASS__;
-		parent::__construct();
+		parent::__construct(__CLASS__);
 	}
 
 	public function show() {

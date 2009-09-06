@@ -6,10 +6,9 @@
  */
 
 
-require_once realpath('../Library').'/Application.php';
+require_once realpath('../Library').'/Fountain.php';
 
-$application = new Suskind_Application();
-$application->init()
-			->show();
+Suskind_Fountain::getInstance()->init()
+	->show();
 
 ?>
