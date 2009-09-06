@@ -7,4 +7,6 @@
       * [Application Application]
       * [Fountain Fountain]
     * [Features Features]
-      * [SessionHandling Session Handling]
+      * [FeaturesDefaults Defaults]
+      * [FeaturesTemplateLite Rendering with Template Lite]
+      * [FeaturesSessionHandling Session Handling]
