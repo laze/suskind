@@ -10,15 +10,21 @@
  * @author laze
  */
 class Suskind_Control_Control implements Suskind_Control_Interface {
-	
-	private $event = null;
+	protected $defaultView = 'List';
+	protected $model;
+	protected $event = null;
+	protected $events = array(
+		'List',
+		'Add',
+		'Modify',
+		'Delete'
+	);
 
     public function getView() {
 		return (is_null($this->event)) ? $this->getDefaultView() : $this->event->getView();
 	}
 
 	public function getDefaultView() {
-//		return new Suskind_View_View(__CLASS__);
 	}
 }
 ?>
