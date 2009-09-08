@@ -86,10 +86,14 @@ final class Suskind_Fountain {
 	 * @return Suskind_Application
 	 */
 	public function init() {
-		return new Suskind_Application(array(
-			'control'	=> ($this->router->getControl() !== false) ? $this->router->getControl() : null,
-			'event'		=> ($this->router->getEvent() !== false) ? $this->router->getEvent() : null
-		));
+		try {
+			return new Suskind_Application(array(
+				'control'	=> ($this->router->getControl() !== false) ? $this->router->getControl() : null,
+				'event'		=> ($this->router->getEvent() !== false) ? $this->router->getEvent() : null
+			));
+		} catch (Suskind_Exception $exception) {
+			$exception->show();
+		}
 	}
 
 	private function executeSystemRequest() {

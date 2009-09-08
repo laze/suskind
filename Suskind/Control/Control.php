@@ -10,11 +10,10 @@
  * @author laze
  */
 class Suskind_Control_Control implements Suskind_Control_Interface {
-	protected $defaultView = 'List';
 	protected $model;
 	protected $event = null;
 	protected $events = array(
-		'List',
+		'List', //- First item is the default
 		'Add',
 		'Modify',
 		'Delete'
