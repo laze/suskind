@@ -46,8 +46,8 @@ class Suskind_Render_Render implements Suskind_Render_Interface {
 	}
 
 	public function setTemplate($fileName) {
-		if (!file_exists($fileName)) throw new Suskind_Render_Exception('Template not exists! ('.$fileName.')',1111);
-		else $this->template = file_get_contents($fileName);
+		if (file_exists($fileName)) $this->template = file_get_contents($fileName);
+		else throw new Suskind_Render_Exception('Template not exists! ('.$fileName.')',1111);
 	}
 
 	public function compile() {

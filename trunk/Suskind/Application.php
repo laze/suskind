@@ -65,10 +65,14 @@ final class Suskind_Application {
 	}
 
 	public function show() {
-		$view = (!is_null($this->control)) ? $this->control->getView() : null;
+		try {
+			$view = (!is_null($this->control)) ? $this->control->getView() : null;
 
-		if (is_null($view))  $this->getDefaultView()->show();
-		else $view->show();
+			if (is_null($view))  $this->getDefaultView()->show();
+			else $view->show();
+		} catch (Suskind_Exception $exception) {
+			$exception->show();
+		}
 	}
 }
 
