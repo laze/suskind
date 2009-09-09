@@ -9,6 +9,10 @@
  * @author Balazs Ercsey <laze@laze.hu>
  */
 class Suskind_Exception extends Exception {
+	public function  __construct(array $parameters) {
+		$this->message = $parameters['message'];
+		$this->code = $parameters['code'];
+	}
 
 	public function show() {
 		/**
