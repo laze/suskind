@@ -10,7 +10,5 @@
  */
 interface Suskind_Control_Interface {
 	public function getView();
-
-	public function getDefaultView();
 }
 ?>

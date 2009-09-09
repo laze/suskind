@@ -9,10 +9,12 @@
  *
  * @author bercsey
  */
-class Suskind_Exception_File_PermissionDenied extends Suskind_Exception {
+class Suskind_Exception_Session extends Suskind_Exception {
     //put your code here
-	public function  __construct($fileName) {
-		$this->message = 'Permission denied for file: '.$fileName.')';
+	public static function Start() {
+		return array(
+			'message' => 'Session can\'t started...'
+		);
 	}
 }
 ?>

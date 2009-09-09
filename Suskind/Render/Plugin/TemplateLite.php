@@ -55,7 +55,7 @@ class Suskind_Render_Plugin_TemplateLite implements Suskind_Render_Interface {
 
 	public function setTemplate($fileName) {
 		if (file_exists($fileName)) $this->template = $fileName;
-		else throw new Suskind_Render_Exception('Template not exists! ('.$fileName.')',1111);
+		else throw new Suskind_Exception(Suskind_Exception_File::NotExists($fileName));
 	}
 
 }
