@@ -12,17 +12,17 @@
 class Suskind_Exception_File extends Suskind_Exception {
 	const package = 'File';
 
-    public static function PermissionDenied($fileName) {
+    public static function NotExists() {
 		return array(
-			'message'	=> 'Permission denied for file: '.$fileName.')',
-			'code'		=> 12345
+			'message'	=> Suskind_Exception_Helper::compile('File not exists: 0', func_get_args()),
+			'code'		=> 1001
 		);
 	}
 
-    public static function NotExists($fileName) {
+    public static function PermissionDenied() {
 		return array(
-			'message'	=> 'File not exists: '.$fileName.')',
-			'code'		=> 12345
+			'message'	=> Suskind_Exception_Helper::compile('Permission denied for file: 0', func_get_args()),
+			'code'		=> 1002
 		);
 	}
 }
