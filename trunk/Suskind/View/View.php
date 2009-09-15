@@ -10,7 +10,7 @@
  * @author Balazs Ercsey <laze@laze.hu>
  */
 class Suskind_View_View implements Suskind_View_Interface {
-	private $render;
+	protected $render;
 
 	public function __construct($className = null) {
 		$this->render = Suskind_Render_Factory::createRender();
