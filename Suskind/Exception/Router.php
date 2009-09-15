@@ -11,9 +11,10 @@
  */
 class Suskind_Exception_Router extends Suskind_Exception {
     //put your code here
-	public static function NotValidModel($modelName) {
+	public static function NotValidModel() {
 		return array(
-			'message' => 'Süskind Framework\'s router can not found the given model: '.$modelName.')'
+			'message'	=> Suskind_Exception_Helper::compile('Süskind Framework\'s router can not found the given model: 0)', func_get_args()),
+			'code'		=> 4001
 		);
 	}
 }

@@ -10,9 +10,10 @@
  */
 class Suskind_Exception_Loader extends Suskind_Exception {
     //put your code here
-	public static function ClassNotExists($className) {
+	public static function ClassNotExists() {
 		return array(
-			'message' => 'Süskind framework ccouldn\'t load class: '.$className.')'
+			'message'	=> Suskind_Exception_Helper::compile('Süskind framework ccouldn\'t load class: 0)', func_get_args()),
+			'code'		=> 3001
 		);
 	}
 }
