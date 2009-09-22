@@ -11,18 +11,31 @@
  */
 class Suskind_Registry {
     /**
-     * @var Suskind_Registry Singleton instance
+     * @var Suskind_Registry Singleton instance.
      */
     private static $instance;
 	
 	/**
-	 * The registry values
+	 * The registry values.
 	 *
 	 * @var array
 	 */
 	private $registry = array();
 
-	private function  __construct() {
+	/**
+	 * The default path settings.
+	 * 
+	 * @var array
+	 */
+	private $paths = array();
+
+	/**
+	 * Construct of the registry.
+	 *
+	 * @param array $settings The paths and other settings what are set by the fountain.
+	 */
+	private function  __construct(array $settings) {
+		$this->paths = $settings;
 		$this->load();
 	}
 
@@ -38,10 +51,11 @@ class Suskind_Registry {
 	/**
 	 * Retrieve singleton instance
 	 *
+	 * @param array $settings The paths and other settings what are set by the fountain.
 	 * @return Suskind_Registry
 	 */
-	public static function getInstance() {
-		if (null === self::$instance) self::$instance = new self();
+	public static function getInstance(array $settings = null) {
+		if (null === self::$instance) self::$instance = new self($settings);
 		return self::$instance;
 	}
 
@@ -91,9 +105,9 @@ class Suskind_Registry {
 	 */
 	private function load() {
 		//- Gets the application's global configuration.
-		if (file_exists($_ENV['PATH_APPLICATION'].'/Configuration/application.ini')) $this->addRegistry(parse_ini_file($_ENV['PATH_APPLICATION'].'/Configuration/application.ini', true));
+		if (file_exists($this->paths['Application'].'/Configuration/application.ini')) $this->addRegistry(parse_ini_file($this->paths['Application'].'/Configuration/application.ini', true));
 		//- Gets the application's host-related configuration.
-		if (file_exists($_ENV['PATH_APPLICATION'].'/Configuration/'.$_SERVER['SERVER_NAME'].'/application.ini')) $this->addRegistry(parse_ini_file($_ENV['PATH_APPLICATION'].'/Configuration/'.$_SERVER['SERVER_NAME'].'/application.ini', true));
+		if (file_exists($this->paths['Application'].'/Configuration/'.$_SERVER['SERVER_NAME'].'/application.ini')) $this->addRegistry(parse_ini_file($this->paths['Application'].'/Configuration/'.$_SERVER['SERVER_NAME'].'/application.ini', true));
 	}
 
 	/**

@@ -53,14 +53,17 @@ final class Suskind_Fountain {
 	private function __construct() {
 		try {
 				//- Set application and system paths.
-			$_ENV['PATH_APPLICATION'] = realpath('..'.DIRECTORY_SEPARATOR);
-			$_ENV['PATH_SYSTEM'] = realpath('..'.DIRECTORY_SEPARATOR.'Library'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR);
 			$_ENV['URL'] = $_SERVER['SERVER_NAME'];
-
 				//- Include the Suskind_Loader class to define automatic loader methods.
-			require_once $_ENV['PATH_SYSTEM'].DIRECTORY_SEPARATOR.'Suskind'.DIRECTORY_SEPARATOR.'Loader.php';
-			$this->loader = Suskind_Loader::getInstance();
-			$this->registry = Suskind_Registry::getInstance();
+			require_once realpath('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.'Loader.php';
+			$this->loader = Suskind_Loader::getInstance(array(
+				'Application'	=> realpath(getcwd()),
+				'Suskind'		=> realpath('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR)
+			));
+			$this->registry = Suskind_Registry::getInstance(array(
+				'Application'	=> realpath(getcwd()),
+				'Suskind'		=> realpath('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR)
+			));
 			if ($this->registry->checkKey('Suskind_System') === true) foreach ($this->registry->getSettings('Suskind_System') as $variable => $value) ini_set($variable, $value);
 				//- Starting session...
 			Suskind_Session_Session::start();

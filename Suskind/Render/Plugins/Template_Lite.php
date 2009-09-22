@@ -9,7 +9,7 @@
  *
  * @author laze
  */
-class Suskind_Render_Plugin_TemplateLite implements Suskind_Render_Interface {
+class Suskind_Render_Plugins_Template_Lite implements Suskind_Render_Interface {
 	/**
 	 * The object, what is defined in the registry. This object
 	 * @var object
