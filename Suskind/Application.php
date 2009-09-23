@@ -40,7 +40,7 @@ final class Suskind_Application {
 			$this->control = $parameters['control'];
 			$this->event = $parameters['event'];
 		}
-	}
+    }
 
 	/**
 	 * This method try to return with the default view of the application. First,
@@ -58,7 +58,7 @@ final class Suskind_Application {
 		} catch (Suskind_Exception $exception) {
 			$exception->show();
 		}
-	}
+    }
 	
 	public function compileView() {
 		return $this->view;
