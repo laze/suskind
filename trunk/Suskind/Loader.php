@@ -34,7 +34,7 @@ final class Suskind_Loader {
 		$this->paths = $paths;
 			//- Register __autoload methods
 		spl_autoload_register(array(__CLASS__, 'autoload'));
-		Suskind_Registry::
+//		Suskind_Registry::
 	}
 
 	/**

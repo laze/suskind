@@ -60,11 +60,11 @@ final class Suskind_Fountain {
 				'Application'	=> realpath(getcwd()),
 				'Suskind'		=> realpath('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR)
 			));
-			$this->registry = Suskind_Registry::getInstance(array(
+			$this->registry = Suskind_Registry::init(array(
 				'Application'	=> realpath(getcwd()),
 				'Suskind'		=> realpath('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR)
 			));
-			if ($this->registry->checkKey('Suskind_System') === true) foreach ($this->registry->getSettings('Suskind_System') as $variable => $value) ini_set($variable, $value);
+			if (Suskind_Registry::checkKey('Suskind_System') === true) foreach (Suskind_Registry::getSettings('Suskind_System') as $variable => $value) ini_set($variable, $value);
 				//- Starting session...
 			Suskind_Session_Session::start();
 				//- Get routes...

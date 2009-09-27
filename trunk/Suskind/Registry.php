@@ -10,55 +10,27 @@
  * @author Balazs Ercsey <laze@laze.hu>
  */
 class Suskind_Registry {
-    /**
-     * @var Suskind_Registry Singleton instance.
-     */
-    private static $instance;
 	
 	/**
 	 * The registry values.
 	 *
 	 * @var array
 	 */
-	private $registry = array();
+	private static $registry = array();
 
 	/**
 	 * The default path settings.
 	 * 
 	 * @var array
 	 */
-	private $paths = array();
+	private static $paths = array();
 
-	/**
-	 * Construct of the registry.
-	 *
-	 * @param array $settings The paths and other settings what are set by the fountain.
-	 */
-	private function  __construct(array $settings) {
-		$this->paths = $settings;
-		$this->load();
+	public static function init(array $settings) {
+		self::$paths = $settings;
+		self::load();
+
+		return self;
 	}
-
-	public function __get($property) {
-		switch($property) {
-			case 'appName':
-			case 'applicationName':
-				return $this->registry['Suskind_Application']['name'];
-		}
-	}
-
-
-	/**
-	 * Retrieve singleton instance
-	 *
-	 * @param array $settings The paths and other settings what are set by the fountain.
-	 * @return Suskind_Registry
-	 */
-	public static function getInstance(array $settings = null) {
-		if (null === self::$instance) self::$instance = new self($settings);
-		return self::$instance;
-	}
-
 	/**
 	 * Get settings from registry.
 	 *
@@ -92,7 +64,7 @@ class Suskind_Registry {
 	 * @return boolean
 	 */
 	public static function checkKey($key) {
-		return array_key_exists($key, self::getInstance()->registry) || array_key_exists('Suskind_Application_'.ucfirst($key), self::getInstance()->registry);
+		return array_key_exists($key, self::$registry) || array_key_exists('Suskind_Application_'.ucfirst($key), self::getInstance()->registry);
 	}
 
 	/**
@@ -103,11 +75,11 @@ class Suskind_Registry {
 	 *
 	 * @return void
 	 */
-	private function load() {
+	private static function load() {
 		//- Gets the application's global configuration.
-		if (file_exists($this->paths['Application'].'/Configuration/application.ini')) $this->addRegistry(parse_ini_file($this->paths['Application'].'/Configuration/application.ini', true));
+		if (file_exists(self::$paths['Application'].'/Configuration/application.ini')) self::addRegistry(parse_ini_file(self::$paths['Application'].'/Configuration/application.ini', true));
 		//- Gets the application's host-related configuration.
-		if (file_exists($this->paths['Application'].'/Configuration/'.$_SERVER['SERVER_NAME'].'/application.ini')) $this->addRegistry(parse_ini_file($this->paths['Application'].'/Configuration/'.$_SERVER['SERVER_NAME'].'/application.ini', true));
+		if (file_exists(self::$paths['Application'].'/Configuration/'.$_SERVER['SERVER_NAME'].'/application.ini')) $this->addRegistry(parse_ini_file(self::$paths['Application'].'/Configuration/'.$_SERVER['SERVER_NAME'].'/application.ini', true));
 	}
 
 	/**
@@ -129,10 +101,10 @@ class Suskind_Registry {
 	 * @param array $configuration A previously parsed ini file.
 	 * @return void
 	 */
-	private function addRegistry(array $configuration) {
+	private static function addRegistry(array $configuration) {
 		foreach ($configuration as $path => $settings) {
 			$path = 'Suskind_'.str_replace(' ', '_', ucwords(str_replace('.', ' ', $path)));
-			$this->registry[$path] = $settings;
+			self::$registry[$path] = $settings;
 		}
 	}
 }
