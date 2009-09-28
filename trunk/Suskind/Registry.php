@@ -16,20 +16,31 @@ class Suskind_Registry {
 	 *
 	 * @var array
 	 */
-	private static $registry = array();
+	private static $registry = array(
+		'System'		=> array(
+			'Server'		=> array(),
+			'Path'			=> array(),
+			'Client'		=> array()
+		),
+		'Application'	=> array(
+			'Plugins'		=> array(),
+			'Render'		=> array(),
+			'Resource'		=> array()
+		)
+	);
 
 	/**
-	 * The default path settings.
-	 * 
-	 * @var array
+	 * Build up the registry. This method call other methods, to calculate paths,
+	 * and read configuration files.
+	 *
+	 * @param array $paths
+	 * @return void
 	 */
-	private static $paths = array();
+	public static function init(array $paths) {
+		self::loadPaths($paths);
+		self::loadConfigurations();
 
-	public static function init(array $settings) {
-		self::$paths = $settings;
-		self::load();
-
-		return self;
+		return;
 	}
 	/**
 	 * Get settings from registry.
@@ -38,8 +49,8 @@ class Suskind_Registry {
 	 * @return mixed Returns with value, what is aassigned to given key, or false, if key not exists.
 	 */
 	public static function getSettings($key) {
-		if (array_key_exists($key, self::getInstance()->registry)) return self::getInstance()->registry[$key];
-		elseif (array_key_exists('Suskind_Application_'.ucfirst($key), self::getInstance()->registry)) return self::getInstance()->registry['Suskind_Application_'.ucfirst($key)];
+		if (array_key_exists($key, self::$registry)) return self::$registry[$key];
+		elseif (array_key_exists('Suskind_Application_'.ucfirst($key), self::$registry)) return self::$registry['Suskind_Application_'.ucfirst($key)];
 		else return;
 	}
 
@@ -51,7 +62,7 @@ class Suskind_Registry {
 	public static function getApplicationSettings() {
 		$applicationSettings = array();
 
-		foreach (self::getInstance()->registry as $key => $settings) {
+		foreach (self::$registry as $key => $settings) {
 			if (substr($key, 0, 19) == 'Suskind_Application') $applicationSettings[$key] = $settings;
 		}
 		return $applicationSettings;
@@ -64,7 +75,19 @@ class Suskind_Registry {
 	 * @return boolean
 	 */
 	public static function checkKey($key) {
-		return array_key_exists($key, self::$registry) || array_key_exists('Suskind_Application_'.ucfirst($key), self::getInstance()->registry);
+		return array_key_exists($key, self::$registry) || array_key_exists('Suskind_Application_'.ucfirst($key), self::$registry);
+	}
+
+	/**
+	 *
+	 * @param array $paths The array of the application and the system paths.
+	 * @return void
+	 */
+	private static function loadPaths(array $paths) {
+		self::$registry['System']['Path'] = $paths;
+		echo('<pre>');
+		var_dump(self::$registry);
+		echo('</pre>');
 	}
 
 	/**
@@ -75,7 +98,7 @@ class Suskind_Registry {
 	 *
 	 * @return void
 	 */
-	private static function load() {
+	private static function loadConfigurations() {
 		//- Gets the application's global configuration.
 		if (file_exists(self::$paths['Application'].'/Configuration/application.ini')) self::addRegistry(parse_ini_file(self::$paths['Application'].'/Configuration/application.ini', true));
 		//- Gets the application's host-related configuration.
