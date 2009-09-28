@@ -18,20 +18,6 @@ final class Suskind_Fountain {
      * @var Suskind_Loader Singleton instance
      */
     private static $instance;
-	/**
-	 * The Süskind's loader, what defines autoload methods, etc...
-	 *
-	 * @var Suskind_Loader
-	 */
-	private $loader;
-
-	/**
-     * The Süskind registry hadler object. It controls the registry, server
-     * settings, etc.
-     * 
-     * @var Suskind_Registry
-     */
-    private $registry;
 
 	/**
 	 * The Süskind request URI handler object.
@@ -56,11 +42,7 @@ final class Suskind_Fountain {
 			$_ENV['URL'] = $_SERVER['SERVER_NAME'];
 				//- Include the Suskind_Loader class to define automatic loader methods.
 			require_once realpath('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.'Loader.php';
-			$this->loader = Suskind_Loader::getInstance(array(
-				'Application'	=> realpath(getcwd()),
-				'Suskind'		=> realpath('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR)
-			));
-			$this->registry = Suskind_Registry::init(array(
+			Suskind_Loader::init(array(
 				'Application'	=> realpath(getcwd()),
 				'Suskind'		=> realpath('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR)
 			));
