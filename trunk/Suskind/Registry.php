@@ -59,12 +59,7 @@ class Suskind_Registry {
 	 * @return array
 	 */
 	public static function getApplicationSettings() {
-		$applicationSettings = array();
-
-		foreach (self::$registry as $key => $settings) {
-			if (substr($key, 0, 19) == 'Suskind_Application') $applicationSettings[$key] = $settings;
-		}
-		return $applicationSettings;
+		return self::$registry[self::CKEY_APP];
 	}
 
 	/**
