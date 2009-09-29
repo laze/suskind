@@ -21,13 +21,12 @@ class Suskind_Render_Factory {
 		if (!is_null($type) && array_key_exists($type, self::$renders)) return new self::$renders[$type]();
 		else {
 			$render = (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest') ? 'ajax' : self::$defaultRender;
-			/*
-			self::$renders = array_merge(self::$renders, Suskind_Registry::getSettings('render'));
-			foreach (Suskind_Registry::getSettings('render') as $renderType => $renderClass)
-				if (substr($renderClass, 0, 7) != 'Suskind') self::$renders[$renderType] = 'Suskind_Render_Plugins_'.$renderClass;
+			if (is_array(Suskind_Registry::getSettings('render'))) {
+				self::$renders = array_merge(self::$renders, Suskind_Registry::getSettings('render'));
+				foreach (Suskind_Registry::getSettings('render') as $renderType => $renderClass)
+					if (substr($renderClass, 0, 7) != 'Suskind') self::$renders[$renderType] = 'Suskind_Render_Plugins_'.$renderClass;
+			}
 			return new self::$renders[$render]();
-			 * 
-			 */
 		}
 	}
 }

@@ -13,8 +13,9 @@ class Suskind_Exception_File extends Suskind_Exception {
 	const package = 'File';
 
     public static function NotExists() {
+		$vars = func_get_args();
 		return array(
-			'message'	=> Suskind_Exception_Helper::compile('File not exists: 0', func_get_args()),
+			'message'	=> Suskind_Exception_Helper::compile('File not exists: 0', $vars),
 			'code'		=> 1001
 		);
 	}
