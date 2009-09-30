@@ -11,15 +11,43 @@
  */
 class Suskind_Registry {
 
-	const CKEY_SYSTEM	= 'Suskind';
 	const CKEY_APP		= 'Application';
-	const CKEY_SERVER	= 'Server';
-	const CKEY_USER		= 'Client';
-	const CKEY_PLUGIN	= 'Plugin';
-	const CKEY_RESOURCE	= 'Resource';
-	const CKEY_RENDER	= 'Render';
 	const CKEY_CONFIG	= 'Configuration';
+	const CKEY_DB		= 'Database';
+	const CKEY_PATH		= 'Path';
+	const CKEY_PLUGIN	= 'Plugin';
+	const CKEY_RENDER	= 'Render';
+	const CKEY_RESOURCE	= 'Resource';
+	const CKEY_SERVER	= 'Server';
 	const CKEY_STORE	= 'Store';
+	const CKEY_SYSTEM	= 'Suskind';
+	const CKEY_USER		= 'Client';
+
+	/**
+	 * The logical map of the registry. Only these keys are available to store
+	 * variables.
+	 * 
+	 * @var array
+	 */
+	private static $registryKeys = array(
+		self::CKEY_SYSTEM => array(
+			self::CKEY_RENDER => array(),
+			self::CKEY_RESOURCE => array(),
+			self::CKEY_CONFIG => array(),
+			self::CKEY_PLUGIN => array(),
+			self::CKEY_PATH => array()
+		),
+		self::CKEY_APP => array(
+			self::CKEY_RENDER => array(),
+			self::CKEY_RESOURCE => array(),
+			self::CKEY_CONFIG => array(),
+			self::CKEY_PLUGIN => array(),
+			self::CKEY_PATH => array()
+		),
+		self::CKEY_SERVER => array(),
+		self::CKEY_USER => array(),
+		self::CKEY_STORE => array()
+	);
 	
 	/**
 	 * The registry values.
@@ -39,40 +67,7 @@ class Suskind_Registry {
 		self::loadPaths($paths);
 		self::loadConfigurations();
 
-		echo '<pre>';
-		var_dump(self::$registry);
-		echo '</pre>';
 		return;
-	}
-	/**
-	 * Get settings from registry.
-	 *
-	 * @param string $key
-	 * @return mixed Returns with value, what is aassigned to given key, or false, if key not exists.
-	 */
-	public static function getSettings($key) {
-		if (array_key_exists($key, self::$registry)) return self::$registry[$key];
-		elseif (array_key_exists('Suskind_Application_'.ucfirst($key), self::$registry)) return self::$registry['Suskind_Application_'.ucfirst($key)];
-		else return;
-	}
-
-	/**
-	 * Returns with application settings.
-	 *
-	 * @return array
-	 */
-	public static function getApplicationSettings() {
-		return self::$registry[self::CKEY_APP];
-	}
-
-	/**
-	 * Check, whether key exists or not.
-	 * 
-	 * @param string $key
-	 * @return boolean
-	 */
-	public static function checkKey($key) {
-		return array_key_exists($key, self::$registry) || array_key_exists('Suskind_Application_'.ucfirst($key), self::$registry);
 	}
 
 	/**
@@ -81,23 +76,23 @@ class Suskind_Registry {
 	 * @return void
 	 */
 	private static function loadPaths(array $paths) {
-		self::$registry[self::CKEY_SYSTEM]['Path'] = $paths[self::CKEY_SYSTEM];
-		if (file_exists(self::$registry[self::CKEY_SYSTEM]['Path'].DIRECTORY_SEPARATOR.self::CKEY_CONFIG.DIRECTORY_SEPARATOR.self::CKEY_CONFIG.'.ini')) self::$registry[self::CKEY_SYSTEM][self::CKEY_CONFIG] = self::$registry[self::CKEY_SYSTEM]['Path'].DIRECTORY_SEPARATOR.self::CKEY_CONFIG.DIRECTORY_SEPARATOR.self::CKEY_CONFIG.'.ini';
+		self::$registry[self::CKEY_SYSTEM][self::CKEY_PATH] = $paths[self::CKEY_SYSTEM];
+		if (file_exists(self::$registry[self::CKEY_SYSTEM][self::CKEY_PATH].DIRECTORY_SEPARATOR.self::CKEY_CONFIG.DIRECTORY_SEPARATOR.self::CKEY_CONFIG.'.ini')) self::$registry[self::CKEY_SYSTEM][self::CKEY_CONFIG] = self::$registry[self::CKEY_SYSTEM]['Path'].DIRECTORY_SEPARATOR.self::CKEY_CONFIG.DIRECTORY_SEPARATOR.self::CKEY_CONFIG.'.ini';
 
-		self::$registry[self::CKEY_APP]['Path'] = $paths[self::CKEY_APP];
+		self::$registry[self::CKEY_APP][self::CKEY_PATH] = $paths[self::CKEY_APP];
 
-		self::$registry[self::CKEY_APP][self::CKEY_PLUGIN]['Path'] = self::checkPath(self::CKEY_PLUGIN);
-		self::$registry[self::CKEY_APP][self::CKEY_RESOURCE]['Path'] = self::checkPath(self::CKEY_RESOURCE);
-		self::$registry[self::CKEY_APP][self::CKEY_RENDER]['Path'] = self::checkPath(self::CKEY_RENDER);
+		self::$registry[self::CKEY_APP][self::CKEY_PLUGIN][self::CKEY_PATH] = self::checkPath(self::CKEY_PLUGIN);
+		self::$registry[self::CKEY_APP][self::CKEY_RESOURCE][self::CKEY_PATH] = self::checkPath(self::CKEY_RESOURCE);
+		self::$registry[self::CKEY_APP][self::CKEY_RENDER][self::CKEY_PATH] = self::checkPath(self::CKEY_RENDER);
 
-		self::$registry[self::CKEY_APP][self::CKEY_CONFIG] = self::checkConfigurationPath(self::$registry[self::CKEY_APP]['Path'].DIRECTORY_SEPARATOR.self::CKEY_CONFIG.DIRECTORY_SEPARATOR);
+		self::$registry[self::CKEY_APP][self::CKEY_CONFIG] = self::checkConfigurationPath(self::$registry[self::CKEY_APP][self::CKEY_PATH].DIRECTORY_SEPARATOR.self::CKEY_CONFIG.DIRECTORY_SEPARATOR);
 	}
 
 	private static function checkConfigurationPath($path) {
 		if (file_exists($path.$_SERVER['SERVER_NAME'].DIRECTORY_SEPARATOR.'Application.ini')) return $path.$_SERVER['SERVER_NAME'].DIRECTORY_SEPARATOR.'Configuration.ini';
 		else {
 			if ($path.'Application.ini') return $path.'Configuration.ini';
-			else throw new Suskind_Exception(Suskind_Exception_Registry::ConfigurationNotExists(self::$registry[self::CKEY_APP]['Path'].DIRECTORY_SEPARATOR.self::CKEY_CONFIG));
+			else throw new Suskind_Exception(Suskind_Exception_Registry::ConfigurationNotExists(self::$registry[self::CKEY_APP][self::CKEY_PATH].DIRECTORY_SEPARATOR.self::CKEY_CONFIG));
 		}
 	}
 
@@ -109,7 +104,7 @@ class Suskind_Registry {
 	 * @return string
 	 */
 	private static function checkPath($path) {
-		return (file_exists(self::$registry[self::CKEY_APP]['Path'].DIRECTORY_SEPARATOR.$path)) ? self::$registry[self::CKEY_APP]['Path'].DIRECTORY_SEPARATOR.$path : self::$registry[self::CKEY_SYSTEM]['Path'].DIRECTORY_SEPARATOR.$path;
+		return (file_exists(self::$registry[self::CKEY_APP][self::CKEY_PATH].DIRECTORY_SEPARATOR.$path)) ? self::$registry[self::CKEY_APP][self::CKEY_PATH].DIRECTORY_SEPARATOR.$path : self::$registry[self::CKEY_SYSTEM]['Path'].DIRECTORY_SEPARATOR.$path;
 	}
 
 	/**
@@ -144,20 +139,36 @@ class Suskind_Registry {
 	 * @param array $configuration A previously parsed ini file.
 	 * @return void
 	 *
-	 * @todo This method need more development to parse more informations, like
-	 * registry, etc.
+	 * @todo Later try to rewrite with recursive methods to handle more of the
+	 * different resources or any other extends what are improving the usability
+	 * of the registry.
 	 */
 	private static function addRegistry(array $configuration) {
 		foreach ($configuration as $key => $settings) {
-			if (array_key_exists(trim($key), self::$registry)) {
-
-				self::$registry[trim($key)] = array_merge($settings, self::$registry[trim($key)]);
-			} else {
-				echo('<pre>');
-				var_dump(get_defined_constants(true));
-				echo('</pre>');
-			}
+			$key = ucfirst(strtolower(trim($key)));
+			if (!array_key_exists($key, self::$registry) && array_key_exists($key, self::$registryKeys)) self::$registry[$key] = array();
+			if (is_array($settings)) {
+				foreach ($settings as $variable => $value) {
+					$variable = strtolower(trim($variable));
+					if (strpos($variable, '.') > 0) {
+						if (is_array(self::$registryKeys[$key]) && array_key_exists(ucfirst(strtolower(substr($variable, 0, strpos($variable, '.')))), self::$registryKeys[$key])) {
+							if (ucfirst(strtolower(substr($variable, 0, strpos($variable, '.')))) == self::CKEY_RESOURCE) { //- Check Resources
+								if (ucfirst(strtolower(substr($variable, strpos($variable, '.')+1, 8))) == self::CKEY_DB) {
+									list(,, $group, $variable) = explode('.', $variable);
+									self::$registry[self::CKEY_APP][self::CKEY_RESOURCE][self::CKEY_DB][$group][$variable] = $value;
+								} else self::$registry[$key][ucfirst(strtolower(substr($variable, 0, strpos($variable, '.'))))][substr($variable, strpos($variable, '.')+1)] = $value;
+							} else self::$registry[$key][ucfirst(strtolower(substr($variable, 0, strpos($variable, '.'))))][substr($variable, strpos($variable, '.')+1)] = $value;
+						} else self::$registry[$key][$variable] = $value;
+					} else self::$registry[$key][$variable] = $value;
+				}
+			} else self::$registry[$key] = $settings;
 		}
+	}
+
+	private static function get($key, $variable = null) {
+		if (is_null($variable)) return self::$registry[$key];
+		if (array_key_exists($variable, self::$registry[$key])) return self::$registry[$key][$variable];
+		else return null;
 	}
 
 	/**
@@ -172,18 +183,38 @@ class Suskind_Registry {
 		if ($force === false) {
 			if (!array_key_exists($name, self::$registry[self::CKEY_STORE])) self::$registry[self::CKEY_STORE][$name] = $value;
 		} else self::$registry[self::CKEY_STORE][$name] = $value;
+
 		return self::$registry[self::CKEY_STORE][$name];
 	}
 
 	/**
-	 * Get a variable from the store.
+	 * Get one ore more variable from the Store.
 	 *
-	 * @param string $name The key to get value.
-	 * @return mixed Returns with the value, or null, if key not exists.
+	 * @param string $name The key to get value. If it's empty (is null) then the Registry will come back with the full array of this part.
+	 * @return mixed Returns with the value, or null, if key not exists, or array, if $name was null.
 	 */
-	public static final function getStore($name) {
-		if (array_key_exists($name, self::$registry[self::CKEY_STORE])) return self::$registry[self::CKEY_STORE][$name];
-		else return null;
+	public static final function getStore($name = null) {
+		return self::get(self::CKEY_STORE, $name);
+	}
+
+	/**
+	 * Get one ore more variable from the Registry's server related settings.
+	 *
+	 * @param string $name The key to get value. If it's empty (is null) then the Registry will come back with the full array of this part.
+	 * @return mixed Returns with the value, or null, if key not exists, or array, if $name was null.
+	 */
+	public static final function getServer($name = null) {
+		return self::get(self::CKEY_SERVER, $name);
+	}
+
+	/**
+	 * Get one ore more variable from the Registry's application related settings.
+	 *
+	 * @param string $name The key to get value. If it's empty (is null) then the Registry will come back with the full array of this part.
+	 * @return mixed Returns with the value, or null, if key not exists, or array, if $name was null.
+	 */
+	public static final  function getApplicationSettings($name = null) {
+		return self::get(self::CKEY_APP, $name);
 	}
 }
 ?>

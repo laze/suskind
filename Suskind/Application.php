@@ -11,13 +11,6 @@
  */
 final class Suskind_Application {
 	/**
-	 * Application environment
-	 *
- 	 * @var array
-	 */
-	private $environment;
-
-	/**
 	 * The actually loaded model.
 	 *
 	 * @var Suskind_Model
@@ -35,7 +28,6 @@ final class Suskind_Application {
      * @todo: Check wether is included via include_path or via regular path.
      */
     public function __construct($parameters = null) {
-		$this->environment = Suskind_Registry::getApplicationSettings();
 		if (!is_null($parameters['control'])) {
 			$this->control = $parameters['control'];
 			$this->event = $parameters['event'];
