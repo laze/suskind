@@ -39,6 +39,9 @@ class Suskind_Registry {
 		self::loadPaths($paths);
 		self::loadConfigurations();
 
+		echo '<pre>';
+		var_dump(self::$registry);
+		echo '</pre>';
 		return;
 	}
 	/**
@@ -79,6 +82,8 @@ class Suskind_Registry {
 	 */
 	private static function loadPaths(array $paths) {
 		self::$registry[self::CKEY_SYSTEM]['Path'] = $paths[self::CKEY_SYSTEM];
+		if (file_exists(self::$registry[self::CKEY_SYSTEM]['Path'].DIRECTORY_SEPARATOR.self::CKEY_CONFIG.DIRECTORY_SEPARATOR.self::CKEY_CONFIG.'.ini')) self::$registry[self::CKEY_SYSTEM][self::CKEY_CONFIG] = self::$registry[self::CKEY_SYSTEM]['Path'].DIRECTORY_SEPARATOR.self::CKEY_CONFIG.DIRECTORY_SEPARATOR.self::CKEY_CONFIG.'.ini';
+
 		self::$registry[self::CKEY_APP]['Path'] = $paths[self::CKEY_APP];
 
 		self::$registry[self::CKEY_APP][self::CKEY_PLUGIN]['Path'] = self::checkPath(self::CKEY_PLUGIN);
@@ -116,14 +121,8 @@ class Suskind_Registry {
 	 * @return void
 	 */
 	private static function loadConfigurations() {
-		self::addRegistry(parse_ini_file(self::$registry[self::CKEY_APP][self::CKEY_CONFIG], true));
-		/*
-		//- Gets the application's global configuration.
-		if (file_exists(self::$paths['Application'].'/Configuration/application.ini')) self::addRegistry(parse_ini_file(self::$paths['Application'].'/Configuration/application.ini', true));
-		//- Gets the application's host-related configuration.
-		if (file_exists(self::$paths['Application'].'/Configuration/'.$_SERVER['SERVER_NAME'].'/application.ini')) $this->addRegistry(parse_ini_file(self::$paths['Application'].'/Configuration/'.$_SERVER['SERVER_NAME'].'/application.ini', true));
-		 *
-		 */
+		if (array_key_exists(self::CKEY_CONFIG, self::$registry[self::CKEY_SYSTEM])) self::addRegistry(parse_ini_file(self::$registry[self::CKEY_SYSTEM][self::CKEY_CONFIG], true));
+		if (array_key_exists(self::CKEY_CONFIG, self::$registry[self::CKEY_APP])) self::addRegistry(parse_ini_file(self::$registry[self::CKEY_APP][self::CKEY_CONFIG], true));
 	}
 
 	/**
@@ -152,8 +151,11 @@ class Suskind_Registry {
 		foreach ($configuration as $key => $settings) {
 			if (array_key_exists(trim($key), self::$registry)) {
 
-				$path = 'Suskind_'.str_replace(' ', '_', ucwords(str_replace('.', ' ', $path)));
 				self::$registry[trim($key)] = array_merge($settings, self::$registry[trim($key)]);
+			} else {
+				echo('<pre>');
+				var_dump(get_defined_constants(true));
+				echo('</pre>');
 			}
 		}
 	}
