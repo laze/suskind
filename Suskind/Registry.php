@@ -32,14 +32,18 @@ class Suskind_Registry {
 	private static $registryKeys = array(
 		self::CKEY_SYSTEM => array(
 			self::CKEY_RENDER => array(),
-			self::CKEY_RESOURCE => array(),
+			self::CKEY_RESOURCE => array(
+                            self::CKEY_DB => array()
+                        ),
 			self::CKEY_CONFIG => array(),
 			self::CKEY_PLUGIN => array(),
 			self::CKEY_PATH => array()
 		),
 		self::CKEY_APP => array(
 			self::CKEY_RENDER => array(),
-			self::CKEY_RESOURCE => array(),
+			self::CKEY_RESOURCE => array(
+                            self::CKEY_DB => array()
+                        ),
 			self::CKEY_CONFIG => array(),
 			self::CKEY_PLUGIN => array(),
 			self::CKEY_PATH => array()
