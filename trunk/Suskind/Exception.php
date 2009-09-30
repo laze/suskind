@@ -19,8 +19,12 @@ class Suskind_Exception extends Exception {
 		 * @todo check is ob started or not?
 		 */
 //		ob_end_clean();
-		$output = new Suskind_Render_Html();
-		$output->showError($this);
+//		$output = new Suskind_Render_Html();
+//		$output->showError($this);
+
+		echo('<pre>');
+		var_dump($this);
+		echo '</pre>';
 		
 		exit ($this->getCode());
 	}

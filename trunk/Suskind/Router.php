@@ -25,9 +25,9 @@ class Suskind_Router {
 	
 	private $forwardRequestURI;
 
-	private $control;
+	private $control = null;
 
-	private $event;
+	private $event = null;
 
 
 	/**
@@ -51,7 +51,7 @@ class Suskind_Router {
 	}
 
 	private function __construct() {
-		if(Suskind_Registry::checkKey('routes') === true) $this->routes = array_merge(Suskind_Registry::getSettings('routes'), $this->routes);
+		if (is_array(Suskind_Registry::getApplicationSettings('routes'))) $this->routes = array_merge(Suskind_Registry::getApplicationSettings('routes'), $this->routes);
 		$this->parseRoute();
 	}
 
@@ -78,21 +78,11 @@ class Suskind_Router {
 			 * If there are neither valid model nor valid view, then throw an
 			 * exception.
 			 */
-		if (sizeof($this->originalRequestURI) < 1) return false;
-		try {
-			if ($this->originalRequestURI[0] == 'Suskind_Fountain') call_user_func($this->originalRequestURI);
-			if ($this->originalRequestURI[0] == 'sf') $this->getFile($this->originalRequestURI);
-			$this->control = (class_exists('Application_Control_'.ucfirst($this->originalRequestURI[0]), true)) ? 'Application_Control_'.ucfirst($this->originalRequestURI[0]) : null;
-			if (isset ($this->originalRequestURI[1])) $this->event = (!is_null($this->control)) ? $this->control->registerEvent($this->originalRequestURI[1]) : null;
-			else $this->event = null;
+		if ($this->originalRequestURI[0] == 'Suskind_Fountain') call_user_func($this->originalRequestURI);
+		if ($this->originalRequestURI[0] == 'sf') $this->getFile($this->originalRequestURI);
 
-			return true;
-		} catch (Exception $excpetion) {
-			/**
-			 * @todo: Create a valid exception for this.
-			 */
-			throw new Suskind_Exception_Router_NotValidModel($this->originalRequestURI[0]);
-		}
+		$this->control = $this->originalRequestURI[0];
+		if (isset ($this->originalRequestURI[1])) $this->event = $this->originalRequestURI[1];
 	}
 
 	/**
@@ -111,11 +101,11 @@ class Suskind_Router {
 	 * @see parseRoute
 	 */
 	public function getControl() {
-		return (!is_null($this->control)) ? new $this->control : false;
+		return $this->control;
 	}
 
 	public function getEvent() {
-		return (!is_null($this->event)) ? $this->event : false;
+		return $this->event;
 	}
 
 	/**
