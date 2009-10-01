@@ -11,28 +11,23 @@
  */
 final class Suskind_Application {
 	/**
-	 * The actually loaded model.
 	 *
-	 * @var Suskind_Model
+	 * @var Suskind_Fountain
 	 */
-	public $control = null;
-
-	/**
-	 * The called view.
-	 *
-	 * @var Suskind_View
-	 */
-	public $event;
+	private $fountain;
 
     /**
      * @todo: Check wether is included via include_path or via regular path.
      */
-    public function __construct($parameters = null) {
-		if (!is_null($parameters['control'])) {
-			$this->control = $parameters['control'];
-			$this->event = $parameters['event'];
-		}
+    public function __construct() {
+
+
+		$this->fountain = Suskind_Fountain::getInstance();
     }
+
+	public function init() {
+		echo('me either');
+	}
 
 	/**
 	 * This method try to return with the default view of the application. First,
@@ -65,6 +60,14 @@ final class Suskind_Application {
 		} catch (Suskind_Exception $exception) {
 			$exception->show();
 		}
+	}
+
+	public static final function run() {
+		$pathToFountain = explode(DIRECTORY_SEPARATOR, __FILE__);
+		$pathToFountain[count($pathToFountain)-1] = 'Fountain.php';
+		require_once implode(DIRECTORY_SEPARATOR, $pathToFountain);
+		$application = new Suskind_Application();
+		$application->init();
 	}
 }
 

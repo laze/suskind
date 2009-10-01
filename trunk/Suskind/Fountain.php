@@ -47,12 +47,15 @@ final class Suskind_Fountain {
 				'Suskind'		=> realpath('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR)
 			));
 			if (is_array(Suskind_Registry::getServer())) foreach (Suskind_Registry::getServer() as $variable => $value) {
-				if (substr($variable, 0, 7) == 'php_ini') ini_set(substr($variable,8), $value);
+				if (strtolower(substr($variable, 0, 7)) == 'php_ini') ini_set(substr($variable, 7), $value);
 			}
 				//- Starting session...
 			Suskind_Session_Session::start();
 				//- Get routes...
 			$this->router = Suskind_Router::getInstance();
+				//- Creating the application
+			var_dump(ini_get('error_reporting'));
+			var_dump(ini_get('display_errors'));
 		} catch (Suskind_Exception $exception) {
 			$exception->show();
 		}
@@ -65,27 +68,6 @@ final class Suskind_Fountain {
 	 */
 	public static function getPHPInfo() {
 		phpinfo();
-	}
-
-	/**
-	 * Initializes an application.
-	 * 
-	 * @return Suskind_Application
-	 */
-	public function init() {
-		try {
-			return new Suskind_Application(array(
-				'control'	=> ($this->router->getControl() !== false) ? $this->router->getControl() : null,
-				'event'		=> ($this->router->getEvent() !== false) ? $this->router->getEvent() : null
-			));
-		} catch (Suskind_Exception $exception) {
-			$exception->show();
-		}
-	}
-
-	private function executeSystemRequest() {
-		$request = $this->router->getRoute();
-		if (sizeof($request)) call_user_method($request[1], $request[0]);
 	}
 }
 
