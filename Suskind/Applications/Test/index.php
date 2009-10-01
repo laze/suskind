@@ -5,9 +5,8 @@
  * and open the template in the editor.
  */
 
-require_once realpath('../../').'/Fountain.php';
+require_once realpath('../../').'/Application.php';
 
-Suskind_Fountain::getInstance()->init()
-	->show();
+Suskind_Application::run();
 
 ?>
