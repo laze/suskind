@@ -19,15 +19,15 @@ class Suskind_Router {
 	 * The parsed request URI. It contains
 	 * @var array
 	 */
-	private $originalRequestURI;
+	private $originalRequestURI = null;
 	
-	private $referrerRequestURI;
+	private $referrerRequestURI = null;
 	
-	private $forwardRequestURI;
-
 	private $control = null;
 
-	private $event = null;
+	private $method = null;
+
+	private $parameters = null;
 
 
 	/**
@@ -66,23 +66,15 @@ class Suskind_Router {
 		list($url) = explode('?', $_SERVER['REQUEST_URI']);
 		$this->referrerRequestURI = (isset ($_SERVER['HTTP_REFERER'])) ? array_values(array_diff(explode( '/', $_SERVER['HTTP_REFERER']), explode( '/', $_SERVER['SCRIPT_NAME']))) : null;
 		$this->originalRequestURI = array_values(array_diff(explode( '/', $url), explode( '/', $_SERVER['SCRIPT_NAME'])));
-		$this->forwardRequestURI = (isset ($_REQUEST['next'])) ? array_values(array_diff(explode( '/', $_REQUEST['next']), explode( '/', $_SERVER['SCRIPT_NAME']))) : null;
 			//- Check in routes to replace request if neccesary.
-		$routersMatch = array_values(array_intersect(array_values($this->originalRequestURI), array_keys($this->routes)));
-		if (sizeof($routersMatch) > 0) $this->originalRequestURI = explode( '/', $this->routes[$routersMatch[0]]);
-			/**
-			 * Sets the model and the view, if they avaliable. The parser set
-			 * these variables to null, if no value given. Later, if view is
-			 * null, then has to get the model's default view.
-			 *
-			 * If there are neither valid model nor valid view, then throw an
-			 * exception.
-			 */
-		if ($this->originalRequestURI[0] == 'Suskind_Fountain') call_user_func($this->originalRequestURI);
-		if ($this->originalRequestURI[0] == 'sf') $this->getFile($this->originalRequestURI);
-
+		if (array_key_exists($this->originalRequestURI[0], $this->routes)) $this->originalRequestURI = array_merge(explode( '/', $this->routes[$this->originalRequestURI[0]]), array_slice($this->originalRequestURI, 1));
 		$this->control = $this->originalRequestURI[0];
-		if (isset ($this->originalRequestURI[1])) $this->event = $this->originalRequestURI[1];
+		if (count($this->originalRequestURI) > 1) $this->method = $this->originalRequestURI[1];
+		if (count($this->originalRequestURI) > 2) $this->parameters = array_merge(array_slice($this->originalRequestURI, 2),$_REQUEST);
+	}
+
+	public function isRouteParsed() {
+		return !is_null($this->originalRequestURI);
 	}
 
 	/**
@@ -97,15 +89,20 @@ class Suskind_Router {
 	/**
 	 * Returns with the previously parsed control object.
 	 *
-	 * @return Suskind_Control
+	 * @return string Returns with the controler part of the parsed request, or null if not exists.
 	 * @see parseRoute
 	 */
 	public function getControl() {
 		return $this->control;
 	}
 
-	public function getEvent() {
-		return $this->event;
+	/**
+	 *
+	 * @return string Returns with the method part of the parsed request, or null if not exists.
+	 * @see parseRoute
+	 */
+	public function getMethod() {
+		return $this->method;
 	}
 
 	/**
@@ -113,6 +110,8 @@ class Suskind_Router {
 	 * with directory separator to read file.
 	 *
 	 * @param array $request The request, what is received, so this content the path to the file.
+	 *
+	 * @todo REMOVE FROM HERE!
 	 */
 	public function getFile(array $path) {
 		$fileRequest = str_replace('sf', $_ENV['PATH_SYSTEM'].DIRECTORY_SEPARATOR.'Suskind'.DIRECTORY_SEPARATOR.'Assets', implode(DIRECTORY_SEPARATOR, $path));

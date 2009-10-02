@@ -16,13 +16,12 @@ final class Suskind_Application {
 	 */
 	private $fountain;
 
-    /**
-     * @todo: Check wether is included via include_path or via regular path.
-     */
-    public function __construct() {
-
-
-		$this->fountain = Suskind_Fountain::getInstance();
+	/**
+	 *
+	 * @param Suskind_Fountain $fountain
+	 */
+    public function __construct(Suskind_Fountain $fountain) {
+		$this->fountain = $fountain;
     }
 
 	public function init() {
@@ -47,8 +46,8 @@ final class Suskind_Application {
 		}
     }
 	
-	public function compileView() {
-		return $this->view;
+	public function compile() {
+		$this->fountain->compile();
 	}
 
 	public function show() {
@@ -63,11 +62,11 @@ final class Suskind_Application {
 	}
 
 	public static final function run() {
-		$pathToFountain = explode(DIRECTORY_SEPARATOR, __FILE__);
-		$pathToFountain[count($pathToFountain)-1] = 'Fountain.php';
-		require_once implode(DIRECTORY_SEPARATOR, $pathToFountain);
-		$application = new Suskind_Application();
+		require_once substr_replace(__FILE__, 'Fountain.php', strrpos(__FILE__, DIRECTORY_SEPARATOR)+1);
+
+		$application = new Suskind_Application(Suskind_Fountain::getInstance());
 		$application->init();
+		$application->compile();
 	}
 }
 
