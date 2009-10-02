@@ -41,10 +41,10 @@ final class Suskind_Fountain {
 				//- Set application and system paths.
 			$_ENV['URL'] = $_SERVER['SERVER_NAME'];
 				//- Include the Suskind_Loader class to define automatic loader methods.
-			require_once realpath('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.'Loader.php';
+			require_once substr_replace(__FILE__, 'Loader.php', strrpos(__FILE__, DIRECTORY_SEPARATOR)+1);
 			Suskind_Loader::init(array(
 				'Application'	=> realpath(getcwd()),
-				'Suskind'		=> realpath('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR)
+				'Suskind'		=> realpath(substr(__FILE__, 0, strrpos(__FILE__, DIRECTORY_SEPARATOR)))
 			));
 			if (is_array(Suskind_Registry::getServer())) foreach (Suskind_Registry::getServer() as $variable => $value) {
 				if (strtolower(substr($variable, 0, 7)) == 'php_ini') ini_set(substr($variable, 7), $value);
@@ -54,11 +54,21 @@ final class Suskind_Fountain {
 				//- Get routes...
 			$this->router = Suskind_Router::getInstance();
 				//- Creating the application
-			var_dump(ini_get('error_reporting'));
-			var_dump(ini_get('display_errors'));
 		} catch (Suskind_Exception $exception) {
 			$exception->show();
 		}
+	}
+
+	public function compile() {
+		$control = ($this->router->getControl()) ? $this->router->getControl() : 'Suskind_Application';
+		if (is_null($this->router->getMethod()) && !class_exists('Application_View_Default')) {
+			$control = __CLASS__;
+			$method = (class_exists('Suskind_View_Default')) ? 'Suskind_View_Default' : 'Suskind_View_Static_Default';
+		} else $method = $this->router->getMethod();
+
+
+		echo(__CLASS__.' compile use: '.$control.'->'.$method);
+		var_dump($control);
 	}
 
 	/**
