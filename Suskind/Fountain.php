@@ -14,6 +14,12 @@ final class Suskind_Fountain {
 	 */
 	const SESSION_ID = 'SUSKINDSESSID';
 
+	const DEFAULT_APP_VIEW = 'Application_View_Default';
+
+	const DEFAULT_VIEW = '';
+
+	const APP_CLASS = 'Suskind_Application';
+
     /**
      * @var Suskind_Loader Singleton instance
      */
@@ -60,15 +66,22 @@ final class Suskind_Fountain {
 	}
 
 	public function compile() {
-		$control = ($this->router->getControl()) ? $this->router->getControl() : 'Suskind_Application';
-		if (is_null($this->router->getMethod()) && !class_exists('Application_View_Default')) {
-			$control = __CLASS__;
-			$method = (class_exists('Suskind_View_Default')) ? 'Suskind_View_Default' : 'Suskind_View_Static_Default';
-		} else $method = $this->router->getMethod();
-
-
-		echo(__CLASS__.' compile use: '.$control.'->'.$method);
-		var_dump($control);
+		if (is_null($this->router->getControl())) {
+			if (is_null($this->router->getMethod()) && !class_exists(self::DEFAULT_APP_VIEW)) {
+				$control = __CLASS__;
+				$method = (class_exists('Suskind_View_Default')) ? 'Suskind_View_Default' : 'Suskind_View_Static_Default';
+			} elseif (is_null($this->router->getMethod()) && class_exists(self::DEFAULT_APP_VIEW)) {
+				$control = self::APP_CLASS;
+				$method = self::DEFAULT_APP_VIEW;
+			}
+		} else {
+			$control = $this->router->getControl();
+			$method = (!is_null($this->router->getMethod())) ? $this->router->getMethod() : self::DEFAULT_VIEW;
+		}
+		if ($control !== __CLASS__) return array(
+			$control,
+			$method
+		);
 	}
 
 	/**

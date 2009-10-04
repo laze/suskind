@@ -47,7 +47,9 @@ final class Suskind_Application {
     }
 	
 	public function compile() {
-		$this->fountain->compile();
+		if (is_array($this->fountain->compile())) {
+			echo 'ide';
+		}
 	}
 
 	public function show() {
