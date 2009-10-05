@@ -14,12 +14,6 @@ final class Suskind_Fountain {
 	 */
 	const SESSION_ID = 'SUSKINDSESSID';
 
-	const DEFAULT_APP_VIEW = 'Application_View_Default';
-
-	const DEFAULT_VIEW = '';
-
-	const APP_CLASS = 'Suskind_Application';
-
     /**
      * @var Suskind_Loader Singleton instance
      */
@@ -31,6 +25,12 @@ final class Suskind_Fountain {
 	 * @var Suskind_Router
 	 */
 	private $router;
+
+	/**
+	 *
+	 * @var Suskind_View_Layout
+	 */
+	private $layout;
 
 	/**
 	 * Retrieve singleton instance
@@ -67,21 +67,30 @@ final class Suskind_Fountain {
 
 	public function compile() {
 		if (is_null($this->router->getControl())) {
-			if (is_null($this->router->getMethod()) && !class_exists(self::DEFAULT_APP_VIEW)) {
-				$control = __CLASS__;
-				$method = (class_exists('Suskind_View_Default')) ? 'Suskind_View_Default' : 'Suskind_View_Static_Default';
-			} elseif (is_null($this->router->getMethod()) && class_exists(self::DEFAULT_APP_VIEW)) {
-				$control = self::APP_CLASS;
-				$method = self::DEFAULT_APP_VIEW;
-			}
+			if (is_null($this->router->getMethod()) && !class_exists($this->getApplicationLayout())) call_user_func(array(__CLASS__, $this->getDefaultLayout()));
+			elseif (is_null($this->router->getMethod()) && class_exists($this->getApplicationLayout())) return array(
+				'Suskind_Application',
+				$this->getApplicationLayout()
+			);
 		} else {
-			$control = $this->router->getControl();
-			$method = (!is_null($this->router->getMethod())) ? $this->router->getMethod() : self::DEFAULT_VIEW;
+			if ($this->router->getControl() !== __CLASS__) return array(
+				$this->router->getControl(),
+				(!is_null($this->router->getMethod())) ? $this->router->getMethod() : self::DEFAULT_VIEW
+			);
+			else call_user_func(array(__CLASS__,$this->router->getMethod()));
 		}
-		if ($control !== __CLASS__) return array(
-			$control,
-			$method
-		);
+	}
+
+	private function getDefaultLayout() {
+		echo('deflay');
+	}
+
+	public function getApplicationLayout(Suskind_View_Layout $layout) {
+		return $this->layout;
+	}
+
+	public function setApplicationLayout(Suskind_View_Layout $layout) {
+		$this->layout = $layout;
 	}
 
 	/**
