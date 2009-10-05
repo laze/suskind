@@ -25,7 +25,7 @@ final class Suskind_Application {
     }
 
 	public function init() {
-		echo('me either');
+		$this->fountain->setApplicationLayout('Application_View_Default');
 	}
 
 	/**
