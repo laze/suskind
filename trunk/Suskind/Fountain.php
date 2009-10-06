@@ -33,6 +33,12 @@ final class Suskind_Fountain {
 	private $layout;
 
 	/**
+	 *
+	 * @var Suskind_Control_Control
+	 */
+	private $control;
+
+	/**
 	 * Retrieve singleton instance
 	 *
 	 * @return Suskind_Fountain
@@ -91,6 +97,30 @@ final class Suskind_Fountain {
 
 	public function setApplicationLayout(Suskind_View_Layout $layout) {
 		$this->layout = $layout;
+	}
+
+	public function getControl() {
+		return $this->router->getControl();
+	}
+
+	public function initControl($preferedControl = null) {
+		if (!is_null($preferedControl) && class_exists($preferedControl)) $this->control = new $preferedControl;
+		else {
+			if (!is_null($this->router->getControl()) && class_exists('Application_Control_'.ucfirst($this->router->getControl()))) {
+				$className = 'Application_Control_'.ucfirst($this->router->getControl());
+				$this->control = new $className;
+			}
+			else $this->control = new Suskind_Control_Fountain();
+		}
+	}
+
+	public function initLayout($preferedView = null) {
+		if (!is_null($preferedView) && class_exists($preferedView)) $this->layout = new $preferedView;
+		else {
+			if (!is_null($this->router->getView())) $this->layout = new $this->router->getControl();
+			else $this->layout = new Suskind_View_Static_Default();
+		}
+		var_dump($this->layout);
 	}
 
 	/**

@@ -20,7 +20,7 @@ class Suskind_Render_Html extends Suskind_Render_Render {
 	const delimiter_end = ':>';
 
 	public function __construct() {
-		$renders = Suskind_Registry::getSettings('render');
+		$renders = Suskind_Registry::getApplicationSettings('render');
 		if (is_array($renders) && array_key_exists('html', $renders)) $this->render = new $renders['html'];
 	}
 

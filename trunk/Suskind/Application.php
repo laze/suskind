@@ -10,6 +10,11 @@
  * @author Balazs Ercsey <laze@laze.hu>
  */
 final class Suskind_Application {
+
+	/**
+	 *
+	 */
+	const DEFAULT_VIEW = 'Application_View_Default';
 	/**
 	 *
 	 * @var Suskind_Fountain
@@ -25,7 +30,8 @@ final class Suskind_Application {
     }
 
 	public function init() {
-		$this->fountain->setApplicationLayout('Application_View_Default');
+		$this->fountain->initControl();
+		$this->fountain->initLayout(self::DEFAULT_VIEW);
 	}
 
 	/**
@@ -37,19 +43,11 @@ final class Suskind_Application {
 	 * @return void Return boolean false if application view not set.
 	 */
 	public function getDefaultView() {
-		try {
-			if (array_key_exists('Suskind_Application_Views', $this->environment) && $this->environment['Suskind_Application_Views']['Default']) return $this->environment['Suskind_Application_Views']['Default'];
-			else if (class_exists('Application_View_Default', true)) return new Application_View_Default();
-			else return new Suskind_View_Static_Default();
-		} catch (Suskind_Exception $exception) {
-			$exception->show();
-		}
+		//- if (array_key_exists('Suskind_Application_Views', $this->environment) && $this->environment['Suskind_Application_Views']['Default']) return $this->environment['Suskind_Application_Views']['Default'];
+		if (class_exists('Application_View_Default', true)) return Application_View_Default();
     }
 	
 	public function compile() {
-		if (is_array($this->fountain->compile())) {
-			echo 'ide';
-		}
 	}
 
 	public function show() {
@@ -64,11 +62,17 @@ final class Suskind_Application {
 	}
 
 	public static final function run() {
-		require_once substr_replace(__FILE__, 'Fountain.php', strrpos(__FILE__, DIRECTORY_SEPARATOR)+1);
+		try {
+			require_once substr_replace(__FILE__, 'Fountain.php', strrpos(__FILE__, DIRECTORY_SEPARATOR)+1);
 
-		$application = new Suskind_Application(Suskind_Fountain::getInstance());
-		$application->init();
-		$application->compile();
+			$application = new Suskind_Application(Suskind_Fountain::getInstance());
+			$application->init();
+			$application->compile();
+		} catch (Suskind_Exception $exception) {
+			$exception->show();
+		} catch (Exception $exception) {
+			echo $exception->__toString();
+		}
 	}
 }
 
