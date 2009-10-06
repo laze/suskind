@@ -21,10 +21,13 @@ class Suskind_Exception extends Exception {
 //		ob_end_clean();
 //		$output = new Suskind_Render_Html();
 //		$output->showError($this);
-
+	/*
 		echo('<pre>');
 		var_dump($this);
 		echo '</pre>';
+	 *
+	 */
+		echo $this->code.': '.$this->message.' @ '.$this->file.' ('.$this->line.')';
 		
 		exit ($this->getCode());
 	}
