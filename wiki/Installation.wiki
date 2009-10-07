@@ -9,18 +9,3 @@ First of all, get the source code from repository. SF stored in SVN, so, you'll 
 svn checkout http://suskind.googlecode.com/svn/trunk/ suskind-read-only
 }}}
 After it's downloaded, you don't have to do anything with it.
-=== Create an application ===
-----
-  This information is only for testing, later we would like to add an application creator wizard.
-----
-To create an application, you just have to create two symlinks, therefore you just need a terminal.
-{{{
- # Symlink Application to WWW
- ~$ ln -s /var/www/test ./suskind-read-only/Apps/Test/Public
- # Symlink Library to Süskind
- ~$ ln -s ./suskind-read-only/Apps/Test/Library ./suskind-read-only/Suskind
-}}}
-Please take attention with your symlink creations, they works only if the structure is the same as it's written. You can check your results, if you open a browser, and go to:
-{{{
-http://localhost/test/
-}}}
