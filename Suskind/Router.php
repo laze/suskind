@@ -25,7 +25,7 @@ class Suskind_Router {
 	
 	private $control = null;
 
-	private $method = null;
+	private $view = null;
 
 	private $parameters = null;
 
@@ -68,8 +68,11 @@ class Suskind_Router {
 		$this->originalRequestURI = array_values(array_diff(explode( '/', $url), explode( '/', $_SERVER['SCRIPT_NAME'])));
 			//- Check in routes to replace request if neccesary.
 		if (array_key_exists($this->originalRequestURI[0], $this->routes)) $this->originalRequestURI = array_merge(explode( '/', $this->routes[$this->originalRequestURI[0]]), array_slice($this->originalRequestURI, 1));
-		$this->control = $this->originalRequestURI[0];
-		if (count($this->originalRequestURI) > 1) $this->method = $this->originalRequestURI[1];
+		if (count($this->originalRequestURI) > 0) {
+			if ($this->originalRequestURI[0] == 'Assets') $this->getFile($this->originalRequestURI);
+			else $this->control = $this->originalRequestURI[0];
+		}
+		if (count($this->originalRequestURI) > 1) $this->view = $this->originalRequestURI[1];
 		if (count($this->originalRequestURI) > 2) $this->parameters = array_merge(array_slice($this->originalRequestURI, 2),$_REQUEST);
 	}
 
@@ -101,8 +104,8 @@ class Suskind_Router {
 	 * @return string Returns with the method part of the parsed request, or null if not exists.
 	 * @see parseRoute
 	 */
-	public function getMethod() {
-		return $this->method;
+	public function getView() {
+		return $this->view;
 	}
 
 	/**
@@ -114,10 +117,12 @@ class Suskind_Router {
 	 * @todo REMOVE FROM HERE!
 	 */
 	public function getFile(array $path) {
-		$fileRequest = str_replace('sf', $_ENV['PATH_SYSTEM'].DIRECTORY_SEPARATOR.'Suskind'.DIRECTORY_SEPARATOR.'Assets', implode(DIRECTORY_SEPARATOR, $path));
+		$fileRequest = Suskind_Registry::getSystemSettings(Suskind_Registry::CKEY_PATH).DIRECTORY_SEPARATOR.implode(DIRECTORY_SEPARATOR, $path);
 			//- Sending file
-		header('Content-type: '.mime_content_type($fileRequest));
-		readfile($fileRequest);
+		if (file_exists($fileRequest)){
+			header('Content-type: '.mime_content_type($fileRequest));
+			readfile($fileRequest);
+		}
 	}
 }
 

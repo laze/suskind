@@ -20,7 +20,7 @@ class Suskind_View_Static_Default implements Suskind_View_Static_Interface {
 
 	public function  __construct() {
 		$this->render = new Suskind_Render_Html();
-		$this->render->setTemplate($_ENV['PATH_SYSTEM'].DIRECTORY_SEPARATOR.'Suskind'.DIRECTORY_SEPARATOR.'Assets'.DIRECTORY_SEPARATOR.'Templates'.DIRECTORY_SEPARATOR.'Framework'.DIRECTORY_SEPARATOR.'Default.html');
+		$this->render->setTemplate(Suskind_Registry::getSystemSettings(Suskind_Registry::CKEY_PATH).DIRECTORY_SEPARATOR.'Assets'.DIRECTORY_SEPARATOR.'Templates'.DIRECTORY_SEPARATOR.'Default.html');
 	}
 
 	public function show() {
