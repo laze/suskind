@@ -217,8 +217,18 @@ class Suskind_Registry {
 	 * @param string $name The key to get value. If it's empty (is null) then the Registry will come back with the full array of this part.
 	 * @return mixed Returns with the value, or null, if key not exists, or array, if $name was null.
 	 */
-	public static final  function getApplicationSettings($name = null) {
+	public static final function getApplicationSettings($name = null) {
 		return self::get(self::CKEY_APP, $name);
+	}
+
+	/**
+	 * Get one ore more variable from the Registry's system related settings.
+	 *
+	 * @param string $name The key to get value. If it's empty (is null) then the Registry will come back with the full array of this part.
+	 * @return mixed Returns with the value, or null, if key not exists, or array, if $name was null.
+	 */
+	public static final function getSystemSettings($name = null) {
+		return self::get(self::CKEY_SYSTEM, $name);
 	}
 }
 ?>

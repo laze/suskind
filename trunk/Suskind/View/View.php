@@ -14,7 +14,7 @@ class Suskind_View_View implements Suskind_View_Interface {
 
 	public function __construct($className = null) {
 		$this->render = Suskind_Render_Factory::createRender();
-		if (!is_null($className)) $this->render->setTemplate(str_replace('Application', $_ENV['PATH_APPLICATION'].DIRECTORY_SEPARATOR.'Assets'.DIRECTORY_SEPARATOR.'Templates', str_replace('_', DIRECTORY_SEPARATOR, $className)).'.html');
+		if (!is_null($className)) $this->render->setTemplate(str_replace('Application', Suskind_Registry::getApplicationSettings(Suskind_Registry::CKEY_PATH).DIRECTORY_SEPARATOR.'Assets'.DIRECTORY_SEPARATOR.'Templates', str_replace('_', DIRECTORY_SEPARATOR, $className)).'.html');
 	}
 
 	/**

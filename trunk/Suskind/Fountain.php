@@ -72,19 +72,8 @@ final class Suskind_Fountain {
 	}
 
 	public function compile() {
-		if (is_null($this->router->getControl())) {
-			if (is_null($this->router->getMethod()) && !class_exists($this->getApplicationLayout())) call_user_func(array(__CLASS__, $this->getDefaultLayout()));
-			elseif (is_null($this->router->getMethod()) && class_exists($this->getApplicationLayout())) return array(
-				'Suskind_Application',
-				$this->getApplicationLayout()
-			);
-		} else {
-			if ($this->router->getControl() !== __CLASS__) return array(
-				$this->router->getControl(),
-				(!is_null($this->router->getMethod())) ? $this->router->getMethod() : self::DEFAULT_VIEW
-			);
-			else call_user_func(array(__CLASS__,$this->router->getMethod()));
-		}
+		$this->control->getView($this->layout);
+		$this->layout->show();
 	}
 
 	private function getDefaultLayout() {
@@ -117,10 +106,9 @@ final class Suskind_Fountain {
 	public function initLayout($preferedView = null) {
 		if (!is_null($preferedView) && class_exists($preferedView)) $this->layout = new $preferedView;
 		else {
-			if (!is_null($this->router->getView())) $this->layout = new $this->router->getControl();
+			if (!is_null($this->router->getView())) $this->layout = new $this->control->getView();
 			else $this->layout = new Suskind_View_Static_Default();
 		}
-		var_dump($this->layout);
 	}
 
 	/**

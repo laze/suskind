@@ -10,7 +10,9 @@
  * @author laze
  */
 class Suskind_Control_Fountain {
-	
+	public function getView() {
+		return true;
+	}
 }
 
 ?>

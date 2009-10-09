@@ -48,6 +48,7 @@ final class Suskind_Application {
     }
 	
 	public function compile() {
+		$this->fountain->compile();
 	}
 
 	public function show() {

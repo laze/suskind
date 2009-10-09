@@ -18,6 +18,7 @@ class Application_Control_Guestbook extends Suskind_Control_Control {
 		);
 		$this->model = new Application_Model_Guestbook();
 		$this->control = __CLASS__;
+		$this->defaultLayout = new Application_View_Guestbook_List();
 	}
 }
 ?>
