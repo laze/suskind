@@ -1,4 +1,4 @@
-#summary How View handled in MVC.
+#summary Documentation of MVC's View.
 {{{
 interface: Suskind_View_Interface
 basic class: Suskind_View
