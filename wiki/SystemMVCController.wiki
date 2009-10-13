@@ -5,9 +5,10 @@ basic class: Suskind Control
 }}}
 = Introduction =
 In the layout, developers describe which control's which view want to use. So, the controller handling this via {{{__call()}}} function, and transforms the pseudo method to the name of the wished class.
+
 Example:
-  in {{{$guestbook->list();}}}
-  - controller class is: Application_{{{Guestbook_Control}}}
-  - view class is: {{{Application_Guestbook_View_List}}}
+in {{{$guestbook->list();}}}
+- controller class is: {{{Application_Guestbook_Control}}}
+- view class is: {{{Application_Guestbook_View_List}}}
 
 = Details =
