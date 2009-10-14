@@ -9,3 +9,4 @@ svn checkout http://suskind.googlecode.com/svn/trunk/ suskind-read-only
 [Installation Learn more...]
 === MVC architectural pattern ===
 With the SF we wanted to define an MVC framework, what really can help your work with this architectural pattern. If developer creates a model, he extends a built-in model handler class, what inherits the possibilities to handle different type of resources, without write an SQL query, or an XML parser. These classes also support more complex class structures, the stores handles relationships between different objects.
+[SystemMVC Learn more]...
