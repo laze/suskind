@@ -1,0 +1,5 @@
+#summary The MVC pattern' logic.
+
+= Introduction =
+= Details =
+[SystemMVCView View]
