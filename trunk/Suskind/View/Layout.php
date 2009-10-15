@@ -21,10 +21,10 @@ class Suskind_View_Layout implements Suskind_View_Layout_Interface {
 	 * Compile template, and returns with the 'rendered' content, what is
 	 * a string, usually.
 	 *
-	 * @return string
+	 * @return void
 	 */
 	public function compile() {
-		return $this->render->compile();
+		$this->render->compile();
 	}
 
 	/**
@@ -34,7 +34,8 @@ class Suskind_View_Layout implements Suskind_View_Layout_Interface {
 	 */
 	public function show(bool $force = null) {
 		if ($force === true) ob_end_clean();
-		echo $this->compile();
+		if ($this->render->compiled === false) $this->compile();
+		$this->render->show();
 	}
 }
 ?>

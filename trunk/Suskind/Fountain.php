@@ -30,7 +30,7 @@ final class Suskind_Fountain {
 	 *
 	 * @var Suskind_View_Layout
 	 */
-	private $layout;
+	public $layout;
 
 	/**
 	 *
@@ -72,8 +72,8 @@ final class Suskind_Fountain {
 	}
 
 	public function compile() {
-		$this->control->getView($this->layout);
-		$this->layout->show();
+		echo 'compile';
+		$this->layout->compile();
 	}
 
 	private function getDefaultLayout() {
@@ -88,27 +88,17 @@ final class Suskind_Fountain {
 		$this->layout = $layout;
 	}
 
-	public function getControl() {
-		return $this->router->getControl();
-	}
-
-	public function initControl($preferedControl = null) {
-		if (!is_null($preferedControl) && class_exists($preferedControl)) $this->control = new $preferedControl;
-		else {
-			if (!is_null($this->router->getControl()) && class_exists('Application_Control_'.ucfirst($this->router->getControl()))) {
-				$className = 'Application_Control_'.ucfirst($this->router->getControl());
-				$this->control = new $className;
-			}
-			else $this->control = new Suskind_Control_Fountain();
-		}
-	}
-
 	public function initLayout($preferedView = null) {
 		if (!is_null($preferedView) && class_exists($preferedView)) $this->layout = new $preferedView;
 		else {
-			if (!is_null($this->router->getView())) $this->layout = new $this->control->getView();
-			else $this->layout = new Suskind_View_Static_Default();
+			/**
+			 * @todo Get layout by the selected View, if available
+			 */
+//			if (!is_null($this->router->getView())) $this->layout = new $this->control->getLayout();
+			$this->layout = new Suskind_View_Static_Default();
 		}
+
+		var_dump($this->layout);
 	}
 
 	/**

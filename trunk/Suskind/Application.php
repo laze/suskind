@@ -30,7 +30,6 @@ final class Suskind_Application {
     }
 
 	public function init() {
-		$this->fountain->initControl();
 		$this->fountain->initLayout(self::DEFAULT_VIEW);
 	}
 
@@ -49,17 +48,10 @@ final class Suskind_Application {
 	
 	public function compile() {
 		$this->fountain->compile();
+		$this->show();
 	}
 
 	public function show() {
-		try {
-			$view = (!is_null($this->control)) ? $this->control->getView() : null;
-
-			if (is_null($view))  $this->getDefaultView()->show();
-			else $view->show();
-		} catch (Suskind_Exception $exception) {
-			$exception->show();
-		}
 	}
 
 	public static final function run() {
