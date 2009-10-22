@@ -11,6 +11,8 @@
  */
 class Suskind_View_Layout implements Suskind_View_Layout_Interface {
 	protected $render;
+	protected $template;
+	protected $views;
 
 	public function __construct($className = null) {
 		$this->render = Suskind_Render_Factory::createRender();
@@ -34,8 +36,7 @@ class Suskind_View_Layout implements Suskind_View_Layout_Interface {
 	 */
 	public function show(bool $force = null) {
 		if ($force === true) ob_end_clean();
-		if ($this->render->compiled === false) $this->compile();
-		$this->render->show();
+		echo $this->render->compile();
 	}
 }
 ?>

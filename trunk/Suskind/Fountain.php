@@ -71,9 +71,9 @@ final class Suskind_Fountain {
 		}
 	}
 
-	public function compile() {
-		echo 'compile';
-		$this->layout->compile();
+	public function compile($show = false) {
+		if ($show === false) return $this->layout->compile();
+		else $this->layout->show();
 	}
 
 	private function getDefaultLayout() {
@@ -88,17 +88,20 @@ final class Suskind_Fountain {
 		$this->layout = $layout;
 	}
 
+	public function initStore($store = null) {
+		$classname = (is_null($store)) ? 'Application_Control_'.ucfirst($this->router->getControl()) : 'Application_Control_'.ucfirst($store);
+
+		$this->control = new $classname;
+	}
+
 	public function initLayout($preferedView = null) {
-		if (!is_null($preferedView) && class_exists($preferedView)) $this->layout = new $preferedView;
-		else {
-			/**
-			 * @todo Get layout by the selected View, if available
-			 */
-//			if (!is_null($this->router->getView())) $this->layout = new $this->control->getLayout();
-			$this->layout = new Suskind_View_Static_Default();
+		if (!is_null($this->router->getView())) {
+			$view = call_user_func(array($this->control,$this->router->getView()));
+		} else {
+			if (!is_null($preferedView) && class_exists($preferedView)) $this->layout = new $preferedView;
+			else $this->layout = new Suskind_View_Static_Default();
 		}
 
-		var_dump($this->layout);
 	}
 
 	/**

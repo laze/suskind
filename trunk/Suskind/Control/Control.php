@@ -21,6 +21,11 @@ class Suskind_Control_Control implements Suskind_Control_Interface {
 	);
 	protected $defaultLayout = null;
 
+	public function  __call($name,  $arguments) {
+		$className = 'Application_View_'.substr($this->control, strrpos($this->control, '_')+1).'_'.ucfirst($name);
+		if (class_exists($className)) return new $className;
+	}
+
 	/**
 	 * Return with the view object to show.
 	 *
@@ -41,4 +46,5 @@ class Suskind_Control_Control implements Suskind_Control_Interface {
 		} else Suskind_Fountain::getInstance()->setApplicationLayout($this->event->getView());
 	}
 }
+
 ?>
