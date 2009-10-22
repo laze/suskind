@@ -30,6 +30,7 @@ final class Suskind_Application {
     }
 
 	public function init() {
+		$this->fountain->initStore();
 		$this->fountain->initLayout(self::DEFAULT_VIEW);
 	}
 
@@ -47,11 +48,13 @@ final class Suskind_Application {
     }
 	
 	public function compile() {
-		$this->fountain->compile();
-		$this->show();
-	}
-
-	public function show() {
+		/**
+		 * @todo Decide, whether compile or show needed!
+		 */
+		 echo '<pre>';
+		 var_dump($this);
+		 echo '</pre>';
+		$this->fountain->compile(true);
 	}
 
 	public static final function run() {

@@ -23,6 +23,10 @@ class Suskind_View_Static_Default implements Suskind_View_Static_Interface {
 		$this->render->setTemplate(Suskind_Registry::getSystemSettings(Suskind_Registry::CKEY_PATH).DIRECTORY_SEPARATOR.'Assets'.DIRECTORY_SEPARATOR.'Templates'.DIRECTORY_SEPARATOR.'Default.html');
 	}
 
+	public function compile() {
+		$this->render->compile();
+	}
+
 	public function show() {
 		echo $this->render->compile();
 	}

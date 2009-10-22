@@ -16,10 +16,9 @@ class Application_View_Default extends Suskind_View_Layout {
 	 */
 	public function __construct() {
 		parent::__construct(__CLASS__);
-	}
-
-	public function show() {
-		echo $this->compile();
+		$this->views = array(
+			"Gusetbook" => "List"
+		);
 	}
 }
 
