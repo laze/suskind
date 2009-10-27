@@ -11,6 +11,7 @@
  */
 class Suskind_View_View implements Suskind_View_Interface {
 	protected $render;
+	protected $preferedLayout = null;
 
 	public function __construct($className = null) {
 		$this->render = Suskind_Render_Factory::createRender();
@@ -35,6 +36,25 @@ class Suskind_View_View implements Suskind_View_Interface {
 	public function show(bool $force = null) {
 		if ($force === true) ob_end_clean();
 		echo $this->compile();
+	}
+
+	/**
+	 * Set the prefered layout of the given view.
+	 *
+	 * @param string $layout The layout to be the default layout of this view.
+	 * @return void;
+	 */
+	public function setPreferedLayout($layout) {
+		if (class_exists($layout, true)) $this->preferedLayout = $layout;
+	}
+
+	/**
+	 * Get the prefered layout of the given view.
+	 *
+	 * @return Suskind_View_Layout Returns with the prefered layout or null if it is not set yet.
+	 */
+	public function getPreferedLayout() {
+		return $this->preferedLayout;
 	}
 }
 ?>

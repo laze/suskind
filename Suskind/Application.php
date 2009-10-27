@@ -51,9 +51,9 @@ final class Suskind_Application {
 		/**
 		 * @todo Decide, whether compile or show needed!
 		 */
-		 echo '<pre>';
-		 var_dump($this);
-		 echo '</pre>';
+//		 echo '<pre>';
+//		 var_dump($this);
+//		 echo '</pre>';
 		$this->fountain->compile(true);
 	}
 
