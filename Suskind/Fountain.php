@@ -58,7 +58,7 @@ final class Suskind_Fountain {
 				'Application'	=> realpath(getcwd()),
 				'Suskind'		=> realpath(substr(__FILE__, 0, strrpos(__FILE__, DIRECTORY_SEPARATOR)))
 			));
-			if (is_array(Suskind_Registry::getServer())) foreach (Suskind_Registry::getServer() as $variable => $value) {
+			if (is_array(Suskind_Registry::getServerSettings())) foreach (Suskind_Registry::getServerSettings() as $variable => $value) {
 				if (strtolower(substr($variable, 0, 7)) == 'php_ini') ini_set(substr($variable, 7), $value);
 			}
 				//- Starting session...

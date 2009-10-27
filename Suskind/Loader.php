@@ -15,7 +15,7 @@ final class Suskind_Loader {
 	 */
 	private static $paths;
 
-	private static $pluginDir = 'Plugins';
+	private static $pluginDir = 'Plugin';
 
 	/**
 	 * Retrieve singleton instance.
@@ -39,7 +39,24 @@ final class Suskind_Loader {
 		if (array_key_exists($classNameParsed[0], self::$paths)) {
 			$classNameParsed[0] = self::$paths[$classNameParsed[0]];
 			return implode(DIRECTORY_SEPARATOR, $classNameParsed).'.php';
-		}//- else return self::$instance->paths['Suskind'].self::$instance->pluginDir
+		}
+	}
+
+	public static function searchClassName($className) {
+		array_walk_recursive(Suskind_Registry::getAll(), array('Suskind_Loader', 'parsePaths'), self::$paths);
+		array_walk_recursive(Suskind_Registry::getAll(), array('Suskind_Loader', 'includePaths'), $className);
+	}
+
+	public static function includePaths($registryValue, $registryKey, $className) {
+		if (strtolower($className) === strtolower($registryKey)) {
+			foreach (self::$paths as $path) {
+				if (file_exists($path.DIRECTORY_SEPARATOR.$registryValue)) include_once $path.DIRECTORY_SEPARATOR.$registryValue;
+			}
+		}
+	}
+
+	public static function parsePaths($registryValue, $registryKey) {
+		if ($registryKey === Suskind_Registry::CKEY_PATH && !in_array($registryValue, self::$paths)) self::$paths[] = $registryValue;
 	}
 
 	/**
@@ -52,6 +69,8 @@ final class Suskind_Loader {
 		try {
 			if (file_exists(self::compileClassName($className))) include_once self::compileClassName($className);
 			else {
+				self::searchClassName($className);
+
 				/*
 				$paths = Suskind_Registry::getSettings('include');
 				if (array_key_exists($className, $paths) && file_exists($_ENV['PATH_SYSTEM'].DIRECTORY_SEPARATOR.$paths[$className])) include_once $_ENV['PATH_SYSTEM'].DIRECTORY_SEPARATOR.$paths[$className];
