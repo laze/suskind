@@ -32,13 +32,13 @@ class Suskind_Render_Plugin_Template_Lite implements Suskind_Render_Interface {
 		$this->engine->left_delimiter = '<:';
 		$this->engine->right_delimiter =':>';
 		$this->engine->cache = true;
-//		$this->engine->template_dir = $_ENV['PATH_APPLICATION'].DIRECTORY_SEPARATOR.'Assets'.DIRECTORY_SEPARATOR.'Templates';
-//		$this->engine->cache_dir = $_ENV['PATH_APPLICATION'].DIRECTORY_SEPARATOR.'Assets'.DIRECTORY_SEPARATOR.'Templates'.DIRECTORY_SEPARATOR.'Cached';
-//		$this->engine->compile_dir = $_ENV['PATH_APPLICATION'].DIRECTORY_SEPARATOR.'Assets'.DIRECTORY_SEPARATOR.'Templates'.DIRECTORY_SEPARATOR.'Compiled';
+		$this->engine->template_dir = Suskind_Registry::getApplicationSettings(Suskind_Registry::CKEY_PATH).DIRECTORY_SEPARATOR.'Assets'.DIRECTORY_SEPARATOR.'Templates';
+		$this->engine->cache_dir = Suskind_Registry::getApplicationSettings(Suskind_Registry::CKEY_PATH).DIRECTORY_SEPARATOR.'Assets'.DIRECTORY_SEPARATOR.'Templates'.DIRECTORY_SEPARATOR.'Cached';
+		$this->engine->compile_dir = Suskind_Registry::getApplicationSettings(Suskind_Registry::CKEY_PATH).DIRECTORY_SEPARATOR.'Assets'.DIRECTORY_SEPARATOR.'Templates'.DIRECTORY_SEPARATOR.'Compiled';
 		/**
 		 * Assigning default variables.
 		 */
-		$this->engine->assign('application', Suskind_Registry::getServerSettings('Suskind_Application'));
+		$this->engine->assign('application', Suskind_Registry::getApplicationSettings());
 	}
 
 	public function assign($variableName, $variableValue, $variableModification = null) {
