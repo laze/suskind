@@ -38,7 +38,7 @@ class Suskind_Render_Plugin_Template_Lite implements Suskind_Render_Interface {
 		/**
 		 * Assigning default variables.
 		 */
-		$this->engine->assign('application', Suskind_Registry::getSettings('Suskind_Application'));
+		$this->engine->assign('application', Suskind_Registry::getServerSettings('Suskind_Application'));
 	}
 
 	public function assign($variableName, $variableValue, $variableModification = null) {
