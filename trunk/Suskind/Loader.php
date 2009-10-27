@@ -43,8 +43,17 @@ final class Suskind_Loader {
 	}
 
 	public static function searchClassName($className) {
+		if (array_key_exists(Suskind_Registry::CKEY_PATH, Suskind_Registry::getApplicationSettings(Suskind_Registry::CKEY_PLUGIN))) {
+			$applicationPlugins = Suskind_Registry::getApplicationSettings(Suskind_Registry::CKEY_PLUGIN);
+			if (array_key_exists($className, $applicationPlugins)) {
+				if (file_exists($applicationPlugins[Suskind_Registry::CKEY_PATH].DIRECTORY_SEPARATOR.$className)) include_once $applicationPlugins[Suskind_Registry::CKEY_PATH].DIRECTORY_SEPARATOR.$className;
+			}
+		}
+		/*
 		array_walk_recursive(Suskind_Registry::getAll(), array('Suskind_Loader', 'parsePaths'), self::$paths);
 		array_walk_recursive(Suskind_Registry::getAll(), array('Suskind_Loader', 'includePaths'), $className);
+		 * *
+		 */
 	}
 
 	public static function includePaths($registryValue, $registryKey, $className) {
