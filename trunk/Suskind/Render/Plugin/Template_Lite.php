@@ -9,7 +9,7 @@
  *
  * @author laze
  */
-class Suskind_Render_Plugins_Template_Lite implements Suskind_Render_Interface {
+class Suskind_Render_Plugin_Template_Lite implements Suskind_Render_Interface {
 	/**
 	 * The object, what is defined in the registry. This object
 	 * @var object
@@ -32,9 +32,9 @@ class Suskind_Render_Plugins_Template_Lite implements Suskind_Render_Interface {
 		$this->engine->left_delimiter = '<:';
 		$this->engine->right_delimiter =':>';
 		$this->engine->cache = true;
-		$this->engine->template_dir = $_ENV['PATH_APPLICATION'].DIRECTORY_SEPARATOR.'Assets'.DIRECTORY_SEPARATOR.'Templates';
-		$this->engine->cache_dir = $_ENV['PATH_APPLICATION'].DIRECTORY_SEPARATOR.'Assets'.DIRECTORY_SEPARATOR.'Templates'.DIRECTORY_SEPARATOR.'Cached';
-		$this->engine->compile_dir = $_ENV['PATH_APPLICATION'].DIRECTORY_SEPARATOR.'Assets'.DIRECTORY_SEPARATOR.'Templates'.DIRECTORY_SEPARATOR.'Compiled';
+//		$this->engine->template_dir = $_ENV['PATH_APPLICATION'].DIRECTORY_SEPARATOR.'Assets'.DIRECTORY_SEPARATOR.'Templates';
+//		$this->engine->cache_dir = $_ENV['PATH_APPLICATION'].DIRECTORY_SEPARATOR.'Assets'.DIRECTORY_SEPARATOR.'Templates'.DIRECTORY_SEPARATOR.'Cached';
+//		$this->engine->compile_dir = $_ENV['PATH_APPLICATION'].DIRECTORY_SEPARATOR.'Assets'.DIRECTORY_SEPARATOR.'Templates'.DIRECTORY_SEPARATOR.'Compiled';
 		/**
 		 * Assigning default variables.
 		 */
