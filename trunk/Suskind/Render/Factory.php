@@ -21,9 +21,9 @@ class Suskind_Render_Factory {
 		if (!is_null($type) && array_key_exists($type, self::$renders)) return new self::$renders[$type]();
 		else {
 			$render = (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest') ? 'ajax' : self::$defaultRender;
-			if (is_array(Suskind_Registry::getApplicationSettings('render'))) {
-				self::$renders = array_merge(self::$renders, Suskind_Registry::getApplicationSettings('render'));
-				foreach (Suskind_Registry::getApplicationSettings('render') as $renderType => $renderClass)
+			if (is_array(Suskind_Registry::getApplicationSettings('Render'))) {
+				self::$renders = array_merge(self::$renders, Suskind_Registry::getApplicationSettings('Render'));
+				foreach (Suskind_Registry::getApplicationSettings('Render') as $renderType => $renderClass)
 					if (substr($renderClass, 0, 7) != 'Suskind') self::$renders[$renderType] = 'Suskind_Render_Plugins_'.$renderClass;
 			}
 			return new self::$renders[$render]();
