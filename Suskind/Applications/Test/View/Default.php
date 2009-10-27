@@ -19,6 +19,7 @@ class Application_View_Default extends Suskind_View_Layout {
 		$this->views = array(
 			"Gusetbook" => "List"
 		);
+		var_dump($this->render);
 	}
 }
 
