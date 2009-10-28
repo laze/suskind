@@ -38,6 +38,7 @@ class Suskind_Render_Plugin_Template_Lite implements Suskind_Render_Interface {
 		/**
 		 * Assigning default variables.
 		 */
+		var_dump(Suskind_Registry::getApplicationSettings());
 		$this->engine->assign('application', Suskind_Registry::getApplicationSettings());
 	}
 

@@ -26,6 +26,8 @@ class Suskind_Render_Factory {
 				foreach (Suskind_Registry::getApplicationSettings('Render') as $renderType => $renderClass)
 					if (substr($renderClass, 0, 7) != 'Suskind') self::$renders[$renderType] = 'Suskind_Render_Plugin_'.$renderClass;
 			}
+
+			var_dump(self::$renders);
 			return new self::$renders[$render]();
 		}
 	}

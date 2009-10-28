@@ -76,10 +76,6 @@ final class Suskind_Fountain {
 		else $this->layout->show();
 	}
 
-	private function getDefaultLayout() {
-		echo('deflay');
-	}
-
 	public function getApplicationLayout(Suskind_View_Layout $layout) {
 		return $this->layout;
 	}
@@ -88,10 +84,14 @@ final class Suskind_Fountain {
 		$this->layout = $layout;
 	}
 
-	public function initStore($store = null) {
-		$classname = (is_null($store)) ? 'Application_Control_'.ucfirst($this->router->getControl()) : 'Application_Control_'.ucfirst($store);
+	public function initControl($control = null) {
+		$className = null;
 
-		$this->control = new $classname;
+		if (is_null($this->router->getControl())) {
+			if (!is_null($control)) $className = 'Application_Control_'.ucfirst($control);	
+		} else $className = 'Application_Control_'.ucfirst($this->router->getControl());
+		
+		if (!is_null($className)) $this->control = new $className;
 	}
 
 	public function initLayout($preferedLayout = null) {

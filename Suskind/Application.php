@@ -30,7 +30,7 @@ final class Suskind_Application {
     }
 
 	public function init() {
-		$this->fountain->initStore();
+		$this->fountain->initControl();
 		$this->fountain->initLayout(self::DEFAULT_VIEW);
 	}
 
