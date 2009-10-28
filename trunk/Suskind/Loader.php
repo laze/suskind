@@ -31,6 +31,7 @@ final class Suskind_Loader {
 	}
 
 	/**
+	 * Calculate the path from the class' name.
 	 *
 	 * @param string $className
 	 */
@@ -42,30 +43,18 @@ final class Suskind_Loader {
 		}
 	}
 
+	/**
+	 * Search class' name in plugins. First, in application plugins, and after
+	 * in system plugins directory.
+	 * 
+	 * @param string $className The class' name.
+	 */
 	public static function searchClassName($className) {
-		if (array_key_exists(Suskind_Registry::CKEY_PATH, Suskind_Registry::getApplicationSettings(Suskind_Registry::CKEY_PLUGIN))) {
-			$applicationPlugins = Suskind_Registry::getApplicationSettings(Suskind_Registry::CKEY_PLUGIN);
-			if (array_key_exists($className, $applicationPlugins)) {
-				if (file_exists($applicationPlugins[Suskind_Registry::CKEY_PATH].DIRECTORY_SEPARATOR.$className)) include_once $applicationPlugins[Suskind_Registry::CKEY_PATH].DIRECTORY_SEPARATOR.$className;
-			}
-		}
-		/*
-		array_walk_recursive(Suskind_Registry::getAll(), array('Suskind_Loader', 'parsePaths'), self::$paths);
-		array_walk_recursive(Suskind_Registry::getAll(), array('Suskind_Loader', 'includePaths'), $className);
-		 * *
-		 */
-	}
+		$applicationPlugins = Suskind_Registry::getApplicationSettings(Suskind_Registry::CKEY_PLUGIN);
+		if (is_array($applicationPlugins) && array_key_exists($className, $applicationPlugins) && file_exists($applicationPlugins[Suskind_Registry::CKEY_PATH].DIRECTORY_SEPARATOR.$className)) include_once $applicationPlugins[Suskind_Registry::CKEY_PATH].DIRECTORY_SEPARATOR.$className;
 
-	public static function includePaths($registryValue, $registryKey, $className) {
-		if (strtolower($className) === strtolower($registryKey)) {
-			foreach (self::$paths as $path) {
-				if (file_exists($path.DIRECTORY_SEPARATOR.$registryValue)) include_once $path.DIRECTORY_SEPARATOR.$registryValue;
-			}
-		}
-	}
-
-	public static function parsePaths($registryValue, $registryKey) {
-		if ($registryKey === Suskind_Registry::CKEY_PATH && !in_array($registryValue, self::$paths)) self::$paths[] = $registryValue;
+		$systemPlugins = Suskind_Registry::getSystemSettings(Suskind_Registry::CKEY_PLUGIN);
+		if (is_array($systemPlugins) && array_key_exists($className, $systemPlugins) && file_exists($systemPlugins[Suskind_Registry::CKEY_PATH].DIRECTORY_SEPARATOR.$systemPlugins[$className])) include_once $systemPlugins[Suskind_Registry::CKEY_PATH].DIRECTORY_SEPARATOR.$className;
 	}
 
 	/**
@@ -77,34 +66,7 @@ final class Suskind_Loader {
 	public static function autoload($className) {
 		try {
 			if (file_exists(self::compileClassName($className))) include_once self::compileClassName($className);
-			else {
-				self::searchClassName($className);
-
-				/*
-				$paths = Suskind_Registry::getSettings('include');
-				if (array_key_exists($className, $paths) && file_exists($_ENV['PATH_SYSTEM'].DIRECTORY_SEPARATOR.$paths[$className])) include_once $_ENV['PATH_SYSTEM'].DIRECTORY_SEPARATOR.$paths[$className];
-				 * 
-				 */
-			}
-			/*
-			if (file_exists(str_replace(array('Application','Suskind'), array($_ENV['PATH_APPLICATION'], $_ENV['PATH_SYSTEM']), str_replace('_', DIRECTORY_SEPARATOR, $className))).'.php') include_once(str_replace(array('Application','Suskind'), array($_ENV['PATH_APPLICATION'], $_ENV['PATH_SYSTEM']), str_replace('_', DIRECTORY_SEPARATOR, $className).'.php'));
-
-			if (strpos($className, 'Application') === (int) 0) {
-				if (file_exists(str_replace('Application', $_ENV['PATH_APPLICATION'], str_replace('_', DIRECTORY_SEPARATOR, $className)).'.php')) include_once str_replace('Application', $_ENV['PATH_APPLICATION'], str_replace('_', DIRECTORY_SEPARATOR, $className)).'.php';
-			} else {
-				if (file_exists(str_replace('Suskind', $_ENV['PATH_SYSTEM'], str_replace('_', DIRECTORY_SEPARATOR, $className)).'.php')) include_once str_replace('Suskind', $_ENV['PATH_SYSTEM'], str_replace('_', DIRECTORY_SEPARATOR, $className)).'.php';
-			}
-			*/
-
-			/*
-			echo($_ENV['PATH_SYSTEM'].DIRECTORY_SEPARATOR.str_replace('_', DIRECTORY_SEPARATOR, $className).'.php');
-				if (file_exists($_ENV['PATH_SYSTEM'].DIRECTORY_SEPARATOR.str_replace('_', DIRECTORY_SEPARATOR, $className).'.php')) include_once $_ENV['PATH_SYSTEM'].DIRECTORY_SEPARATOR.str_replace('_', DIRECTORY_SEPARATOR, $className).'.php';
-				else {
-					$paths = Suskind_Registry::getSettings('include');
-
-					if (array_key_exists($className, $paths) && file_exists($_ENV['PATH_SYSTEM'].DIRECTORY_SEPARATOR.$paths[$className])) include_once $_ENV['PATH_SYSTEM'].DIRECTORY_SEPARATOR.$paths[$className];
-				}
-			 */
+			else self::searchClassName($className);
 		} catch(Exception $exception) {
 			throw new Suskind_Exception('Class not exists: '.$className);
 		}

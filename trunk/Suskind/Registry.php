@@ -33,8 +33,8 @@ class Suskind_Registry {
 		self::CKEY_SYSTEM => array(
 			self::CKEY_RENDER => array(),
 			self::CKEY_RESOURCE => array(
-                            self::CKEY_DB => array()
-                        ),
+				self::CKEY_DB => array()
+			),
 			self::CKEY_CONFIG => array(),
 			self::CKEY_PLUGIN => array(),
 			self::CKEY_PATH => array()
@@ -149,24 +149,25 @@ class Suskind_Registry {
 	 */
 	private static function addRegistry(array $configuration) {
 		foreach ($configuration as $key => $settings) {
-			$key = ucfirst(strtolower(trim($key)));
+			$key = ucwords(strtolower(trim($key)));
 			if (!array_key_exists($key, self::$registry) && array_key_exists($key, self::$registryKeys)) self::$registry[$key] = array();
 			if (is_array($settings)) {
 				foreach ($settings as $variable => $value) {
 					$variable = strtolower(trim($variable));
 					if (strpos($variable, '.') > 0) {
-						if (is_array(self::$registryKeys[$key]) && array_key_exists(ucfirst(strtolower(substr($variable, 0, strpos($variable, '.')))), self::$registryKeys[$key])) {
-							if (ucfirst(strtolower(substr($variable, 0, strpos($variable, '.')))) == self::CKEY_RESOURCE) { //- Check Resources
-								if (ucfirst(strtolower(substr($variable, strpos($variable, '.')+1, 8))) == self::CKEY_DB) {
+						if (is_array(self::$registryKeys[$key]) && array_key_exists(ucwords(strtolower(substr($variable, 0, strpos($variable, '.')))), self::$registryKeys[$key])) {
+							if (ucwords(strtolower(substr($variable, 0, strpos($variable, '.')))) == self::CKEY_RESOURCE) { //- Check Resources
+								if (ucwords(strtolower(substr($variable, strpos($variable, '.')+1, 8))) == self::CKEY_DB) {
 									list(,, $group, $variable) = explode('.', $variable);
 									self::$registry[self::CKEY_APP][self::CKEY_RESOURCE][self::CKEY_DB][$group][$variable] = $value;
-								} else self::$registry[$key][ucfirst(strtolower(substr($variable, 0, strpos($variable, '.'))))][substr($variable, strpos($variable, '.')+1)] = $value;
-							} else self::$registry[$key][ucfirst(strtolower(substr($variable, 0, strpos($variable, '.'))))][substr($variable, strpos($variable, '.')+1)] = $value;
+								} else self::$registry[$key][ucwords(strtolower(substr($variable, 0, strpos($variable, '.'))))][ucwords(strtolower(substr($variable, strpos($variable, '.')+1)))] = $value;
+							} else self::$registry[$key][ucwords(strtolower(substr($variable, 0, strpos($variable, '.'))))][ucwords(strtolower(substr($variable, strpos($variable, '.')+1)))] = $value;
 						} else self::$registry[$key][$variable] = $value;
 					} else self::$registry[$key][$variable] = $value;
 				}
 			} else self::$registry[$key] = $settings;
 		}
+		var_dump(self::$registry);
 	}
 
 	private static function get($key, $variable = null) {
