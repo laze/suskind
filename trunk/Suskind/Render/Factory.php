@@ -17,19 +17,26 @@ class Suskind_Render_Factory {
 	);
 	private static $defaultRender = 'html';
 
-	public static function createRender($type = null) {
+	public static final function createRender($type = null) {
 		if (!is_null($type) && array_key_exists($type, self::$renders)) return new self::$renders[$type]();
-		else {
-			$render = (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest') ? 'ajax' : self::$defaultRender;
-			if (is_array(Suskind_Registry::getApplicationSettings('Render'))) {
-				self::$renders = array_merge(self::$renders, Suskind_Registry::getApplicationSettings('Render'));
-				foreach (Suskind_Registry::getApplicationSettings('Render') as $renderType => $renderClass)
-					if (substr($renderClass, 0, 7) != 'Suskind') self::$renders[$renderType] = 'Suskind_Render_Plugin_'.$renderClass;
-			}
+		
+		self::searchRender();
+		$render = (self::isAjax()) ? 'ajax' : self::$defaultRender;
 
-			var_dump(self::$renders);
-			return new self::$renders[$render]();
-		}
+		return new self::$renders[$render]();
+	}
+
+	private static final function isAjax() {
+		return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest');
+	}
+
+	private static final function searchRender() {
+		if (is_array(Suskind_Registry::getApplicationSettings('Render')))
+			foreach (Suskind_Registry::getApplicationSettings('Render') as $renderType => $renderClass) {
+				if ($renderType != Suskind_Registry::CKEY_PATH) {
+					self::$renders[strtolower($renderType)] = 'Suskind_Render_Plugin_'.$renderClass;
+				}
+			}
 	}
 }
 

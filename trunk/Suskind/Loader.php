@@ -51,10 +51,10 @@ final class Suskind_Loader {
 	 */
 	public static function searchClassName($className) {
 		$applicationPlugins = Suskind_Registry::getApplicationSettings(Suskind_Registry::CKEY_PLUGIN);
-		if (is_array($applicationPlugins) && array_key_exists($className, $applicationPlugins) && file_exists($applicationPlugins[Suskind_Registry::CKEY_PATH].DIRECTORY_SEPARATOR.$className)) include_once $applicationPlugins[Suskind_Registry::CKEY_PATH].DIRECTORY_SEPARATOR.$className;
+		if (is_array($applicationPlugins) && array_key_exists($className, $applicationPlugins) && file_exists($applicationPlugins[Suskind_Registry::CKEY_PATH].DIRECTORY_SEPARATOR.$applicationPlugins[$className])) include_once $applicationPlugins[Suskind_Registry::CKEY_PATH].DIRECTORY_SEPARATOR.$applicationPlugins[$className];
 
 		$systemPlugins = Suskind_Registry::getSystemSettings(Suskind_Registry::CKEY_PLUGIN);
-		if (is_array($systemPlugins) && array_key_exists($className, $systemPlugins) && file_exists($systemPlugins[Suskind_Registry::CKEY_PATH].DIRECTORY_SEPARATOR.$systemPlugins[$className])) include_once $systemPlugins[Suskind_Registry::CKEY_PATH].DIRECTORY_SEPARATOR.$className;
+		if (is_array($systemPlugins) && array_key_exists($className, $systemPlugins) && file_exists($systemPlugins[Suskind_Registry::CKEY_PATH].DIRECTORY_SEPARATOR.$systemPlugins[$className])) include_once $systemPlugins[Suskind_Registry::CKEY_PATH].DIRECTORY_SEPARATOR.$systemPlugins[$className];
 	}
 
 	/**

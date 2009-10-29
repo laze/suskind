@@ -153,21 +153,21 @@ class Suskind_Registry {
 			if (!array_key_exists($key, self::$registry) && array_key_exists($key, self::$registryKeys)) self::$registry[$key] = array();
 			if (is_array($settings)) {
 				foreach ($settings as $variable => $value) {
-					$variable = strtolower(trim($variable));
+					$variable =trim($variable);
 					if (strpos($variable, '.') > 0) {
-						if (is_array(self::$registryKeys[$key]) && array_key_exists(ucwords(strtolower(substr($variable, 0, strpos($variable, '.')))), self::$registryKeys[$key])) {
-							if (ucwords(strtolower(substr($variable, 0, strpos($variable, '.')))) == self::CKEY_RESOURCE) { //- Check Resources
-								if (ucwords(strtolower(substr($variable, strpos($variable, '.')+1, 8))) == self::CKEY_DB) {
+						if (is_array(self::$registryKeys[$key]) && array_key_exists(ucwords(substr($variable, 0, strpos($variable, '.'))), self::$registryKeys[$key])) {
+							if (ucwords(substr($variable, 0, strpos($variable, '.'))) == self::CKEY_RESOURCE) { //- Check Resources
+								if (ucwords(substr($variable, strpos($variable, '.')+1, 8)) == self::CKEY_DB) {
 									list(,, $group, $variable) = explode('.', $variable);
 									self::$registry[self::CKEY_APP][self::CKEY_RESOURCE][self::CKEY_DB][$group][$variable] = $value;
-								} else self::$registry[$key][ucwords(strtolower(substr($variable, 0, strpos($variable, '.'))))][ucwords(strtolower(substr($variable, strpos($variable, '.')+1)))] = $value;
-							} else self::$registry[$key][ucwords(strtolower(substr($variable, 0, strpos($variable, '.'))))][ucwords(strtolower(substr($variable, strpos($variable, '.')+1)))] = $value;
+								} else self::$registry[$key][ucwords(substr($variable, 0, strpos($variable, '.')))][ucwords(substr($variable, strpos($variable, '.')+1))] = $value;
+							} else self::$registry[$key][ucwords(substr($variable, 0, strpos($variable, '.')))][ucwords(substr($variable, strpos($variable, '.')+1))] = $value;
 						} else self::$registry[$key][$variable] = $value;
 					} else self::$registry[$key][$variable] = $value;
 				}
 			} else self::$registry[$key] = $settings;
 		}
-		var_dump(self::$registry);
+//		var_dump(self::$registry);
 	}
 
 	private static function get($key, $variable = null) {
