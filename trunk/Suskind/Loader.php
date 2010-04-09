@@ -65,6 +65,7 @@ final class Suskind_Loader {
 	 */
 	public static function autoload($className) {
 		try {
+			echo(self::compileClassName($className));
 			if (file_exists(self::compileClassName($className))) include_once self::compileClassName($className);
 			else self::searchClassName($className);
 		} catch(Exception $exception) {
