@@ -10,10 +10,6 @@
  */
 class Suskind_Exception extends Exception {
 
-	public function __construct(array $parameters) {
-		parent::__construct($parameters['message'], $parameters['code']);
-	}
-
 	public function show() {
 		/**
 		 * @todo check is ob started or not?

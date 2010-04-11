@@ -15,7 +15,7 @@ final class Suskind_Fountain {
 	const SESSION_ID = 'SUSKINDSESSID';
 
     /**
-     * @var Suskind_Loader Singleton instance
+     * @var Suskind_Fountain Singleton instance
      */
     private static $instance;
 
@@ -27,37 +27,17 @@ final class Suskind_Fountain {
 	private $router;
 
 	/**
-	 *
-	 * @var Suskind_View_Layout
-	 */
-	public $layout;
-
-	/**
-	 *
-	 * @var Suskind_Control_Control
-	 */
-	private $control;
-
-	/**
 	 * Retrieve singleton instance
 	 *
 	 * @return Suskind_Fountain
 	 */
 	public static function getInstance() {
-		if (null === self::$instance) self::$instance = new self();
+		if (!isset (self::$instance)) self::$instance = new Suskind_Fountain();
 		return self::$instance;
 	}
 
 	private function __construct() {
-		try {
-				//- Set application and system paths.
-			$_ENV['URL'] = $_SERVER['SERVER_NAME'];
-				//- Include the Suskind_Loader class to define automatic loader methods.
-			require_once substr_replace(__FILE__, 'Loader.php', strrpos(__FILE__, DIRECTORY_SEPARATOR)+1);
-			Suskind_Loader::init(array(
-				'Application'	=> realpath(getcwd()),
-				'Suskind'		=> realpath(substr(__FILE__, 0, strrpos(__FILE__, DIRECTORY_SEPARATOR)))
-			));
+		try {	
 			if (is_array(Suskind_Registry::getServerSettings())) foreach (Suskind_Registry::getServerSettings() as $variable => $value) {
 				if (strtolower(substr($variable, 0, 7)) == 'php_ini') ini_set(substr($variable, 7), $value);
 			}
