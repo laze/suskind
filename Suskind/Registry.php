@@ -172,7 +172,7 @@ class Suskind_Registry {
 
 	private static function get($key, $variable = null) {
 		if (is_null($variable)) return self::$registry[$key];
-		if (array_key_exists($variable, self::$registry[$key])) return self::$registry[$key][$variable];
+		if (is_array($variable) && array_key_exists($variable, self::$registry[$key])) return self::$registry[$key][$variable];
 		else return null;
 	}
 
