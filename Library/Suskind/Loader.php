@@ -39,7 +39,7 @@ class Suskind_Loader
 	 * @var array $paths	Array of paths.
 	 * @static
 	 */
-	private static $paths;
+	public static $paths;
 
 	/**
 	 * __construct
@@ -60,7 +60,8 @@ class Suskind_Loader
 		self::$paths = array(
 			self::DIR_APP => realpath(getcwd()),
 			self::DIR_SUS => realpath(dirname(__FILE__)),
-			self::DIR_LIB => realpath(dirname(__FILE__).DIRECTORY_SEPARATOR.'..')
+			self::DIR_LIB => realpath(dirname(__FILE__).DIRECTORY_SEPARATOR.'..'),
+			'_ROOT' => realpath(dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..')
 		);
 		$dir = dir(self::$paths[self::DIR_LIB]);
 		while (false !== ($entry = $dir->read())) {
@@ -116,10 +117,10 @@ class Suskind_Loader
 		if (class_exists($class, false) || interface_exists($class, false)) return true;
 		
 		$path = explode('_', $class);
-		$path[0] = self::$paths[$path[0]];
-
+		if (sizeof($path) > 1 && array_key_exists($path[0], self::$paths)) $path[0] = self::$paths[$path[0]];
+		else $path[0] = self::$paths[self::DIR_LIB].DIRECTORY_SEPARATOR.$path[0].DIRECTORY_SEPARATOR.$path[0];
 		if (file_exists(implode(DIRECTORY_SEPARATOR, $path).'.php')) require_once implode(DIRECTORY_SEPARATOR, $path).'.php';
-		else throw new Suskin_Exception();
+		else throw new Suskind_Exception();
 	}
 
 	/**
@@ -131,6 +132,5 @@ class Suskind_Loader
 	public static function autoload($class) {
 		return self::includeClass($class);
 	}
-
 }
 ?>
