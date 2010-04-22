@@ -12,7 +12,9 @@
  */
 
 /**
- * Loader class for handling autoloaders.
+ * Router class handling the browser requests. This class parses the PHP's
+ * $_SERVER['REQUEST_URI'] and - by using some configuration files - try to set
+ * the callable user module.
  *
  * @category	Suskind
  * @package		Suskind

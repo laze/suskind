@@ -12,7 +12,8 @@
  */
 
 /**
- * Loader class for handling autoloaders.
+ * Registry handles the configuration files. It handles YAML files, and ini files
+ * too.
  *
  * @category	Suskind
  * @package		Suskind
