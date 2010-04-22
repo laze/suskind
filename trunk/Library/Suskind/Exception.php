@@ -27,8 +27,13 @@ class Suskind_Exception extends Exception
 	public static function __callStatic($name,  $arguments) {
 		var_dump($name, $arguments);
 	}
+
 	public static function ClassStaticConstruct() {
 		return new Suskind_Exception("NEMJÓÓÓÓ", 4120);
+	}
+	
+	public static function FileNotExists($file) {
+		return new Suskind_Exception(sprintf('File: %s not exists!', $file));
 	}
 }
 ?>

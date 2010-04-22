@@ -25,9 +25,21 @@
  */
 class Suskind_Router
 {
+	/**
+	 * This variable stores the contents of the different configuration files.
+	 * It gets two configuration files, a common and an application related.
+	 * Actually the application related has privileges.
+	 *
+	 * @var Suskind_Registry		The configurations of the Suskind_Router class.
+	 */
+	private $registry = null;
+
 	public function __construct() {
-		$config = new Suskind_Registry();
-		$config->parseYamlFile(Suskind_Loader::DIR_LIB.'../Configuration/Routing.yml');
+
+		$this->registry = new Suskind_Registry(array(
+			Suskind_Loader::$paths[Suskind_Loader::DIR_APP].'/Configuration/Routing.yml',
+			Suskind_Loader::$paths['_ROOT'].'/Configuration/Routing.yml'
+		));
 		$_SERVER['REQUEST_URI'] = implode('/', array_diff(explode('/', $_SERVER['REQUEST_URI']), explode(DIRECTORY_SEPARATOR, getcwd())));
 		var_dump($_SERVER['REQUEST_URI']);
 	}
