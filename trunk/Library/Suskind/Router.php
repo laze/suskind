@@ -28,22 +28,43 @@
 class Suskind_Router
 {
 	/**
+	 * Directives' definitions.
+	 * - DEFAULT describes, how will be recognized a regular request, what
+	 *   is usually /module/method/everything_else
+	 * - MODULE describes what router should do if only the module's name given
+	 *   in the request.
+	 * - HOME describes if nothing given in the query.
+	 */
+	const DIRECTIVE_DEFAULT = 'default';
+	const DIRECTIVE_MODULE = 'module';
+	const DIRECTIVE_HOME = 'homepage';
+	
+
+	/**
 	 * This variable stores the contents of the different configuration files.
 	 * It gets two configuration files, a common and an application related.
 	 * Actually the application related has privileges.
 	 *
-	 * @var Suskind_Registry		The configurations of the Suskind_Router class.
+	 * @var Suskind_Registry	The configurations of the Suskind_Router class.
 	 */
 	private $registry = null;
 
-	public function __construct() {
+	private $request = array();
 
+	public function __construct() {
 		$this->registry = new Suskind_Registry(array(
 			Suskind_Loader::$paths[Suskind_Loader::DIR_APP].'/Configuration/Routing.yml',
 			Suskind_Loader::$paths['_ROOT'].'/Configuration/Routing.yml'
 		));
-		$_SERVER['REQUEST_URI'] = implode('/', array_diff(explode('/', $_SERVER['REQUEST_URI']), explode(DIRECTORY_SEPARATOR, getcwd())));
-		var_dump($_SERVER['REQUEST_URI']);
+		$this->parse();
+	}
+
+	private function parse() {
+		$this->request = array_values(array_diff(explode('/', $_SERVER['REQUEST_URI']), explode(DIRECTORY_SEPARATOR, getcwd())));
+		var_dump($this->request);
+		if (sizeof($this->request) == 0) { //- HOME
+
+		}
 	}
 }
 
