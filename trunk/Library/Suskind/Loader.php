@@ -25,7 +25,7 @@
 class Suskind_Loader
 {
 	/**
-	 *
+	 * Directory constants. They have to be the same as in the disk.
 	 */
 	const DIR_APP = 'Application';
 	const DIR_SUS = 'Suskind';
