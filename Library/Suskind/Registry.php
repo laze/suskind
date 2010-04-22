@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Suskind Framework
  *
@@ -15,20 +16,26 @@
  *
  * @category	Suskind
  * @package		Suskind
- * @subpackage	Exception
+ * @subpackage	Registry
  * @author		Balazs Ercsey <laze@laze.hu>
  * @license		http://www.opensource.org/licenses/gpl-3.0.html GPLv3
  * @link		http://code.google.com/p/suskind/
  * @since		0.1
  * @version		$Rev$
  */
-class Suskind_Exception extends Exception
+class Suskind_Registry
 {
-	public static function __callStatic($name,  $arguments) {
-		var_dump($name, $arguments);
+	public function __construct() {
+		;
 	}
-	public static function ClassStaticConstruct() {
-		return new Suskind_Exception("NEMJÓÓÓÓ", 4120);
+
+	public function parseYamlFile($file) {
+		yaml_parse_file($file, 0, 0, array($this, 'parse'));
+	}
+
+	public function parse() {
+		var_dump(func_get_args());
 	}
 }
+
 ?>
