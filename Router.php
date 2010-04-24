@@ -51,6 +51,8 @@ class Suskind_Router
 
 	private $request = array();
 
+	public $module = '';
+
 	public function __construct() {
 		$this->registry = new Suskind_Registry(array(
 			Suskind_Loader::$paths[Suskind_Loader::DIR_APP].'/Configuration/Routing.yml',
@@ -62,9 +64,19 @@ class Suskind_Router
 	private function parse() {
 		$this->request = array_values(array_diff(explode('/', $_SERVER['REQUEST_URI']), explode(DIRECTORY_SEPARATOR, getcwd())));
 		var_dump($this->request);
-		if (sizeof($this->request) == 0) { //- HOME
-
+		if (sizeof($this->request) == 0) $directive = self::DIRECTIVE_HOME;
+		else {
+			if (sizeof($this->request) == 1) {
+				foreach($this->registry->get() as $d => $register) {
+					if($register['url'] == implode('/', $this->request)) {
+						$directive = $d;
+					}
+				}
+				$directive = self::DIRECTIVE_MODULE;
+			}
+			if (sizeof($this->request) > 1) $directive = self::DIRECTIVE_DEFAULT;
 		}
+		var_dump($directive);
 	}
 }
 
