@@ -25,10 +25,10 @@
  */
 class Suskind_Application
 {
-	private $router;
+	private $request;
 
-	function __construct() {
-		$this->router = new Suskind_Router();
+	function __construct($request = null) {
+		$this->request = (is_null($request)) ? new Suskind_Request() : $request;
 	}
 
 	public function run() {
