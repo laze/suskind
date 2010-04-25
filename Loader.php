@@ -120,7 +120,7 @@ class Suskind_Loader
 		if (sizeof($path) > 1 && array_key_exists($path[0], self::$paths)) $path[0] = self::$paths[$path[0]];
 		else $path[0] = self::$paths[self::DIR_LIB].DIRECTORY_SEPARATOR.$path[0].DIRECTORY_SEPARATOR.$path[0];
 		if (file_exists(implode(DIRECTORY_SEPARATOR, $path).'.php')) require_once implode(DIRECTORY_SEPARATOR, $path).'.php';
-		else throw new Suskind_Exception();
+		else throw Suskind_Exception::ClassNotExists($class);
 	}
 
 	/**

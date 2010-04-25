@@ -31,6 +31,10 @@ class Suskind_Exception extends Exception
 	public static function ClassStaticConstruct() {
 		return new Suskind_Exception("NEMJÓÓÓÓ", 4120);
 	}
+
+	public static function ClassNotExists($class) {
+		return new Suskind_Exception(sprintf('%s class not exists!', $class));
+	}
 	
 	public static function FileNotExists($file) {
 		return new Suskind_Exception(sprintf('File: %s not exists!', $file));

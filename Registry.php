@@ -37,11 +37,12 @@ class Suskind_Registry
 		echo('</pre>');
 	}
 
-	public function parseFile($filename, $type = 'yaml') {
+	public function parseFile($filename, $type = 'yml') {
 		if (!file_exists($filename)) throw Suskind_Exception::FileNotExists($filename);
 		switch ($type) {
-			case 'yaml':
-				$registry = Spyc::YAMLLoad($filename);
+			case 'yml': //- Parse YAML file
+				if (class_exists('Spyc')) $registry = Spyc::YAMLLoad($filename);
+				else throw Suskind_Exception::FileNotReadYaml($filename);
 				break;
 			case 'ini':
 				$registry = parse_ini_file($filename, true);
@@ -68,12 +69,12 @@ class Suskind_Registry
 	 * @return void
 	 * @throws Suskind_Exception
 	 */
-	public function parseFiles($filenames, $type = 'yaml') {
+	public function parseFiles($filenames, $type = null) {
 		$filemissings = array();
 
 		foreach ($filenames as $filename) {
 			if (!file_exists($filename)) $filemissings[] = $filename;
-			else $this->parseFile($filename, $type);
+			else $this->parseFile($filename, substr($filename, -3));
 		}
 		if (sizeof($filemissings) == sizeof($filenames)) throw Suskind_Exception::FileNotExists($filemissings[0]);
 	}
