@@ -30,6 +30,7 @@ class Suskind_Loader
 	const DIR_APP = 'Application';
 	const DIR_SUS = 'Suskind';
 	const DIR_LIB = 'Library';
+	const DIR_CFG = 'Configuration';
 	
 	/**
 	 * This array stores the different pathes, like the application's path, the
@@ -58,7 +59,7 @@ class Suskind_Loader
 	 */
 	private static function setPath() {
 		self::$paths = array(
-			self::DIR_APP => realpath(getcwd()),
+			self::DIR_APP => realpath(getcwd().DIRECTORY_SEPARATOR.'..'),
 			self::DIR_SUS => realpath(dirname(__FILE__)),
 			self::DIR_LIB => realpath(dirname(__FILE__).DIRECTORY_SEPARATOR.'..'),
 			'_ROOT' => realpath(dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..')
@@ -78,6 +79,7 @@ class Suskind_Loader
 	 *
 	 * @see Suskind_Loader::setPath()
 	 * @see Suskind_Loader::addAutoload()
+	 *
 	 * @return void
 	 */
 	static public function load() {
@@ -89,6 +91,7 @@ class Suskind_Loader
 	 * Register Suskind_Loader in spl_autoload.
 	 *
 	 * @return void
+	 *
 	 * @throws Suskind_Exception
 	 */
 	static public function addAutoload() {
@@ -109,11 +112,12 @@ class Suskind_Loader
 	/**
 	 * Calculate the path from the class' name.
 	 *
-	 * @param string $class					The name of the class what we want include.
-	 * @return true|void					True, if class or interface previously included.
+	 * @param string $class		The name of the class what we want include.
+	 * @return true|void		True, if class or interface previously included.
+	 * 
 	 * @throws Suskind_Exception
 	 */
-	public static function includeClass($class) {
+	private static function loadClass($class) {
 		if (class_exists($class, false) || interface_exists($class, false)) return true;
 		
 		$path = explode('_', $class);
@@ -126,11 +130,28 @@ class Suskind_Loader
 	/**
 	 * Gets name of class and include file from possible pathes.
 	 *
-	 * @param string $class					Name of the class to include.
+	 * @param string $class		Name of the class to include.
 	 * @return void
 	 */
 	public static function autoload($class) {
-		return self::includeClass($class);
+		return self::loadClass($class);
+	}
+
+	/**
+	 * This function checks the two possible places of the Suskind Framework
+	 * configuration files: the server-related and the application related, and
+	 * creates Suskind_Registry based on these files.
+	 *
+	 * @see Suskind_Registry::loadFiles()
+	 *
+	 * @param string $filename	The name of the configuration file.
+	 * @return Suskind_Registry
+	 */
+	public static function loadConfiguration($filename) {
+		$files = array();
+		if (file_exists(self::$paths[self::DIR_APP].DIRECTORY_SEPARATOR.self::DIR_CFG.DIRECTORY_SEPARATOR.$filename)) $files[] = self::$paths[self::DIR_APP].DIRECTORY_SEPARATOR.self::DIR_CFG.DIRECTORY_SEPARATOR.$filename;
+		if (file_exists(self::$paths[self::DIR_SUS].DIRECTORY_SEPARATOR.self::DIR_CFG.DIRECTORY_SEPARATOR.$filename)) $files[] = self::$paths[self::DIR_SUS].DIRECTORY_SEPARATOR.self::DIR_CFG.DIRECTORY_SEPARATOR.$filename;
+		return Suskind_Registry::loadFiles($files);
 	}
 }
 ?>

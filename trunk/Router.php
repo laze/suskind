@@ -49,16 +49,9 @@ class Suskind_Router
 	 */
 	private $registry = null;
 
-	private $request = array();
-
-	public $module = '';
-
 	public function __construct() {
-		$this->registry = new Suskind_Registry(array(
-			Suskind_Loader::$paths[Suskind_Loader::DIR_APP].'/Configuration/Routing.yml',
-			Suskind_Loader::$paths['_ROOT'].'/Configuration/Routing.yml'
-		));
-		$this->parse();
+		$this->registry = Suskind_Loader::loadConfiguration('Routing.yml');
+		var_dump($this->registry);
 	}
 
 	private function parse() {
