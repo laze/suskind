@@ -16,3 +16,5 @@ default:
   url:   /:module/:action/*
 
 info:
+  url: /info
+  param: { module: Suskind_System, action: info}
