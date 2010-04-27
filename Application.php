@@ -26,11 +26,11 @@
 class Suskind_Application
 {
 	protected $registry;
-	protected $request;
 
-	function __construct($request = null) {
+	function __construct(Suskind_Request $request) {
+		
 		$this->registry = Suskind_Loader::loadConfiguration('Application.yml');
-		$this->request = (is_null($request)) ? new Suskind_Request() : $request;
+		$this->request = $request;
 	}
 
 	public function run() {

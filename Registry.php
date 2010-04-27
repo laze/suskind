@@ -26,10 +26,8 @@
  */
 class Suskind_Registry
 {
-	const TYPE_YAML = 'yml';
-	const TYPE_YAML_EXT = 'yml;yaml';
+	const TYPE_YAML = 'yml;yaml';
 	const TYPE_INI = 'ini';
-	const TYPE_INI_EXT = 'ini';
 
 	private $registry = null;
 	
@@ -134,8 +132,8 @@ class Suskind_Registry
 	 * @return string
 	 */
 	private static function getFileType($filename) {
-		if (in_array(strtolower(substr($filename, strrpos($filename, '.') + 1)), explode(';', self::TYPE_YAML_EXT))) return self::TYPE_YAML;
-		if (in_array(strtolower(substr($filename, strrpos($filename, '.') + 1)), explode(';', self::TYPE_INI_EXT))) return self::TYPE_INI;
+		if (in_array(strtolower(substr($filename, strrpos($filename, '.') + 1)), explode(';', self::TYPE_YAML))) return self::TYPE_YAML;
+		if (in_array(strtolower(substr($filename, strrpos($filename, '.') + 1)), explode(';', self::TYPE_INI))) return self::TYPE_INI;
 	}
 }
 
