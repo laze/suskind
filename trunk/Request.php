@@ -32,22 +32,28 @@ class Suskind_Request
 	 *
 	 * @var string $method		Request's method.
 	 */
-	public $method;
+	private $method;
+
 	/**
 	 *
-	 * @var boolean $ajax		Is the request came via AJAX or not?
+	 * @var boolean $ajax		True if the request came via AJAX, false if not.
 	 */
-	public $ajax;
+	private $ajax;
 
 	public function __construct() {
 		$this->method = $_SERVER['REQUEST_METHOD'];
 		$this->ajax = (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest');
-		var_dump($this);
-		var_dump($_SERVER);
+//		var_dump($this);
+//		var_dump($_SERVER);
 		$router = new Suskind_Router();
 	}
 
+	/**
+	 * Returns with the private $ajax property.
+	 *
+	 * @return boolean
+	 */
 	public function isAjax() {
-
+		return $this->ajax;
 	}
 }
