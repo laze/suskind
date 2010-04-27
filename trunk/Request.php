@@ -40,12 +40,14 @@ class Suskind_Request
 	 */
 	private $ajax;
 
+	private $router;
+
 	public function __construct() {
 		$this->method = $_SERVER['REQUEST_METHOD'];
 		$this->ajax = (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest');
 //		var_dump($this);
 //		var_dump($_SERVER);
-		$router = new Suskind_Router();
+		$this->router = new Suskind_Router();
 	}
 
 	/**
