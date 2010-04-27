@@ -28,7 +28,6 @@ class Suskind_Application
 	protected $registry;
 
 	function __construct(Suskind_Request $request) {
-		
 		$this->registry = Suskind_Loader::loadConfiguration('Application.yml');
 		$this->request = $request;
 	}

@@ -85,8 +85,6 @@ class Suskind_Loader
 	static public function load() {
 		self::setPath();
 		self::addAutoload();
-
-		return new Suskind_Fountain();
 	}
 
 	/**
