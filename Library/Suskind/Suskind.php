@@ -41,7 +41,7 @@ class Suskind {
 		try {
 			$suskind = self::getInstance();
 
-			return new Suskind_Application($suskind->registry);
+			return new Suskind_Application($suskind->request);
 		} catch (Suskind_Exception $exception) {
 			$exception->show();
 		} catch (Exception $exception) {
