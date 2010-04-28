@@ -42,12 +42,15 @@ class Suskind_Request
 
 	private $router;
 
+	private $uri;
+
 	public function __construct() {
 		$this->method = $_SERVER['REQUEST_METHOD'];
 		$this->ajax = (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest');
-//		var_dump($this);
-//		var_dump($_SERVER);
+		$this->uri = array_values(array_diff(explode('/', $_SERVER['REQUEST_URI']), explode(DIRECTORY_SEPARATOR, getcwd())));
 		$this->router = new Suskind_Router();
+
+		Suskind_Loader::loadConfiguration('Security.yml');
 	}
 
 	/**

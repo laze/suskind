@@ -10,6 +10,10 @@
  * @author laze
  */
 class Suskind {
+	const LIB_NAME	= 'Suskind Framework';
+	const LIB_VER	= '0.1';
+	const LIB_STATE	= 'alpha';
+
 	/**
 	 *
 	 * @var Suskind_Request

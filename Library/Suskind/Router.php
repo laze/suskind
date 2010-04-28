@@ -55,6 +55,7 @@ class Suskind_Router
 	}
 
 	private function parse() {
+		/*
 		$this->request = array_values(array_diff(explode('/', $_SERVER['REQUEST_URI']), explode(DIRECTORY_SEPARATOR, getcwd())));
 		var_dump($this->request);
 		if (sizeof($this->request) == 0) $directive = self::DIRECTIVE_HOME;
@@ -70,6 +71,8 @@ class Suskind_Router
 			if (sizeof($this->request) > 1) $directive = self::DIRECTIVE_DEFAULT;
 		}
 		var_dump($directive);
+		 * 
+		 */
 	}
 }
 
