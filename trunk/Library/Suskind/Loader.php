@@ -150,7 +150,7 @@ class Suskind_Loader
 	public static function loadConfiguration($filename) {
 		$files = array();
 		if (file_exists(self::$paths[self::DIR_APP].DIRECTORY_SEPARATOR.self::DIR_CFG.DIRECTORY_SEPARATOR.$filename)) $files[] = self::$paths[self::DIR_APP].DIRECTORY_SEPARATOR.self::DIR_CFG.DIRECTORY_SEPARATOR.$filename;
-		if (file_exists(self::$paths[self::DIR_SUS].DIRECTORY_SEPARATOR.self::DIR_CFG.DIRECTORY_SEPARATOR.$filename)) $files[] = self::$paths[self::DIR_SUS].DIRECTORY_SEPARATOR.self::DIR_CFG.DIRECTORY_SEPARATOR.$filename;
+		if (file_exists(self::$paths[self::DIR_APP].DIRECTORY_SEPARATOR.self::DIR_CFG.DIRECTORY_SEPARATOR.self::DIR_SUS.DIRECTORY_SEPARATOR.$filename)) $files[] = self::$paths[self::DIR_APP].DIRECTORY_SEPARATOR.self::DIR_CFG.DIRECTORY_SEPARATOR.self::DIR_SUS.DIRECTORY_SEPARATOR.$filename;
 		return Suskind_Registry::loadFiles($files);
 	}
 }
