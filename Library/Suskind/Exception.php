@@ -24,10 +24,6 @@
  */
 class Suskind_Exception extends Exception
 {
-	public static function __callStatic($name,  $arguments) {
-		var_dump($name, $arguments);
-	}
-
 	public static function ClassStaticConstruct() {
 		return new Suskind_Exception("NEMJÓÓÓÓ", 4120);
 	}
@@ -39,5 +35,17 @@ class Suskind_Exception extends Exception
 	public static function FileNotExists($file) {
 		return new Suskind_Exception(sprintf('File: %s not exists!', $file));
 	}
+
+	public static function FileNotReadYaml($file) {
+		return new Suskind_Exception(sprintf('File %s is exists, hopfully but not readable by YAML parser. Maybe the YAML parser missing.', $file));
+	}
+
+	public function show() {
+		/*
+		 * @todo: define template for different outputs
+		 */
+		echo "<pre>{$this->__toString()}</pre>";
+	}
 }
+
 ?>
