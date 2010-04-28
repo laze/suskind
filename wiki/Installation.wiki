@@ -14,6 +14,8 @@ After it's downloaded and copied, you have an empty but ready-to-use installatio
   * {{{Assets}}} - Your project's assets.
   * {{{Configuration}}} - Project related configuration files.
     * {{{Suskind}}} - Suskind Library's configuration.
+    * {{{Spyc}}} - [http://code.google.com/p/spyc/ Spyc YAML parser.]
+    * {{{Doctrine}}} - [http://www.doctrine-project.org/ ORM provider library.]
   * {{{Library}}} - This is the most important folder. It contains every used library, included the Suskind Framework.
     * {{{Suskind}}}
   * {{{Resource}}} - Other resources, like i18n files, etc...
