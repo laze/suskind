@@ -38,9 +38,15 @@ class Suskind {
 	}
 
     public static function Application() {
-		$suskind = self::getInstance();
+		try {
+			$suskind = self::getInstance();
 
-		return new Suskind_Application($suskind->registry);
+			return new Suskind_Application($suskind->registry);
+		} catch (Suskind_Exception $exception) {
+			$exception->show();
+		} catch (Exception $exception) {
+			echo $exception->__toString();
+		}
 	}
 }
 ?>
