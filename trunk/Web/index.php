@@ -1,7 +1,10 @@
 <?php
 
 require_once('../Library/Suskind/Loader.php');
-$application = Suskind_Loader::load();
 
+Suskind_Loader::load();
+
+$application = Suskind::Application();
+$application->run();
 
 ?>
