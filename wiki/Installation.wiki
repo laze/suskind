@@ -12,9 +12,9 @@ svn checkout http://suskind.googlecode.com/svn/trunk/ .
 After it's downloaded, you have an empty but ready-to-use installation. It has every library to work, so here is the good time to know what you have.
   * Assets - Your project's assets.
   * Configuration - Project related configuration files.
-  *  * Suskind - Suskind Library's configuration.
+    * Suskind - Suskind Library's configuration.
   * Library - This is the most important folder. It contains every used library, included the Suskind Framework.
-  ** Suskind
+    * Suskind
   * Resource - Other resources, like i18n files, etc...
   * Web - The directory for the web server.
-  ** index.php
+    * index.php
