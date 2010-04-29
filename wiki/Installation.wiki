@@ -23,3 +23,36 @@ After it's downloaded and copied, you have an empty but ready-to-use installatio
     * {{{index.php}}}
 ==== Web Server Settings ====
 To use the SF, you have to set up your web server too. The project's document root should point to {{{Web}}} folder, with the option to follow symbolic links and be able step out from this directory.
+===== Apache =====
+If you use Apache, you can set up your application with a config file, as {{{my-application}}} in your Apache's {{{sites-available}}} directory:
+{{{
+NameVirtualHost 127.0.0.1:80
+
+<VirtualHost 127.0.0.1:80>
+	ServerName www.my-application.local
+	ServerAdmin webmaster@localhost
+	DocumentRoot /var/www/MyApplication/Web/
+	<Directory />
+		Options FollowSymLinks
+		AllowOverride all
+	</Directory>
+	<Directory /var/www/MyApplication/Web/>
+		Options Indexes FollowSymLinks MultiViews
+		AllowOverride all
+		Order allow,deny
+		allow from all
+	</Directory>
+</VirtualHost>
+}}}
+After this, you just have to create a symbolic link in the {{{sites-enabled}}} folder.
+{{{
+
+$ cd /etc/apache2/sites-enabled
+
+$ ln -s /etc/apache2/sites-available/my-application 000my-application
+
+}}}
+Finally, you just have to restart your apache.
+{{{
+$ apache2ctl restart
+}}}
