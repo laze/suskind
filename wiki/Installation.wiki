@@ -65,3 +65,5 @@ Finally, you just have to restart your apache.
 $ apache2ctl restart
 }}}
 Now, you can reach your web based application at {{{http://www.my-applocation.local}}}
+===== Other Platforms =====
+Other platforms not yet tested.
