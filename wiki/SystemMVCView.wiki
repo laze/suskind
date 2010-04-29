@@ -1,9 +1,0 @@
-#summary Documentation of MVC's View.
-{{{
-interface: Suskind_View_Interface
-basic class: Suskind_View
-}}}
-= Introduction =
-The view is defining aggregation of data to show. The [SystemMVCController controller] handling the data as is, but the the Layout handling that via this View class.
-
-= Definitions =
