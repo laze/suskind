@@ -26,6 +26,8 @@ To use the SF, you have to set up your web server too. The project's document ro
 ===== Apache =====
 If you use Apache, you can set up your application with a config file, as {{{my-application}}} in your Apache's {{{sites-available}}} directory:
 {{{
+# /etc/apache2/sites-available/my-application
+
 NameVirtualHost 127.0.0.1:80
 
 <VirtualHost 127.0.0.1:80>
@@ -44,7 +46,13 @@ NameVirtualHost 127.0.0.1:80
 	</Directory>
 </VirtualHost>
 }}}
-After this, you just have to create a symbolic link in the {{{sites-enabled}}} folder.
+Parallel this edition you also have to add a record for your {{{hosts}}} file, what is found somewhere in {{{/etc}}} folder.
+{{{
+# /etc/hosts
+
+127.0.0.1    www.my-application.local
+}}}
+After these step, you just have to create a symbolic link in the {{{sites-enabled}}} folder.
 {{{
 
 $ cd /etc/apache2/sites-enabled
@@ -56,3 +64,4 @@ Finally, you just have to restart your apache.
 {{{
 $ apache2ctl restart
 }}}
+Now, you can reach your web based application at {{{http://www.my-applocation.local}}}
