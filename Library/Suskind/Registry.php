@@ -34,6 +34,10 @@ class Suskind_Registry
 	public function __construct() {
 	}
 
+	public function asArray() {
+		return (array) $this->registry;
+	}
+
 	/**
 	 * Parse file content. It just receive a filename, with full path and
 	 * extension. Describes the file's type with getFileType() method and try

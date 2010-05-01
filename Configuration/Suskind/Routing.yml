@@ -17,4 +17,8 @@ default:
 
 info:
   url: /info
-  param: { module: Suskind_System, action: info}
+  param: { module: Suskind, action: info}
+
+about:
+  url: /about
+  param: { module: Suskind, action: about}

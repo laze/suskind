@@ -49,12 +49,39 @@ class Suskind_Router
 	 */
 	private $registry = null;
 
+	private $directive;
+
 	public function __construct() {
 		$this->registry = Suskind_Loader::loadConfiguration('Routing.yml');
-		var_dump($this->registry);
 	}
 
-	private function parse() {
+	public function parse($uri) {
+		var_dump($uri);
+		foreach ($this->registry->asArray() as $directive) {
+			foreach (explode('/', $directive['url']) as $rule) {
+				switch ($rule) {
+					case $uri[0]:
+						$this->directive = $directive;
+						call_user_func(array($directive['param']['module'], $directive['param']['action']));
+						break;
+					case ':module':
+						break;
+					case default:
+						$this->directive =
+						break;
+				}
+
+				if (strlen($rule) > 0) {
+					if ($rule == $uri[0]) {
+						
+						
+					} elseif (substr($rule, 1, 1) == ':') {
+						
+					}
+				}
+			}
+		}
+
 		/*
 		$this->request = array_values(array_diff(explode('/', $_SERVER['REQUEST_URI']), explode(DIRECTORY_SEPARATOR, getcwd())));
 		var_dump($this->request);
@@ -73,6 +100,17 @@ class Suskind_Router
 		var_dump($directive);
 		 * 
 		 */
+	}
+
+	/**
+	 * Get the selected routing directive if its exists.
+	 *
+	 * @param string $directive		The name of the routing directive.
+	 * @return null|array Null, if not exists, or the directive array if exists.
+	 */
+	public function getDirective($directive) {
+		$directives = $this->registry->asArray();
+		return (array_key_exists($directive, $directives)) ? $directives[$directive] : null;
 	}
 }
 
