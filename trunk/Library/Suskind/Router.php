@@ -49,21 +49,27 @@ class Suskind_Router
 	 */
 	private $registry = null;
 
-	private $directive;
+	private $directive = null;
 
-	public function __construct() {
+	public function __construct($uri = null) {
 		$this->registry = Suskind_Loader::loadConfiguration('Routing.yml');
+		if (is_array($uri)) $this->setDirective($uri);
+
+		var_dump($this->directive);
 	}
 
 	public function setDirective($uri) {
-		foreach ($this->registry->asArray() as $directive) {
-			if (sizeof($uri) == 0) $this->directive = $this->getDirective(self::DIRECTIVE_HOME);
-			elseif ($uri == explode('/', substr($directive['url'], 1))) $this->directive = $directive;
-			elseif (sizeof($uri) == 1) $this->directive = $this->getDirective(self::DIRECTIVE_MODULE);
-			else $this->directive = $this->getDirective(self::DIRECTIVE_DEFAULT);
-		}
+		if (sizeof($uri) == 0) $this->directive = $this->getDirective(self::DIRECTIVE_HOME);
+		if (!is_null($this->getDirectiveByUrl(implode('/', $uri)))) $this->directive = $this->getDirectiveByUrl(implode('/', $uri));
+		if (sizeof($uri) == 1 && is_null($this->directive)) $this->directive = $this->getDirective(self::DIRECTIVE_MODULE);
+		if (is_null($this->directive)) $this->directive = $this->getDirective(self::DIRECTIVE_DEFAULT);
+	}
 
-		var_dump($uri, $this->directive);
+	private function getDirectiveByUrl($url) {
+		foreach ($this->registry->asArray() as $directive) {
+			if ('/'.$url == $directive['url']) return $directive;
+		}
+		return null;
 	}
 
 	/**
@@ -76,6 +82,17 @@ class Suskind_Router
 		$directives = $this->registry->asArray();
 		return (array_key_exists($directive, $directives)) ? $directives[$directive] : null;
 	}
+
+	/**
+	 * Searchin for a parameter.
+	 *
+	 * @param string $key		Search key in param's array.
+	 * @return null|string		Param's array value of "name" key...
+	 */
+	public function getParam($key) {
+		return (array_key_exists($key, $this->directive['param'])) ? $this->directive['param'][$key] : null;
+	}
+
 }
 
 ?>
