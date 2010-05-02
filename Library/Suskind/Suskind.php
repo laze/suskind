@@ -42,6 +42,7 @@ class Suskind {
     public static function Application() {
 		try {
 			$suskind = self::getInstance();
+			call_user_func(array($suskind->request->module(), $suskind->request->action()));
 
 			return new Suskind_Application($suskind->request);
 		} catch (Suskind_Exception $exception) {

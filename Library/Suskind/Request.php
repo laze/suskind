@@ -48,9 +48,7 @@ class Suskind_Request
 		$this->method = $_SERVER['REQUEST_METHOD'];
 		$this->ajax = (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest');
 		$this->uri = array_values(array_diff(explode('/', $_SERVER['REQUEST_URI']), explode(DIRECTORY_SEPARATOR, getcwd())));
-		$this->router = new Suskind_Router();
-
-		$this->router->setDirective($this->uri);
+		$this->router = new Suskind_Router($this->uri);
 	}
 
 	/**
@@ -60,5 +58,13 @@ class Suskind_Request
 	 */
 	public function isAjax() {
 		return $this->ajax;
+	}
+
+	public function module() {
+		echo $this->router->getParam('module');
+	}
+
+	public function action() {
+		echo $this->router->getParam('action');
 	}
 }

@@ -15,10 +15,10 @@ default_index:
 default:
   url:   /:module/:action/*
 
-info:
-  url: /info
-  param: { module: Suskind, action: info}
-
 about:
   url: /about
   param: { module: Suskind, action: about}
+
+info:
+  url: /info
+  param: { module: Suskind, action: info}
