@@ -50,7 +50,7 @@ class Suskind_Request
 		$this->uri = array_values(array_diff(explode('/', $_SERVER['REQUEST_URI']), explode(DIRECTORY_SEPARATOR, getcwd())));
 		$this->router = new Suskind_Router();
 
-		$this->router->parse($this->uri);
+		$this->router->setDirective($this->uri);
 	}
 
 	/**

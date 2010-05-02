@@ -36,7 +36,7 @@ class Suskind_Router
 	 * - HOME describes if nothing given in the query.
 	 */
 	const DIRECTIVE_DEFAULT = 'default';
-	const DIRECTIVE_MODULE = 'module';
+	const DIRECTIVE_MODULE = 'default_index';
 	const DIRECTIVE_HOME = 'homepage';
 	
 
@@ -55,51 +55,15 @@ class Suskind_Router
 		$this->registry = Suskind_Loader::loadConfiguration('Routing.yml');
 	}
 
-	public function parse($uri) {
-		var_dump($uri);
+	public function setDirective($uri) {
 		foreach ($this->registry->asArray() as $directive) {
-			foreach (explode('/', $directive['url']) as $rule) {
-				switch ($rule) {
-					case $uri[0]:
-						$this->directive = $directive;
-						call_user_func(array($directive['param']['module'], $directive['param']['action']));
-						break;
-					case ':module':
-						break;
-					case default:
-						$this->directive =
-						break;
-				}
-
-				if (strlen($rule) > 0) {
-					if ($rule == $uri[0]) {
-						
-						
-					} elseif (substr($rule, 1, 1) == ':') {
-						
-					}
-				}
-			}
+			if (sizeof($uri) == 0) $this->directive = $this->getDirective(self::DIRECTIVE_HOME);
+			elseif ($uri == explode('/', substr($directive['url'], 1))) $this->directive = $directive;
+			elseif (sizeof($uri) == 1) $this->directive = $this->getDirective(self::DIRECTIVE_MODULE);
+			else $this->directive = $this->getDirective(self::DIRECTIVE_DEFAULT);
 		}
 
-		/*
-		$this->request = array_values(array_diff(explode('/', $_SERVER['REQUEST_URI']), explode(DIRECTORY_SEPARATOR, getcwd())));
-		var_dump($this->request);
-		if (sizeof($this->request) == 0) $directive = self::DIRECTIVE_HOME;
-		else {
-			if (sizeof($this->request) == 1) {
-				foreach($this->registry->get() as $d => $register) {
-					if($register['url'] == implode('/', $this->request)) {
-						$directive = $d;
-					}
-				}
-				$directive = self::DIRECTIVE_MODULE;
-			}
-			if (sizeof($this->request) > 1) $directive = self::DIRECTIVE_DEFAULT;
-		}
-		var_dump($directive);
-		 * 
-		 */
+		var_dump($uri, $this->directive);
 	}
 
 	/**
