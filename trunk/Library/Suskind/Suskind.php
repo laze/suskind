@@ -6,7 +6,9 @@ class Suskind {
 	const LIB_VER	= '0.1';
 	const LIB_STATE	= 'alpha';
 
-	const EXIT_SUCCESSFULL = 1;
+	const EXIT_SUCCESSFULL	= 202; //- Accepted
+	const EXIT_ERROR		= 500; //- Internal server error
+	const EXIT_FORBIDDEN	= 403; //- Forbidden
 
 	/**
 	 *
@@ -47,13 +49,14 @@ class Suskind {
 			if ($suskind->request->module() == __CLASS__) {
 				call_user_func(array($suskind->request->module(), $suskind->request->action()));
 				exit(self::EXIT_SUCCESSFULL);
-			}
-
-			return new Suskind_Application($suskind->request);
+			} else return new Suskind_Application($suskind->request);
+			
 		} catch (Suskind_Exception $exception) {
 			$exception->show();
+			exit($exception->getCode());
 		} catch (Exception $exception) {
 			echo $exception->__toString();
+			exit(self::EXIT_ERROR);
 		}
 	}
 

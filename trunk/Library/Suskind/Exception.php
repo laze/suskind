@@ -40,6 +40,10 @@ class Suskind_Exception extends Exception
 		return new Suskind_Exception(sprintf('File %s is exists, hopfully but not readable by YAML parser. Maybe the YAML parser missing.', $file));
 	}
 
+	public static function HttpAccessForbidden() {
+		return new Suskind_Exception('Access forbidden!', Suskind::EXIT_FORBIDDEN);
+	}
+
 	public function show() {
 		/*
 		 * @todo: define template for different outputs
