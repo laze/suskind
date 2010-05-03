@@ -61,10 +61,10 @@ class Suskind_Request
 	}
 
 	public function module() {
-		echo $this->router->getParam('module');
+		return $this->router->getParam('module');
 	}
 
 	public function action() {
-		echo $this->router->getParam('action');
+		return $this->router->getParam('action');
 	}
 }
