@@ -6,6 +6,8 @@ class Suskind {
 	const LIB_VER	= '0.1';
 	const LIB_STATE	= 'alpha';
 
+	const EXIT_SUCCESSFULL = 1;
+
 	/**
 	 *
 	 * @var Suskind_Request
@@ -42,7 +44,10 @@ class Suskind {
     public static function Application() {
 		try {
 			$suskind = self::getInstance();
-			call_user_func(array($suskind->request->module(), $suskind->request->action()));
+			if ($suskind->request->module() == __CLASS__) {
+				call_user_func(array($suskind->request->module(), $suskind->request->action()));
+				exit(self::EXIT_SUCCESSFULL);
+			}
 
 			return new Suskind_Application($suskind->request);
 		} catch (Suskind_Exception $exception) {
