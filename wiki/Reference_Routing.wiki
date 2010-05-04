@@ -1,9 +1,8 @@
 #summary Routing configuration.
-== Routing ==
-=== Introduction ===
+= Introduction =
 Routing describes how to handle requests.
-=== Configuration ===
-==== Directives ====
+= Configuration =
+== Directives ==
 {{{
 about:
   url: /about
