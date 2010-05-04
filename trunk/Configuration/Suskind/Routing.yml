@@ -1,13 +1,11 @@
-# You can find more information about this file on the symfony website:
-# http://www.symfony-project.org/reference/1_4/en/10-Routing
+# Suskind_Router settings. You can learn more about this file on the Sukind Framework's wiki:
+# http://code.google.com/p/suskind/wiki/Reference_Routing
 
-# default rules
+# default rules, please do not remove them.
 homepage:
   url:   /
   param: { module: default, action: index }
 
-# generic rules
-# please, remove them by adding more specific rules
 default_index:
   url:   /:module
   param: { action: index }
@@ -15,6 +13,7 @@ default_index:
 default:
   url:   /:module/:action/*
 
+# Süskind's special routes.
 about:
   url: /about
   param: { module: Suskind, action: about}
