@@ -35,9 +35,9 @@ class Suskind_Router
 	 *   in the request.
 	 * - HOME describes if nothing given in the query.
 	 */
-	const DIRECTIVE_DEFAULT = 'default';
-	const DIRECTIVE_MODULE = 'default_index';
-	const DIRECTIVE_HOME = 'homepage';
+	const DIRECTIVE_DEFAULT	= 'default';
+	const DIRECTIVE_MODULE	= 'default_index';
+	const DIRECTIVE_HOME	= 'homepage';
 	
 
 	/**
