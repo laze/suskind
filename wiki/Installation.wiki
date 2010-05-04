@@ -1,15 +1,15 @@
 #summary Installation instructions for Süskind Framework.
 #labels Phase-Implementation,Phase-Deploy,Featured
-=== Introduction ===
+= Introduction =
 The Süskind Framework is designed to be easy to install, and easy to use and work with it. Naturally, because it's a web server program, you need [http://www.apache.org/ Apache] server and [http://php.net PHP] to do anything with it. You can choose any of the handled database engines to use database for SF. (See: DatabaseResources)
 Also if you install any other modules, then you have to check it's requirements, in that case, may be you should install other things.
-=== Installation ===
-==== From our Repository ====
+= Installation =
+== From our Repository ==
 First of all: SF stored in SVN, so, you'll need any SVN (Subversion) client to get it. We assume, that it's installed, and usable via terminal.
 {{{
 svn checkout http://suskind.googlecode.com/svn/trunk/ .
 }}}
-==== Structure of Folders and Files ====
+== Structure of Folders and Files ==
 After it's downloaded and copied, you have an empty but ready-to-use installation. It has every library to work, so here is the good time to know what you have.
   * {{{Assets}}} - Your project's assets.
   * {{{Configuration}}} - Project related configuration files.
@@ -21,7 +21,7 @@ After it's downloaded and copied, you have an empty but ready-to-use installatio
   * {{{Resource}}} - Other resources, like i18n files, etc...
   * {{{Web}}} - The directory for the web server.
     * {{{index.php}}}
-==== Web Server Settings ====
+== Web Server Settings ==
 To use the SF, you have to set up your web server too. The project's document root should point to {{{Web}}} folder, with the option to follow symbolic links and be able step out from this directory.
 ===== Apache =====
 If you use Apache, you can set up your application with a config file, as {{{my-application}}} in your Apache's {{{sites-available}}} directory:
@@ -65,5 +65,5 @@ Finally, you just have to restart your apache.
 $ apache2ctl restart
 }}}
 Now, you can reach your web based application at {{{http://www.my-applocation.local}}}
-===== Other Platforms =====
+== Other Platforms ==
 Other platforms not yet tested.
