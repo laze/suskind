@@ -1,0 +1,5 @@
+# Suskind_Request directives. You can learn more about this file on the Sukind Framework's wiki:
+# http://code.google.com/p/suskind/wiki/Reference_Request
+
+default:
+  is_secure: false
