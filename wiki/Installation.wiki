@@ -28,9 +28,9 @@ If you use Apache, you can set up your application with a config file, as {{{my-
 {{{
 # /etc/apache2/sites-available/my-application
 
-NameVirtualHost 127.0.0.1:80
+NameVirtualHost *:80
 
-<VirtualHost 127.0.0.1:80>
+<VirtualHost *:80>
 	ServerName www.my-application.local
 	ServerAdmin webmaster@localhost
 	DocumentRoot /var/www/MyApplication/Web/
