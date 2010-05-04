@@ -23,7 +23,7 @@ After it's downloaded and copied, you have an empty but ready-to-use installatio
     * {{{index.php}}}
 == Web Server Settings ==
 To use the SF, you have to set up your web server too. The project's document root should point to {{{Web}}} folder, with the option to follow symbolic links and be able step out from this directory.
-===== Apache =====
+=== Apache ===
 If you use Apache, you can set up your application with a config file, as {{{my-application}}} in your Apache's {{{sites-available}}} directory:
 {{{
 # /etc/apache2/sites-available/my-application
@@ -65,5 +65,5 @@ Finally, you just have to restart your apache.
 $ apache2ctl restart
 }}}
 Now, you can reach your web based application at {{{http://www.my-applocation.local}}}
-== Other Platforms ==
+=== Other Platforms ===
 Other platforms not yet tested.
