@@ -21,3 +21,7 @@ about:
 info:
   url: /info
   param: { module: Suskind, action: info}
+
+files:
+  url: /assets/*
+  param: { module: Suskind_Loader, action: getFile}
