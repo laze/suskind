@@ -2,6 +2,10 @@
 # http://code.google.com/p/suskind/wiki/Reference_Routing
 
 # default rules, please do not remove them.
+files:
+  url: /assets/*
+  param: { module: Suskind_Loader, action: getFile}
+
 homepage:
   url:   /
   param: { module: default, action: index }
@@ -21,7 +25,3 @@ about:
 info:
   url: /info
   param: { module: Suskind, action: info}
-
-files:
-  url: /assets/*
-  param: { module: Suskind_Loader, action: getFile}
