@@ -62,7 +62,7 @@ class Suskind_Request
 		$this->secure = $this->checkSecure();
 		$this->method = $_SERVER['REQUEST_METHOD'];
 		$this->ajax = (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest');
-		$this->uri = array_values(array_diff(explode('/', $_SERVER['REQUEST_URI']), explode(DIRECTORY_SEPARATOR, getcwd())));
+		$this->uri = array_values(array_diff(explode('/', $_SERVER['REQUEST_URI']), explode(DIRECTORY_SEPARATOR, substr(getcwd(), 1))));
 		$this->router = new Suskind_Router($this->uri);
 	}
 
