@@ -45,27 +45,90 @@ class Suskind_Router
 	 * It gets two configuration files, a common and an application related.
 	 * Actually the application related has privileges.
 	 *
-	 * @var Suskind_Registry	The configurations of the Suskind_Router class.
+	 * @var Suskind_Registry|null	The configurations of the Suskind_Router class. It sets by the constructor.
 	 */
 	private $registry = null;
 
+	/**
+	 * This variable stores the actually parsed routing directive. It's null by
+	 * deafult, but it will an array what is parsing from Routing.yml file.
+	 *
+	 * @var array|null				The actually routing rules.
+	 */
 	private $directive = null;
 
+	/**
+	 *
+	 * @var array					The keywords to parse routing URLs.
+	 */
+	private $param = array(
+		'module',
+		'action'
+	);
+
+	/**
+	 * Construction of the Router.
+	 *
+	 * @param array $uri	The optional request URI, what is parsed in an array by the framework, if it's exits
+	 */
 	public function __construct($uri = null) {
 		$this->registry = Suskind_Loader::loadConfiguration('Routing.yml');
 		if (is_array($uri)) $this->setDirective($uri);
+		else $this->directive = $this->getDirective(self::DIRECTIVE_HOME);
 	}
 
 	public function setDirective($uri) {
-		if (sizeof($uri) == 0) $this->directive = $this->getDirective(self::DIRECTIVE_HOME);
-		if (!is_null($this->getDirectiveByUrl(implode('/', $uri)))) $this->directive = $this->getDirectiveByUrl(implode('/', $uri));
-		if (sizeof($uri) == 1 && is_null($this->directive)) $this->directive = $this->getDirective(self::DIRECTIVE_MODULE);
-		if (is_null($this->directive)) $this->directive = $this->getDirective(self::DIRECTIVE_DEFAULT);
+		$this->directive = $this->getDirectiveByRequest();
+		if (is_null($directive)) $this->directive = $this->getDirectiveByUri($uri);
 	}
 
-	private function getDirectiveByUrl($url) {
-		foreach ($this->registry->asArray() as $directive) {
-			if ('/'.$url == $directive['url']) return $directive;
+	private function getDirectiveByRequest() {
+		return null;
+	}
+
+	/**
+	 * Try to find the right compiler for the directive, based on request's URI.
+	 *
+	 * @param array $url	The parsed request URI as it forwarded by the setDirective method.
+	 * @return null|array	Returns with the directive if it's found, or null, if not found anything.
+	 */
+	private function getDirectiveByUri(array $uri) {
+		foreach ($this->registry->asArray() as $directive_name => $directive) {
+			/**
+			 * The exact URL is exists in the directive.
+			 */
+			if (implode('/', $uri) == $directive['url']) return $directive;
+
+			/**
+			 * Parse advanced URLs...
+			 */
+			$uri_parse = array_diff(explode('/', $directive['url']), $uri);
+			/**
+			 * @todo Maybe we should do it faster, stronger, more nice, later,
+			 * but now it works.
+			 */
+
+			if (sizeof($uri_parse) > 1) {
+				(array) $param = (array_key_exists('param', $directive)) ? array_diff($this->param, array_keys($directive['param'])) : $this->param;
+
+				if (sizeof($param) > 0) {
+					foreach ($param as $mode) {
+						$index = array_search(':'.$mode, explode('/', $directive['url']));
+						if ($index) {
+							$directive['param'][$mode] = $uri[$index];
+							unset($uri_parse[$index]);
+						}
+					}
+				}
+			}
+
+			/**
+			 * The possible end of the URL, the star character.
+			 */
+			if (sizeof($uri_parse) == 1 && in_array('*', $uri_parse) == true) {
+				$directive['param']['param'] = array_slice($uri, array_search('*', explode('/', $directive['url'])));
+				return $directive;
+			}
 		}
 		return null;
 	}
