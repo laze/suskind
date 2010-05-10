@@ -33,7 +33,7 @@ class Suskind_Application
 	}
 
 	public function run() {
-		
+		call_user_func(array($this->request->module(), $this->request->action()), $this->request->vars());
 	}
 }
 ?>

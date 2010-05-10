@@ -47,7 +47,7 @@ class Suskind {
 		try {
 			$suskind = self::getInstance();
 			if ($suskind->request->module() == __CLASS__) {
-				call_user_func(array($suskind->request->module(), $suskind->request->action()));
+				call_user_func(array(__CLASS__, $suskind->request->action()), $suskind->request->vars());
 				exit(self::EXIT_SUCCESSFULL);
 			} else return new Suskind_Application($suskind->request);
 			
