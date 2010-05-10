@@ -31,6 +31,7 @@ class Suskind_Loader
 	const DIR_SUS = 'Suskind';
 	const DIR_LIB = 'Library';
 	const DIR_CFG = 'Configuration';
+	const DIR_AST = 'Assets';
 	
 	/**
 	 * This array stores the different pathes, like the application's path, the
@@ -112,8 +113,8 @@ class Suskind_Loader
 	/**
 	 * Calculate the path from the class' name.
 	 *
-	 * @param string $class		The name of the class what we want include.
-	 * @return true|void		True, if class or interface previously included.
+	 * @param string $class				The name of the class what we want include.
+	 * @return true|void				True, if class or interface previously included.
 	 * 
 	 * @throws Suskind_Exception
 	 */
@@ -130,7 +131,7 @@ class Suskind_Loader
 	/**
 	 * Gets name of class and include file from possible pathes.
 	 *
-	 * @param string $class		Name of the class to include.
+	 * @param string $class				Name of the class to include.
 	 * @return void
 	 */
 	public static function autoload($class) {
@@ -144,7 +145,7 @@ class Suskind_Loader
 	 *
 	 * @see Suskind_Registry::loadFiles()
 	 *
-	 * @param string $filename	The name of the configuration file.
+	 * @param string $filename			The name of the configuration file.
 	 * @return Suskind_Registry
 	 */
 	public static function loadConfiguration($filename) {
@@ -152,6 +153,47 @@ class Suskind_Loader
 		if (file_exists(self::$paths[self::DIR_APP].DIRECTORY_SEPARATOR.self::DIR_CFG.DIRECTORY_SEPARATOR.$filename)) $files[] = self::$paths[self::DIR_APP].DIRECTORY_SEPARATOR.self::DIR_CFG.DIRECTORY_SEPARATOR.$filename;
 		if (file_exists(self::$paths[self::DIR_APP].DIRECTORY_SEPARATOR.self::DIR_CFG.DIRECTORY_SEPARATOR.self::DIR_SUS.DIRECTORY_SEPARATOR.$filename)) $files[] = self::$paths[self::DIR_APP].DIRECTORY_SEPARATOR.self::DIR_CFG.DIRECTORY_SEPARATOR.self::DIR_SUS.DIRECTORY_SEPARATOR.$filename;
 		return Suskind_Registry::loadFiles($files);
+	}
+
+	/**
+	 * Returns with a correct path from assets folder.
+	 *
+	 * @param string|array $filename	The path and the name of the asset file.
+	 * @return void
+	 */
+	public static function getFile($filename) {
+		$filename = ucwords(self::$paths[self::DIR_APP].DIRECTORY_SEPARATOR.self::DIR_AST.DIRECTORY_SEPARATOR.((is_array($filename)) ? implode(DIRECTORY_SEPARATOR, $filename) : $filename));
+		if (file_exists($filename)) {
+			header('Content-Type: '.self::getFileMime($filename));
+			readfile($filename);
+		} else throw Suskind_Exception::FileNotExists($filename);
+	}
+
+	/**
+	 * Get a file's mime type.
+	 * 
+	 * @param string $filename			The name of the file for what we want know the mime type.
+	 * @return string
+	 */
+	public static function getFileMime($filename) {
+		return self::getFileInfo(FILEINFO_MIME, $filename);
+	}
+
+	/**
+	 *
+	 * @param int $infotype				The type of the requested information.
+	 * @param string $filename			The name of the file for what we want know the mime type.
+	 * @param string $infodatabase		Path to mime magic database.
+	 * @return string
+	 *
+	 * @see http://php.net/manual/en/fileinfo.constants.php
+	 */
+	private static function getFileInfo($infotype, $filename, $infodatabase = null) {
+		$infodata = ($infodatabase) ? finfo_open($infotype, $infodatabase) : finfo_open($infotype);
+		$fileinfo = finfo_file($infodata, $filename);
+					finfo_close($infodata);
+
+		return $fileinfo;
 	}
 }
 ?>

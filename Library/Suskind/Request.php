@@ -110,4 +110,12 @@ class Suskind_Request
 	public function action() {
 		return $this->router->getParam('action');
 	}
+
+	/**
+	 *
+	 * @return array			The request array merged with parameters parsed from the Router.
+	 */
+	public function vars() {
+		return array_merge($_REQUEST, $this->router->getParam('param'));
+	}
 }
