@@ -98,7 +98,7 @@ class Suskind_Loader
 	static public function addAutoload() {
 		ini_set('unserialize_callback_func', 'spl_autoload_call');
 
-		if (false === spl_autoload_register(array(self, 'autoload')))  throw new Suskind_Exception(sprintf('Unable to register %s::autoload as an autoloading method.', __CLASS__));
+		if (false === spl_autoload_register(array(__CLASS__, 'autoload')))  throw new Suskind_Exception(sprintf('Unable to register %s::autoload as an autoloading method.', __CLASS__));
 	}
 
 	/**
