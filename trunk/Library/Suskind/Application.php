@@ -26,6 +26,8 @@
 class Suskind_Application
 {
 	protected $registry;
+	
+	protected $request;
 
 	function __construct(Suskind_Request $request) {
 		$this->registry = Suskind_Loader::loadConfiguration('Application.yml');
@@ -34,6 +36,7 @@ class Suskind_Application
 
 	public function run() {
 		call_user_func(array($this->request->module(), $this->request->action()), $this->request->vars());
+		exit(self::EXIT_SUCCESSFULL);
 	}
 }
 ?>
