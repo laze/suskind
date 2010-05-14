@@ -24,10 +24,40 @@
  * @version		$Rev$
  */
 class Suskind_Cli {
+	//- Styles
+	const FORMAT_STYLE_BOLD			= 1;
+	const FORMAT_STYLE_UNDERSCORE	= 4;
+	const FORMAT_STYLE_BLINK		= 5;
+	const FORMAT_STYLE_REVERSE		= 7;
+	const FORMAT_STYLE_CONCEAL		= 8;
+	//- Foreground Colors
+	const FORMAT_FOREGROUND_BLACK	= 30;
+	const FORMAT_FOREGROUND_RED		= 31;
+	const FORMAT_FOREGROUND_GREEN	= 32;
+	const FORMAT_FOREGROUND_YELLOW	= 33;
+	const FORMAT_FOREGROUND_BLUE	= 34;
+	const FORMAT_FOREGROUND_MAGENTA	= 35;
+	const FORMAT_FOREGROUND_CYAN	= 36;
+	const FORMAT_FOREGROUND_WHITE	= 37;
+	//- BackgroundColors
+	const FORMAT_BACKGROUND_BLACK	= 40;
+	const FORMAT_BACKGROUND_RED		= 41;
+	const FORMAT_BACKGROUND_GREEN	= 42;
+	const FORMAT_BACKGROUND_YELLOW	= 43;
+	const FORMAT_BACKGROUND_BLUE	= 44;
+	const FORMAT_BACKGROUND_MAGENTA	= 45;
+	const FORMAT_BACKGROUND_CYAN	= 46;
+	const FORMAT_BACKGROUND_WHITE	= 47;
+
     public static function help() {
+		/*
 		print "-? -h --help\tHelp screen\n";
 		print "-v --ver\tVersion screen\n";
-
+		*/
+		self::write("--help\t\t-h\t", array(self::FORMAT_STYLE_BOLD, self::FORMAT_FOREGROUND_GREEN));
+		self::write("Help screen\n");
+		self::write("--version\t-v\t", array(self::FORMAT_STYLE_BOLD, self::FORMAT_FOREGROUND_GREEN));
+		self::write("Display Suskind's version information.\n");
 	}
 
 	public static function version() {
@@ -35,15 +65,19 @@ class Suskind_Cli {
 	}
 
 	public static function parseCommand($command) {
-		switch (str_replace('-', '', $command)) {
-			case 'v':
-			case 'ver':
+		switch ($command) {
+			case '-v':
+			case '-version':
 				self::version();
 				break;
-			case '?':
-			case 'h':
-			case 'help':
+			case '-h':
+			case '--help':
+				self::help();
+				break;
 			default:
+				self::write("No parameter given!\n");
+				self::write("Usage:\n");
+				self::write("\tsuskind [options] task [arguments]\n");
 				self::help();
 				break;
 		}
@@ -56,6 +90,15 @@ class Suskind_Cli {
 //		if (class_exists($class)) && method_exists($object, $method_name)) {
 //
 //		}
+	}
+
+	private static function write($text, $format = '') {
+		if (is_array($format)) $format = implode(';', $format);
+		fwrite(STDOUT, "\033[".$format.'m'.$text."\033[0m");
+	}
+
+	public static function getExitCode() {
+		return (int) 0;
 	}
 }
 ?>
