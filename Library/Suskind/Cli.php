@@ -49,43 +49,54 @@ class Suskind_Cli {
 	const FORMAT_BACKGROUND_CYAN	= 46;
 	const FORMAT_BACKGROUND_WHITE	= 47;
 
-    public static function help() {
-		/*
-		print "-? -h --help\tHelp screen\n";
-		print "-v --ver\tVersion screen\n";
-		*/
+	/**
+	 * This variable says what we have to do with the given command. If it's
+	 * true then the command don't will be executed, just show information about
+	 * its usage.
+	 *
+	 * @var boolean $help	True to show help about command, not execute.
+	 * @static
+	 */
+	private static $help = false;
+
+    public static function help($command = null) {
+		if (!$command) {
+			self::write("No parameter given!\n", array(self::FORMAT_FOREGROUND_RED));
+			self::write("Usage:\n");
+			self::write("\tsuskind", array(self::FORMAT_STYLE_BOLD));
+			self::write(" [options] task [arguments]\n\n");
+		}
 		self::write("--help\t\t-h\t", array(self::FORMAT_STYLE_BOLD, self::FORMAT_FOREGROUND_GREEN));
-		self::write("Help screen\n");
+		self::write("Help screen.\n");
 		self::write("--version\t-v\t", array(self::FORMAT_STYLE_BOLD, self::FORMAT_FOREGROUND_GREEN));
 		self::write("Display Suskind's version information.\n");
 	}
 
 	public static function version() {
-		print Suskind::LIB_NAME.' '.Suskind::LIB_VER.' ('.Suskind::LIB_STATE.')';
+		self::write(Suskind::LIB_NAME.' '.Suskind::LIB_VER.' ('.Suskind::LIB_STATE.')'."\n", array(self::FORMAT_STYLE_BOLD, self::FORMAT_FOREGROUND_GREEN));
 	}
 
-	public static function parseCommand($command) {
-		switch ($command) {
-			case '-v':
-			case '-version':
-				self::version();
-				break;
-			case '-h':
-			case '--help':
-				self::help();
-				break;
-			default:
-				self::write("No parameter given!\n");
-				self::write("Usage:\n");
-				self::write("\tsuskind [options] task [arguments]\n");
-				self::help();
-				break;
+	public static function parseOptions($options) {
+		foreach (explode(' ', $options) as $option) {
+			switch (trim($option)) {
+				case '-v':
+				case '--version':
+					self::version();
+					exit (Suskind::EXIT_SUCCESSFULL);
+					break;
+				case '-h':
+				case '--help':
+					self::$help = true;
+					break;
+				default:
+//					self::help(true);
+					break;
+			}
 		}
 	}
 
-	public static function parseCommandLibrary($command, $parameters = null) {
-		var_dump($command, $parameters);
-		list ($class, $method_name) = explode(':', $command);
+	public static function parseCommand($command, $parameters = null) {
+		if (self::$help) self::help($command);
 
 //		if (class_exists($class)) && method_exists($object, $method_name)) {
 //
@@ -93,12 +104,34 @@ class Suskind_Cli {
 	}
 
 	private static function write($text, $format = '') {
-		if (is_array($format)) $format = implode(';', $format);
-		fwrite(STDOUT, "\033[".$format.'m'.$text."\033[0m");
+		if (is_array($format)) {
+			$format = implode(';', $format);
+			$text = "\033[".$format.'m'.$text."\033[0m";
+		}
+		print($text);
 	}
 
 	public static function getExitCode() {
 		return (int) 0;
 	}
+
+	public static function parse(array $parameters) {
+		/**
+		 * This array stores the different pathes, like the application's path, the
+		 * Suskind library's path, the global libraries' path, and also it stores
+		 * the different libraries.
+		 *
+		 * @var array $paths	Array of paths.
+		 * @static
+		 */
+		$args = array();
+		$argc = preg_match_all('/^suskind\s+(?P<options>(-{1,2}[\w]+[\s]*)*)\s*(?P<command>[^\s^=^-]*)\s*(?P<parameters>(-{0,2}[\w]+[\:|\=|\s]*[\w\d]*[\s]*)*)$/i', trim(implode(' ', $parameters)), $args);
+		if ($argc == 0) self::help();
+		else {
+			self::parseOptions($args['options'][0]);
+			self::parseCommand($args['command'][0], $args['parameters'][0]);
+		}
+	}
 }
+
 ?>

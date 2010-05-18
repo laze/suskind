@@ -151,7 +151,7 @@ class Suskind_Router
 	 * @return null|string		Param's array value of "name" key...
 	 */
 	public function getParam($key) {
-		return (is_array($this->directive['param']) && array_key_exists($key, $this->directive['param'])) ? $this->directive['param'][$key] : null;
+		return (is_array($this->directive['param']) && array_key_exists($key, $this->directive['param'])) ? $this->directive['param'][$key] : array();
 	}
 
 }
