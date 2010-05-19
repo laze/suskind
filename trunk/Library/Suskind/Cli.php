@@ -54,26 +54,38 @@ class Suskind_Cli {
 	 * true then the command don't will be executed, just show information about
 	 * its usage.
 	 *
-	 * @var boolean $help	True to show help about command, not execute.
+	 * @var boolean $help		True to show help about command, not execute.
 	 * @static
 	 */
 	private static $help = false;
 
-    public static function help($command = null) {
-		if (!$command) {
-			self::write("No parameter given!\n", array(self::FORMAT_FOREGROUND_RED));
-			self::write("Usage:\n");
-			self::write("\tsuskind", array(self::FORMAT_STYLE_BOLD));
-			self::write(" [options] task [arguments]\n\n");
+	/**
+	 * If -f switch given, Süskind will log into a file and don't use the STDOUT
+	 * for communication. If CLI interpreter received that file log needed,
+	 * generates a new log file, with a unique file name, and use that for logging.
+	 *
+	 * @var null|string $file	A filename or null, if not logging needed.
+	 * @static
+	 */
+	private static $file = null;
+
+    public static function help($command = '') {
+		if (strlen($command)) {
+			self::write("Commandos lobos: ".$command);
+		} else {
+			self::write("Options:\n");
+			self::write("\t--help -h [command]\t", array(self::FORMAT_STYLE_BOLD, self::FORMAT_FOREGROUND_GREEN));
+			self::write("Help screen. If command given, shows information about that.\n");
+			self::write("\t--version -v\t\t", array(self::FORMAT_STYLE_BOLD, self::FORMAT_FOREGROUND_GREEN));
+			self::write("Display Suskind's version information.\n");
+			self::write("\nCommands:\n");
+			self::write("\tbuild\t\t\t", array(self::FORMAT_STYLE_BOLD, self::FORMAT_FOREGROUND_GREEN));
+			self::write("Build MVC objects.\n");
 		}
-		self::write("--help\t\t-h\t", array(self::FORMAT_STYLE_BOLD, self::FORMAT_FOREGROUND_GREEN));
-		self::write("Help screen.\n");
-		self::write("--version\t-v\t", array(self::FORMAT_STYLE_BOLD, self::FORMAT_FOREGROUND_GREEN));
-		self::write("Display Suskind's version information.\n");
 	}
 
 	public static function version() {
-		self::write(Suskind::LIB_NAME.' '.Suskind::LIB_VER.' ('.Suskind::LIB_STATE.')'."\n", array(self::FORMAT_STYLE_BOLD, self::FORMAT_FOREGROUND_GREEN));
+		self::write(Suskind::LIB_NAME.' '.Suskind::LIB_VER.' ('.Suskind::LIB_STATE.')'."\n");
 	}
 
 	public static function parseOptions($options) {
@@ -88,6 +100,8 @@ class Suskind_Cli {
 				case '--help':
 					self::$help = true;
 					break;
+				case '-f':
+					self::$file = new Suskind_Log(__CLASS__);
 				default:
 //					self::help(true);
 					break;
@@ -97,40 +111,83 @@ class Suskind_Cli {
 
 	public static function parseCommand($command, $parameters = null) {
 		if (self::$help) self::help($command);
+		else switch($command) {
+			case 'build':
+				self::build($parameters);
+				break;
+			default:
+				self::write("Suskind CLI can't interprete the command: '", array(self::FORMAT_FOREGROUND_RED));
+				self::write("$command", array(self::FORMAT_FOREGROUND_RED, self::FORMAT_STYLE_BOLD));
+				self::write("'\n", array(self::FORMAT_FOREGROUND_RED));
+				break;
+		}
 
-//		if (class_exists($class)) && method_exists($object, $method_name)) {
-//
-//		}
 	}
 
-	private static function write($text, $format = '') {
-		if (is_array($format)) {
-			$format = implode(';', $format);
-			$text = "\033[".$format.'m'.$text."\033[0m";
-		}
-		print($text);
+	private static function build($parameters = null) {
+		$options = array(
+			'packagesPrefix'  =>  'Plugin',
+			'baseClassName'   =>  'MyDoctrineRecord',
+			'suffix'          =>  '.php'
+		);
+		Doctrine::generateModelsFromYaml('/path/to/yaml', Suskind_Loader::$paths[Suskind_Loader::DIR_MODEL], $options);
+	}
+
+	/**
+	 * Write out message on standard out or in a file, is it's previously set.
+	 *
+	 * @param string $text		Text to write out.
+	 * @param array $format		Optional array of format rules.
+	 */
+	private static function write($text, array $format = null) {
+		if (is_a(self::$file, 'Suskind_Log')) self::$file->write("\033[".(is_array($format) ? implode(';', $format) : '').'m'.$text."\033[0m");
+		else print("\033[".(is_array($format) ? implode(';', $format) : '').'m'.$text."\033[0m");
 	}
 
 	public static function getExitCode() {
 		return (int) 0;
 	}
 
+	/**
+	 * This method parses the PHP's built-in $argv array - as a string - by
+	 * regular expression.
+	 *
+	 * @param array $parameters	The PHP's $argv array.
+	 */
 	public static function parse(array $parameters) {
 		/**
-		 * This array stores the different pathes, like the application's path, the
-		 * Suskind library's path, the global libraries' path, and also it stores
-		 * the different libraries.
+		 * This array stores the data received from the command line. It has
+		 * three big part:
+		 *  - options	Global options, like help, output, etc...
+		 *  - command	The command to execute.
+		 *  - arguments Parameters for the command.
 		 *
-		 * @var array $paths	Array of paths.
-		 * @static
+		 * @var array $args		Array of parameters parsed from the command line.
 		 */
 		$args = array();
-		$argc = preg_match_all('/^suskind\s+(?P<options>(-{1,2}[\w]+[\s]*)*)\s*(?P<command>[^\s^=^-]*)\s*(?P<parameters>(-{0,2}[\w]+[\:|\=|\s]*[\w\d]*[\s]*)*)$/i', trim(implode(' ', $parameters)), $args);
-		if ($argc == 0) self::help();
-		else {
+		
+		if (preg_match_all('/^suskind\s+(?P<options>(-{1,2}[\w]+[\s]*)*)\s*(?P<command>[^\s^=^-]*)\s*(?P<arguments>(-{0,2}[\w]+[\:|\=|\s]*[\w\d]*[\s]*)*)$/i', trim(implode(' ', $parameters)), $args)) {
+			/**
+			 * Some regex matches are exists, try to compile the separate parts
+			 * of them.
+			 */
 			self::parseOptions($args['options'][0]);
-			self::parseCommand($args['command'][0], $args['parameters'][0]);
+			self::parseCommand($args['command'][0], $args['arguments'][0]);
+		} else {
+			/**
+			 * No matches are exists. Put some little message and show help screen.
+			 */
+			self::write("No parameter given!\n", array(self::FORMAT_FOREGROUND_RED));
+			self::write("Usage:\n");
+			self::write("\tsuskind", array(self::FORMAT_STYLE_BOLD));
+			self::write(" [options] command [arguments]\n\n");
+			self::help();
 		}
+		/**
+		 * Work ended. If file pointer is previously set, this method shows the
+		 * path to that.
+		 */
+		if (is_a(self::$file, 'Suskind_Log')) print("Log file created at: ".self::$file->getPath()."\n");
 	}
 }
 
