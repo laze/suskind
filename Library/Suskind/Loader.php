@@ -27,11 +27,12 @@ class Suskind_Loader
 	/**
 	 * Directory constants. They have to be the same as in the disk.
 	 */
-	const DIR_APP = 'Application';
-	const DIR_SUS = 'Suskind';
-	const DIR_LIB = 'Library';
-	const DIR_CFG = 'Configuration';
-	const DIR_AST = 'Assets';
+	const DIR_APPLICATION = 'Application';
+	const DIR_SUSKIND = 'Suskind';
+	const DIR_LIBRARY = 'Library';
+	const DIR_CONFIGURATION = 'Configuration';
+	const DIR_ASSETS = 'Assets';
+	const DIR_MODEL = 'Model';
 	
 	/**
 	 * This array stores the different pathes, like the application's path, the
@@ -60,14 +61,15 @@ class Suskind_Loader
 	 */
 	private static function setPath() {
 		self::$paths = array(
-			self::DIR_APP => realpath(getcwd().DIRECTORY_SEPARATOR.'..'),
-			self::DIR_SUS => realpath(dirname(__FILE__)),
-			self::DIR_LIB => realpath(dirname(__FILE__).DIRECTORY_SEPARATOR.'..'),
+			self::DIR_APPLICATION	=> realpath(getcwd().DIRECTORY_SEPARATOR.'..'),
+			self::DIR_SUSKIND		=> realpath(dirname(__FILE__)),
+			self::DIR_LIBRARY		=> realpath(dirname(__FILE__).DIRECTORY_SEPARATOR.'..'),
+			self::DIR_MODEL			=> realpath(dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Models'),
 			'_ROOT' => realpath(dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..')
 		);
-		$dir = dir(self::$paths[self::DIR_LIB]);
+		$dir = dir(self::$paths[self::DIR_LIBRARY]);
 		while (false !== ($entry = $dir->read())) {
-			if (substr($entry, 0, 1) !== '.' && !array_key_exists($entry, self::$paths)) self::$paths[$entry] = self::$paths[self::DIR_LIB].DIRECTORY_SEPARATOR.$entry;
+			if (substr($entry, 0, 1) !== '.' && !array_key_exists($entry, self::$paths)) self::$paths[$entry] = self::$paths[self::DIR_LIBRARY].DIRECTORY_SEPARATOR.$entry;
 		}
 		$dir->close();
 	}
@@ -111,24 +113,6 @@ class Suskind_Loader
 	}
 
 	/**
-	 * Calculate the path from the class' name.
-	 *
-	 * @param string $class				The name of the class what we want include.
-	 * @return true|void				True, if class or interface previously included.
-	 * 
-	 * @throws Suskind_Exception
-	 */
-	private static function loadClass($class) {
-		if (class_exists($class, false) || interface_exists($class, false)) return true;
-		
-		$path = explode('_', $class);
-		if (sizeof($path) > 1 && array_key_exists($path[0], self::$paths)) $path[0] = self::$paths[$path[0]];
-		else $path[0] = self::$paths[self::DIR_LIB].DIRECTORY_SEPARATOR.$path[0].DIRECTORY_SEPARATOR.$path[0];
-		if (file_exists(implode(DIRECTORY_SEPARATOR, $path).'.php')) require_once implode(DIRECTORY_SEPARATOR, $path).'.php';
-		else throw Suskind_Exception::ClassNotExists($class);
-	}
-
-	/**
 	 * Gets name of class and include file from possible pathes.
 	 *
 	 * @param string $class				Name of the class to include.
@@ -136,6 +120,24 @@ class Suskind_Loader
 	 */
 	public static function autoload($class) {
 		return self::loadClass($class);
+	}
+
+	/**
+	 * Calculate the path from the class' name.
+	 *
+	 * @param string $class				The name of the class what we want include.
+	 * @return true|void				True, if class or interface previously included.
+	 *
+	 * @throws Suskind_Exception
+	 */
+	private static function loadClass($class) {
+		if (class_exists($class, false) || interface_exists($class, false)) return true;
+
+		$path = explode('_', $class);
+		if (sizeof($path) > 1 && array_key_exists($path[0], self::$paths)) $path[0] = self::$paths[$path[0]];
+		else $path[0] = self::$paths[self::DIR_LIBRARY].DIRECTORY_SEPARATOR.$path[0].DIRECTORY_SEPARATOR.$path[0];
+		if (file_exists(implode(DIRECTORY_SEPARATOR, $path).'.php')) require_once implode(DIRECTORY_SEPARATOR, $path).'.php';
+		else throw Suskind_Exception::ClassNotExists($class);
 	}
 
 	/**
@@ -150,8 +152,8 @@ class Suskind_Loader
 	 */
 	public static function loadConfiguration($filename) {
 		$files = array();
-		if (file_exists(self::$paths[self::DIR_APP].DIRECTORY_SEPARATOR.self::DIR_CFG.DIRECTORY_SEPARATOR.$filename)) $files[] = self::$paths[self::DIR_APP].DIRECTORY_SEPARATOR.self::DIR_CFG.DIRECTORY_SEPARATOR.$filename;
-		if (file_exists(self::$paths[self::DIR_APP].DIRECTORY_SEPARATOR.self::DIR_CFG.DIRECTORY_SEPARATOR.self::DIR_SUS.DIRECTORY_SEPARATOR.$filename)) $files[] = self::$paths[self::DIR_APP].DIRECTORY_SEPARATOR.self::DIR_CFG.DIRECTORY_SEPARATOR.self::DIR_SUS.DIRECTORY_SEPARATOR.$filename;
+		if (file_exists(self::$paths[self::DIR_APPLICATION].DIRECTORY_SEPARATOR.self::DIR_CONFIGURATION.DIRECTORY_SEPARATOR.$filename)) $files[] = self::$paths[self::DIR_APPLICATION].DIRECTORY_SEPARATOR.self::DIR_CONFIGURATION.DIRECTORY_SEPARATOR.$filename;
+		if (file_exists(self::$paths[self::DIR_APPLICATION].DIRECTORY_SEPARATOR.self::DIR_CONFIGURATION.DIRECTORY_SEPARATOR.self::DIR_SUSKIND.DIRECTORY_SEPARATOR.$filename)) $files[] = self::$paths[self::DIR_APPLICATION].DIRECTORY_SEPARATOR.self::DIR_CONFIGURATION.DIRECTORY_SEPARATOR.self::DIR_SUSKIND.DIRECTORY_SEPARATOR.$filename;
 		return Suskind_Registry::loadFiles($files);
 	}
 
@@ -162,7 +164,7 @@ class Suskind_Loader
 	 * @return void
 	 */
 	public static function getFile($filename) {
-		$filename = ucwords(self::$paths[self::DIR_APP].DIRECTORY_SEPARATOR.self::DIR_AST.DIRECTORY_SEPARATOR.((is_array($filename)) ? implode(DIRECTORY_SEPARATOR, $filename) : $filename));
+		$filename = ucwords(self::$paths[self::DIR_APPLICATION].DIRECTORY_SEPARATOR.self::DIR_ASSETS.DIRECTORY_SEPARATOR.((is_array($filename)) ? implode(DIRECTORY_SEPARATOR, $filename) : $filename));
 		if (file_exists($filename)) {
 			header('Content-Type: '.self::getFileMime($filename));
 			readfile($filename);
