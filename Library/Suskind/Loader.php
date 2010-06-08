@@ -42,7 +42,16 @@ class Suskind_Loader
 	 * @var array $paths	Array of paths.
 	 * @static
 	 */
-	public static $paths;
+	public static $paths = array();
+
+	/**
+	 * The objects - or any other type of variables - what are handlink foreign
+	 * libraries' loaders.
+	 *
+	 * @var array $loaders	Array of outer loaders.
+	 * @static
+	 */
+	public static $loaders = array();
 
 	/**
 	 * __construct
@@ -60,12 +69,19 @@ class Suskind_Loader
 	 * @return void
 	 */
 	private static function setPath() {
-		self::$paths = array(
+		if (array_key_exists('SERVER_PROTOCOL', $_SERVER)) self::$paths = array( //- WWW mode
 			self::DIR_APPLICATION	=> realpath(getcwd().DIRECTORY_SEPARATOR.'..'),
 			self::DIR_SUSKIND		=> realpath(dirname(__FILE__)),
 			self::DIR_LIBRARY		=> realpath(dirname(__FILE__).DIRECTORY_SEPARATOR.'..'),
 			self::DIR_MODEL			=> realpath(dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Models'),
-			'_ROOT' => realpath(dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..')
+			'_ROOT'					=> realpath(dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..')
+		);
+		else self::$paths = array( //- CLI mode
+			self::DIR_APPLICATION	=> implode(DIRECTORY_SEPARATOR, array_slice(explode(DIRECTORY_SEPARATOR, realpath($_SERVER['SCRIPT_FILENAME'])), 0, -1)),
+			self::DIR_SUSKIND		=> realpath(dirname(__FILE__)),
+			self::DIR_LIBRARY		=> realpath(dirname(__FILE__).DIRECTORY_SEPARATOR.'..'),
+			self::DIR_MODEL			=> realpath(dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Models'),
+			'_ROOT'					=> realpath(dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..')
 		);
 		$dir = dir(self::$paths[self::DIR_LIBRARY]);
 		while (false !== ($entry = $dir->read())) {
@@ -77,6 +93,7 @@ class Suskind_Loader
 	/**
 	 * The mean of the Loader class. This method will be called first in an
 	 * application, so this method shoud prepare everything.
+	 *  * Try to include outer libraries, and also their loaders if available.
 	 *  * Set up path variables
 	 *  * Register autolad handler methods.
 	 *
@@ -88,6 +105,10 @@ class Suskind_Loader
 	static public function load() {
 		self::setPath();
 		self::addAutoload();
+
+		/** Doctrine 2.0.0BETA ************************************************/
+		require self::$paths[self::DIR_LIBRARY].'/Doctrine/lib/Doctrine/Common/ClassLoader.php';
+		array_push(self::$loaders, new \Doctrine\Common\ClassLoader());
 	}
 
 	/**
@@ -125,6 +146,9 @@ class Suskind_Loader
 	/**
 	 * Calculate the path from the class' name.
 	 *
+	 * @todo Improve to handle foreign libraries easily, but quickly.
+	 *
+	 *
 	 * @param string $class				The name of the class what we want include.
 	 * @return true|void				True, if class or interface previously included.
 	 *
@@ -155,6 +179,12 @@ class Suskind_Loader
 		if (file_exists(self::$paths[self::DIR_APPLICATION].DIRECTORY_SEPARATOR.self::DIR_CONFIGURATION.DIRECTORY_SEPARATOR.$filename)) $files[] = self::$paths[self::DIR_APPLICATION].DIRECTORY_SEPARATOR.self::DIR_CONFIGURATION.DIRECTORY_SEPARATOR.$filename;
 		if (file_exists(self::$paths[self::DIR_APPLICATION].DIRECTORY_SEPARATOR.self::DIR_CONFIGURATION.DIRECTORY_SEPARATOR.self::DIR_SUSKIND.DIRECTORY_SEPARATOR.$filename)) $files[] = self::$paths[self::DIR_APPLICATION].DIRECTORY_SEPARATOR.self::DIR_CONFIGURATION.DIRECTORY_SEPARATOR.self::DIR_SUSKIND.DIRECTORY_SEPARATOR.$filename;
 		return Suskind_Registry::loadFiles($files);
+	}
+
+	public static function getSchemaPath() {
+		$file = self::$paths[self::DIR_APPLICATION].DIRECTORY_SEPARATOR.self::DIR_CONFIGURATION.DIRECTORY_SEPARATOR.'Schema.yml';
+		if (file_exists($file)) return $file;
+		else throw Suskind_Exception::FileNotExists($file);
 	}
 
 	/**
