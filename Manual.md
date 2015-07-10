@@ -1,0 +1,1 @@
+This is the developer manual of Süskind Framework. In this document yo can get every informations about SF, to be able to use it for your work.

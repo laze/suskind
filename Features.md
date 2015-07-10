@@ -1,0 +1,2 @@
+### Overview ###
+So, in this section you can read about more possibilities what you can reach with SF. In this section we collect informations what are not related closely to application development - if we understand basic record administration and output generation under application development -, but sometimes also could be necessary for that.

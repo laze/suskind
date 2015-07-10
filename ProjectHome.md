@@ -1,0 +1,3 @@
+# Süskind Project #
+The Süskind Project is an MVC framework for rapid application development. It's written in PHP and have very extensible, modularized  buildup. Süskind Framework (shortly: SF) offers a very easy to use interface for rapid application development.
+<wiki:gadget url="http://google-code-feed-gadget.googlecode.com/svn/trunk/gadget.xml" up\_feeds="http://sites.google.com/a/laze.hu/suskind/blog/posts.xml" width="572" height="420" border="1" up\_showaddbutton="0"/>
